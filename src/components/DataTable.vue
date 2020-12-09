@@ -9,7 +9,8 @@
           td {{Object.values(item)[0]}}
           td {{Object.values(item)[1]}}
           td {{Object.values(item)[2]}}
-          td {{value[index]}}
+          td
+            input(type="checkbox" v-model="value[index]" @change="onCheckboxChanged")
 </template>
 
 <script>
@@ -27,7 +28,14 @@ export default {
       type: Array,
       required: true
     }
-  }
+  },
+  methods: {
+    onCheckboxChanged() {
+      let checked = [].concat(this.value)
+      this.$emit("input", checked);
+      this.$emit("dataChanged");
+    }
+  },
 };
 </script>
 
