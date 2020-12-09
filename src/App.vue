@@ -152,8 +152,6 @@ export default {
   },
   mounted () {
     this.cleanData();
-    // this.initActiveRows();
-    // this.initXLabels();
     this.fillData();
   },
   methods: {
@@ -167,6 +165,10 @@ export default {
         }
       }
     },
+    /**
+     * initActiveRows creates an array the length of loadedData with booleans.
+     * Each boolean corresponds to a row in loaded data.
+     */
     initActiveRows(randomize = false) {
       this.activeRows = [];
       for (var i = 0; i < this.loadedData.length; i++){
@@ -183,35 +185,20 @@ export default {
       console.log("xLabels = ", this.xLabels);
     },
     fillData() {
-      // this.addActiveAttribute();
       this.initActiveRows(true);
       this.initXLabels();
       this.generateDatasets();
-      console.log("xLabels length = ", this.xLabels.length, ", dataset[0] length = ", this.datasets[0].data.length);
-      console.log("App.fillData: loadedData = ", this.datasets);
+      // console.log("xLabels length = ", this.xLabels.length, ", dataset[0] length = ", this.datasets[0].data.length);
+      // console.log("App.fillData: loadedData = ", this.datasets);
       this.dataCollection = {
         labels: this.xLabels,
         datasets: this.datasets
-        // datasets: [
-        //   {
-        //     label: "Data one",
-        //     backgroundColor: "#f00",
-        //     data: [this.getRandomInt(), this.getRandomInt()]
-        //   },
-        //   {
-        //     label: "Data two",
-        //     backgroundColor: "#00f",
-        //     data: [this.getRandomInt(), this.getRandomInt()]
-        //   },
-        // ]
       }
     },
     generateDatasets() {
-      // this.addActiveAttribute();
       this.datasets = [];
       let keyArray = Object.keys(this.loadedData[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
-      // keyArray = this.removeStringFromArray(keyArray, "active"); // remove first/x axis label
       console.log("keys = ", keyArray);
       for(const key in keyArray) {
         console.log("key = ", keyArray[key]);
@@ -224,12 +211,6 @@ export default {
       }
 
       console.log("this.datasets = ", this.datasets);
-      // for(const [index] in Object.keys(this.loadedData[0])) {
-      //   const keyName = Object.keys(this.loadedData[0])[index];
-      //   if(keyName !== "active") {
-      //     console.log("index = ", Object.values(this.loadedData[0])[index]);
-      //   }
-      // }
     },
     removeStringFromArray(inputArray, inputString) {
       let newArray = [...inputArray];
