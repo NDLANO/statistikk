@@ -146,11 +146,14 @@ export default {
       }
       ],
       xLabels: [],
+      activeRows: [],
       datasets: []
     }
   },
   mounted () {
     this.cleanData();
+    // this.initActiveRows();
+    // this.initXLabels();
     this.fillData();
   },
   methods: {
@@ -164,16 +167,25 @@ export default {
         }
       }
     },
-    addActiveAttribute() {
-      for(const item in this.loadedData) {
-        // this.loadedData[item].active = true;
-        this.loadedData[item]["active"] = Math.random() < 0.5; // randomizes active state
-
+    initActiveRows(randomize = false) {
+      this.activeRows = [];
+      for (var i = 0; i < this.loadedData.length; i++){
+        if(randomize) {
+          this.activeRows[i] = Math.random() < 0.5; // randomizes active state
+        } else {
+          this.activeRows[i] = true;
+        }
       }
+      console.log("activeRows = ", this.activeRows);
+    },
+    initXLabels() {
+      this.xLabels = this.getKeyValuesByIndex(0);
+      console.log("xLabels = ", this.xLabels);
     },
     fillData() {
-      this.addActiveAttribute();
-      this.xLabels = this.getKeyValuesByIndex(0);
+      // this.addActiveAttribute();
+      this.initActiveRows(true);
+      this.initXLabels();
       this.generateDatasets();
       console.log("xLabels length = ", this.xLabels.length, ", dataset[0] length = ", this.datasets[0].data.length);
       console.log("App.fillData: loadedData = ", this.datasets);
@@ -198,8 +210,8 @@ export default {
       // this.addActiveAttribute();
       this.datasets = [];
       let keyArray = Object.keys(this.loadedData[0]);
-      keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first/x axis label
-      keyArray = this.removeStringFromArray(keyArray, "active"); // remove first/x axis label
+      keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
+      // keyArray = this.removeStringFromArray(keyArray, "active"); // remove first/x axis label
       console.log("keys = ", keyArray);
       for(const key in keyArray) {
         console.log("key = ", keyArray[key]);
@@ -226,18 +238,17 @@ export default {
       return newArray;
     },
     getKeyValuesByKey(key) {
-      // console.log("getKeyValuesByKey: key = ", typeof key);
       let valuesArray = [];
-      for(const item in this.loadedData) {
-        if(this.loadedData[item]["active"]) valuesArray.push(this.loadedData[item][key]);
+      for(var i = 0; i < this.loadedData.length; i++) {
+        if(this.activeRows[i])valuesArray.push(this.loadedData[i][key]);
       }
       return valuesArray;
     },
     getKeyValuesByIndex(index) {
       let labelArray = [];
-      for  (const item in this.loadedData) {
+      for  (var i = 0; i < this.loadedData.length; i++) {
         // console.log("item = ", Object.values(this.loadedData[item])[index]);
-        if(this.loadedData[item]["active"]) labelArray.push(Object.values(this.loadedData[item])[index]);
+        if(this.activeRows[i])labelArray.push(Object.values(this.loadedData[i])[index]);
       }
       return labelArray;
     },
