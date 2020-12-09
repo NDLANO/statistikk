@@ -1,18 +1,22 @@
 <template lang="pug">
   #app
     h2 {{$t("general.heading")}}
-    .small
-      LineChart( :chart-data="dataCollection")
-      button(@click="fillData()") Randomize
+    .content
+      .small.chart
+        LineChart( :chart-data="dataCollection")
+        button(@click="fillData()") Randomize
+      DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows")
 </template>
 
 <script>
 import LineChart from "@/components/charts/LineChart";
+import DataTable from "@/components/DataTable";
 
 export default {
   name: "App",
   components: {
-    LineChart
+    LineChart,
+    DataTable
   },
   data() {
     return {
@@ -147,11 +151,13 @@ export default {
       ],
       xLabels: [],
       activeRows: [],
-      datasets: []
+      datasets: [],
+      keyNames: []
     }
   },
   mounted () {
     this.cleanData();
+    this.extractKeyNames();
     this.fillData();
   },
   methods: {
@@ -164,6 +170,9 @@ export default {
           if(key == "") delete this.loadedData[item][key];
         }
       }
+    },
+    extractKeyNames() {
+      this.keyNames = Object.keys(this.loadedData[0]);
     },
     /**
      * initActiveRows creates an array the length of loadedData with booleans.
@@ -257,8 +266,17 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.content {
+  display: flex;
+  justify-content: space-around;
+}
 .small {
-  max-width: 600px;
-  margin: 50px auto;
+  // max-width: 45%;
+  // margin: 50px auto;
+}
+.table {
+  width: 45%;
+  margin: 10px;
+  margin-top: 50px;
 }
 </style>
