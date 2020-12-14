@@ -11,6 +11,11 @@
             :min="0"
             :max="80000")
           LineChart(ref="lineChart" :chart-data="dataCollection" :options="lineChartOptions")
+          v-range-slider(
+            @change="onXAxisSliderChange"
+            v-model="xAxisValues"
+            :min="0"
+            :max="20")
           v-btn(@click="init()") Alle rader
           v-btn(@click="initRandomized()") Tilfeldige rader
         DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
@@ -165,6 +170,7 @@ export default {
       keyNames: [],
       chartjsMaxY: 1,
       yAxisValues: [0,80000],
+      xAxisValues: [0, 20],
       lineChartOptions: {
           animation: {
             duration: 0
@@ -175,9 +181,12 @@ export default {
             yAxes: [
               {
                 ticks: {
-                  // min: 0,
-                  // max: 1,
                 }
+              }
+            ],
+            xAxes: [
+              {
+                ticks: {}
               }
             ]
           }
@@ -194,6 +203,12 @@ export default {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
+      this.lineChartOptions = tmpOptions;
+    },
+    onXAxisSliderChange(event){
+      const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
+      tmpOptions.scales.xAxes[0].ticks.min = event[0];
+      tmpOptions.scales.xAxes[0].ticks.max = event[1];
       this.lineChartOptions = tmpOptions;
     },
     // * Removes empty object keys
