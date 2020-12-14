@@ -5,6 +5,7 @@
       .content
         .chart-container
           v-range-slider(
+            @change="onYAxisSliderChange"
             v-model="yAxisValues"
             vertical 
             :min="0"
@@ -165,6 +166,9 @@ export default {
       chartjsMaxY: 1,
       yAxisValues: [0,80000],
       lineChartOptions: {
+          animation: {
+            duration: 0
+          },
           responsive: true,
           borderWidth: "30px",
           scales: {
@@ -186,6 +190,12 @@ export default {
     this.init();
   },
   methods: {
+    onYAxisSliderChange(event) {
+      const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
+      tmpOptions.scales.yAxes[0].ticks.min = event[0];
+      tmpOptions.scales.yAxes[0].ticks.max = event[1];
+      this.lineChartOptions = tmpOptions;
+    },
     // * Removes empty object keys
     cleanData() {
       console.log("App.cleanData: loadedData = ", this.loadedData);
