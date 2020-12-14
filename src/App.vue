@@ -1,17 +1,25 @@
 <template lang="pug">
   #app
-    h2 {{$t("general.heading")}}
-    .content
-      .small.chart
-        LineChart( :chart-data="dataCollection" :options="lineChartOptions")
-        button(@click="init()") Alle rader
-        button(@click="initRandomized()") Tilfeldige rader
-      DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
+    v-app
+      h2 {{$t("general.heading")}}
+      .content
+        .chart-container
+          v-range-slider(
+            v-model="yAxisValues"
+            vertical 
+            :min="0"
+            :max="80000")
+          LineChart(ref="lineChart" :chart-data="dataCollection" :options="lineChartOptions")
+          v-btn(@click="init()") Alle rader
+          v-btn(@click="initRandomized()") Tilfeldige rader
+        DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
 </template>
 
 <script>
 import LineChart from "@/components/charts/LineChart";
 import DataTable from "@/components/DataTable";
+
+import Helpers from "@/js/helperFunctions"
 
 export default {
   name: "App",
@@ -154,19 +162,21 @@ export default {
       activeRows: [],
       datasets: [],
       keyNames: [],
+      chartjsMaxY: 1,
+      yAxisValues: [0,80000],
       lineChartOptions: {
-        responsive: true,
-        borderWidth: "30px",
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                min: 0,
-                max: 60000
+          responsive: true,
+          borderWidth: "30px",
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  // min: 0,
+                  // max: 1,
+                }
               }
-            }
-          ]
-        }
+            ]
+          }
       }
     };
   },
@@ -214,7 +224,16 @@ export default {
     },
     init() {
       this.initActiveRows();
+      this.resetYMax();
       this.fillData();
+    },
+    resetYMax() {
+      this.$nextTick(() => {
+        this.chartjsMaxY = this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+        console.log("this.chartjsMaxY = ", this.chartjsMaxY);
+        this.yAxisValues[0] = 0;
+        this.yAxisValues[1] = this.chartjsMaxY;
+      });
     },
     fillData() {
       this.initXLabels();
