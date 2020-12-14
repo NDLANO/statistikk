@@ -156,6 +156,7 @@ export default {
       keyNames: [],
       lineChartOptions: {
         responsive: true,
+        borderWidth: "30px",
         scales: {
           yAxes: [
             {
@@ -238,7 +239,10 @@ export default {
         );
         this.datasets.push({
           label: keyArray[key],
-          backgroundColor: this.getRandomColor(),
+          fill: false,
+          borderWidth: 5,
+          borderColor: this.getRandomColor(),
+          // backgroundColor: this.getRandomColor(),
           data: this.getKeyValuesByKey(keyArray[key])
         });
       }
