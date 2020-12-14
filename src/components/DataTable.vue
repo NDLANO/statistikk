@@ -31,11 +31,11 @@ export default {
   },
   methods: {
     onCheckboxChanged() {
-      let checked = [].concat(this.value)
+      let checked = [].concat(this.value);
       this.$emit("input", checked);
       this.$emit("dataChanged");
     }
-  },
+  }
 };
 </script>
 
@@ -44,7 +44,8 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-td, th {
+td,
+th {
   border: 1px solid grey;
 }
 </style>

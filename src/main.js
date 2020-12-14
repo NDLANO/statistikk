@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 import App from "./App.vue";
+import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
@@ -17,5 +18,6 @@ const i18n = new VueI18n({
 
 new Vue({
   i18n,
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");
