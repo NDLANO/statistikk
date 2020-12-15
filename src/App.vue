@@ -9,57 +9,7 @@
           v-col(md="3")
             DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
 
-            //- .chart-container
-            //-   v-range-slider(
-            //-     @change="onYAxisSliderChange"
-            //-     v-model="yAxisValues"
-            //-     vertical 
-            //-     :min="0"
-            //-     :max="80000")
-            //-     template(v-slot:prepend)
-            //-       v-text-field(
-            //-         :value="yAxisValues[0]"
-            //-         class="mt-0 pt-0"
-            //-         hide-details
-            //-         single-line
-            //-         type="number"
-            //-         style="width: 60px"
-            //-         @change="$set(yAxisValues, 0, $event)")              
-            //-     template(v-slot:append)
-            //-       v-text-field(
-            //-         :value="yAxisValues[1]"
-            //-         class="mt-0 pt-0"
-            //-         hide-details
-            //-         single-line
-            //-         type="number"
-            //-         style="width: 60px"
-            //-         @change="$set(yAxisValues, 1, $event)")              
-            //-   LineChart(ref="lineChart" :chart-data="dataCollection" :options="lineChartOptions")
-            //-   v-range-slider(
-            //-     @change="onXAxisSliderChange"
-            //-     v-model="xAxisValues"
-            //-     :min="0"
-            //-     :max="20")
-            //-     template(v-slot:prepend)
-            //-       v-text-field(
-            //-         :value="xAxisValues[0]"
-            //-         class="mt-0 pt-0"
-            //-         hide-details
-            //-         single-line
-            //-         type="number"
-            //-         style="width: 60px"
-            //-         @change="$set(xAxisValues, 0, $event)")              
-            //-     template(v-slot:append)
-            //-       v-text-field(
-            //-         :value="xAxisValues[1]"
-            //-         class="mt-0 pt-0"
-            //-         hide-details
-            //-         single-line
-            //-         type="number"
-            //-         style="width: 60px"
-            //-         @change="$set(xAxisValues, 1, $event)")              
-            //-   v-btn(@click="init()") Alle rader
-            //-   v-btn(@click="initRandomized()") Tilfeldige rader
+
 </template>
 
 <script>
@@ -211,8 +161,6 @@ export default {
       datasets: [],
       keyNames: [],
       chartjsMaxY: 1,
-      // yAxisValues: [0, 80000],
-      // xAxisValues: [0, 20],
       lineChartOptions: {
         animation: {
           duration: 0,
