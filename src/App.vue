@@ -3,18 +3,27 @@
       v-container(fluid)
         v-row
           v-col(md="12")
-            h2 {{$t("general.heading")}}
+            h2 {{$t("general.heading")}}  
+        v-row                
           v-col(md="9")
-            LineChartView(:dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            v-btn(@click="onChartSelected('1')") Graf
+            v-btn(@click="onChartSelected('2')") Stolper
+          v-col(md="3")
+        v-row
+          v-col(md="9")
+            LineChartView(v-if="selectedChart === 1" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
             DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
-
+        v-row
+          v-col(md="9")
+            BarChartView(v-if="selectedChart === 2"  :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
 
 </template>
 
 <script>
-import LineChart from "@/components/charts/LineChart";
+// import LineChart from "@/components/charts/LineChart";
 import LineChartView from "@/components/LineChartView";
+import BarChartView from "@/components/BarChartView";
 import DataTable from "@/components/DataTable";
 
 // import Helpers from "@/js/helperFunctions"
@@ -23,6 +32,7 @@ export default {
   name: "App",
   components: {
     LineChartView,
+    BarChartView,
     DataTable,
   },
   data() {
@@ -156,6 +166,7 @@ export default {
           "": "",
         },
       ],
+      selectedChart: 1,
       xLabels: [],
       activeRows: [],
       datasets: [],
@@ -188,6 +199,10 @@ export default {
     this.init();
   },
   methods: {
+    onChartSelected(selected) {
+      console.log("onChartSelected = ", selected);
+      this.selectedChart = selected;
+    },
     // * Removes empty object keys
     cleanData() {
       console.log("App.cleanData: loadedData = ", this.loadedData);
