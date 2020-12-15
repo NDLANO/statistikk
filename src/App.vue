@@ -1,6 +1,6 @@
 <template lang="pug">
   v-app#app
-      v-container-fluid
+      v-container(fluid)
         v-row
           v-col(md="12")
             h2 {{$t("general.heading")}}
@@ -211,8 +211,8 @@ export default {
       datasets: [],
       keyNames: [],
       chartjsMaxY: 1,
-      yAxisValues: [0, 80000],
-      xAxisValues: [0, 20],
+      // yAxisValues: [0, 80000],
+      // xAxisValues: [0, 20],
       lineChartOptions: {
         animation: {
           duration: 0,
@@ -240,18 +240,6 @@ export default {
     this.init();
   },
   methods: {
-    onYAxisSliderChange(event) {
-      const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      tmpOptions.scales.yAxes[0].ticks.min = event[0];
-      tmpOptions.scales.yAxes[0].ticks.max = event[1];
-      this.lineChartOptions = tmpOptions;
-    },
-    onXAxisSliderChange(event) {
-      const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      tmpOptions.scales.xAxes[0].ticks.min = event[0];
-      tmpOptions.scales.xAxes[0].ticks.max = event[1];
-      this.lineChartOptions = tmpOptions;
-    },
     // * Removes empty object keys
     cleanData() {
       console.log("App.cleanData: loadedData = ", this.loadedData);
@@ -290,18 +278,8 @@ export default {
     },
     init() {
       this.initActiveRows();
-      this.resetYMax();
+      // this.resetYMax();
       this.fillData();
-    },
-    resetYMax() {
-      this.$nextTick(() => {
-        this.chartjsMaxY = this.$refs.lineChart._data._chart.scales[
-          "y-axis-0"
-        ].end;
-        console.log("this.chartjsMaxY = ", this.chartjsMaxY);
-        this.yAxisValues[0] = 0;
-        this.yAxisValues[1] = this.chartjsMaxY;
-      });
     },
     fillData() {
       this.initXLabels();
