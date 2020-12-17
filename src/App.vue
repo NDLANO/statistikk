@@ -322,14 +322,6 @@ export default {
   color: #2c3e50;
   padding-top: 60px;
 }
-.content {
-  display: flex;
-  justify-content: space-around;
-}
-.small {
-  // max-width: 45%;
-  // margin: 50px auto;
-}
 .table {
   width: 45%;
   margin: 10px;
