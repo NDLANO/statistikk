@@ -45,6 +45,7 @@ export default {
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 20px;
 }
 td,
 th {
