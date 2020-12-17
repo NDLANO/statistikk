@@ -20,24 +20,24 @@ export default {
   props: {
     value: {
       type: Array,
-      required: true
+      required: true,
     },
     rowHeadings: {
       type: Array,
-      required: true
+      required: true,
     },
     data: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onCheckboxChanged() {
       let checked = [].concat(this.value);
       this.$emit("input", checked);
       this.$emit("dataChanged");
-    }
-  }
+    },
+  },
 };
 </script>
 
