@@ -74,21 +74,28 @@ export default {
     return {
       yAxisValues: [0, 80000],
       xAxisValues: [0, 20],
+      defaultYAxisValues: [0, 80000],
+      defaultXAxisValues: [0, 20],
       lineChartOptions: {
         animation: {
           duration: 0,
         },
         responsive: true,
+        maintainAspectRatio: false,
         borderWidth: "30px",
         scales: {
           yAxes: [
             {
-              ticks: {},
+              ticks: {
+                fontSize: 20,
+              },
             },
           ],
           xAxes: [
             {
-              ticks: {},
+              ticks: {
+                fontSize: 20,
+              },
             },
           ],
         },
@@ -108,7 +115,12 @@ export default {
       tmpOptions.scales.xAxes[0].ticks.max = event[1];
       this.lineChartOptions = tmpOptions;
     },
-
+    resetChart() {
+      this.yAxisValues = [...this.defaultYAxisValues];
+      this.xAxisValues = [...this.defaultXAxisValues];
+      this.onYAxisSliderChange(this.yAxisValues);
+      this.onXAxisSliderChange(this.xAxisValues);
+    },
     resetYMax() {
       this.$nextTick(() => {
         this.chartjsMaxY = this.$refs.lineChart._data._chart.scales[
