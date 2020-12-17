@@ -4,19 +4,25 @@
         v-row
           v-col(md="12")
             h2 {{$t("general.heading")}}  
-        v-row                
-          v-col(md="9")
-            v-btn(@click="onChartSelected('1')") Graf
-            v-btn(@click="onChartSelected('2')") Stolper
+        v-row        
+          v-col.toolbar(md="3")
+            v-btn( @click="resetCharts")
+              img(src="@/assets/home.png")
+            v-btn
+              img(src="@/assets/content-save.png")
+          v-col(md="6")
+            v-btn(@click="onChartSelected('1')") Linje
+            v-btn(@click="onChartSelected('2')") Stolpe
           v-col(md="3")
         v-row
           v-col(v-show="selectedChart == 1" md="9")
-            LineChartView( :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            LineChartView(ref="lineChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(v-show="selectedChart == 2"  md="9")
-            BarChartView( :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            BarChartView(ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
+            v-select(v-model="selectedDataset" :items=["Datasett 1: Co2-regnskap Elbil og dieselbil", "Datasett 2"] outlined)
+            img.import-icon.float-left(src="@/assets/table-arrow-left.png")
             DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
-
 </template>
 
 <script>
@@ -35,6 +41,7 @@ export default {
   },
   data() {
     return {
+      selectedDataset: "Datasett 1: Co2-regnskap Elbil og dieselbil",
       dataCollection: {},
       loadedData: [
         {
@@ -169,7 +176,7 @@ export default {
       activeRows: [],
       datasets: [],
       keyNames: [],
-      chartjsMaxY: 1,
+      colorArray: ["#f07822", "#137a6b"],
       lineChartOptions: {
         animation: {
           duration: 0,
@@ -200,6 +207,9 @@ export default {
     onChartSelected(selected) {
       console.log("onChartSelected = ", selected);
       this.selectedChart = selected;
+    },
+    resetCharts() {
+      this.$refs.lineChart.resetChart();
     },
     // * Removes empty object keys
     cleanData() {
@@ -254,13 +264,15 @@ export default {
       let keyArray = Object.keys(this.loadedData[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
       console.log("keys = ", keyArray);
+      let counter = 0;
       for (const key in keyArray) {
         console.log("key = ", keyArray[key]);
         console.log(
           "key values array = ",
           this.getKeyValuesByKey(keyArray[key])
         );
-        const tmpColor = this.getRandomColor();
+        const tmpColor = this.colorArray[counter];
+        counter++;
         this.datasets.push({
           label: keyArray[key],
           fill: false,
@@ -321,9 +333,16 @@ export default {
 }
 .table {
   margin: 10px;
-  margin-top: 50px;
+  // margin-top: 50px;
 }
 button {
   margin: 10px;
+}
+// .toolbar img {
+//   padding: 0 10px;
+//   cursor: pointer;
+// }
+.import-icon {
+  padding-left: 10px;
 }
 </style>
