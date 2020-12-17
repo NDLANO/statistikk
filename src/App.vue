@@ -10,13 +10,12 @@
             v-btn(@click="onChartSelected('2')") Stolper
           v-col(md="3")
         v-row
-          v-col(md="9")
-            LineChartView(v-if="selectedChart === 1" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+          v-col(v-show="selectedChart == 1" md="9")
+            LineChartView( :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+          v-col(v-show="selectedChart == 2"  md="9")
+            BarChartView( :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
             DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
-        v-row
-          v-col(md="9")
-            BarChartView(v-if="selectedChart === 2"  :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
 
 </template>
 
