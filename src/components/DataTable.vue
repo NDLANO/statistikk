@@ -4,13 +4,15 @@
       table
         tr
           th(v-for="item in rowHeadings" :key="item") {{item}}
-          th Aktiv
+          th Aktiv 
+            input(type="checkbox")
         tr(v-for="(item, index) in data" :key="index")
           td {{Object.values(item)[0]}}
           td {{Object.values(item)[1]}}
           td {{Object.values(item)[2]}}
           td
             input(type="checkbox" v-model="value[index]" @change="onCheckboxChanged")
+            //- v-checkbox(v-model="value[i]" @change="onCheckboxChanged")
 </template>
 
 <script>
