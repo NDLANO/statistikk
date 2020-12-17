@@ -260,11 +260,13 @@ export default {
           "key values array = ",
           this.getKeyValuesByKey(keyArray[key])
         );
+        const tmpColor = this.getRandomColor();
         this.datasets.push({
           label: keyArray[key],
           fill: false,
           borderWidth: 5,
-          borderColor: this.getRandomColor(),
+          borderColor: tmpColor,
+          backgroundColor: tmpColor,
           data: this.getKeyValuesByKey(keyArray[key]),
         });
       }
