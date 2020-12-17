@@ -26,11 +26,11 @@
               type="number"
               style="width: 60px"
               @change="$set(yAxisValues, 1, $event)")                               
-      v-col.chart-container(sm="5")
-        LineChart(ref="lineChart" :chart-data="dataCollection" :options="lineChartOptions")
+      v-col.chart-container(sm="11")
+        LineChart(ref="lineChart" :height="700" :chart-data="dataCollection" :options="lineChartOptions")
     v-row
       v-col(sm="1")
-      v-col.bottom-slider(sm="5")
+      v-col.bottom-slider(sm="11")
         v-range-slider(
           @change="onXAxisSliderChange"
           v-model="xAxisValues"
