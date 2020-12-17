@@ -26,11 +26,11 @@
               type="number"
               style="width: 60px"
               @change="$set(yAxisValues, 1, $event)")                               
-      v-col.chart-container(sm="5")
-        BarChart(ref="barChart" :chart-data="dataCollection" :options="barChartOptions")
+      v-col.chart-container(sm="6")
+        BarChart(ref="barChart" :height="300"  :chart-data="dataCollection" :options="barChartOptions")
     v-row
       v-col(sm="1")
-      v-col.bottom-slider(sm="5")
+      v-col.bottom-slider(sm="6")
         v-range-slider(
           @change="onXAxisSliderChange"
           v-model="xAxisValues"
@@ -72,23 +72,29 @@ export default {
   },
   data() {
     return {
-      yAxisValues: [0, 80000],
+      chartjsMaxY: 1,
+      yAxisValues: [0, 100000],
       xAxisValues: [0, 20],
       barChartOptions: {
         animation: {
           duration: 0,
         },
         responsive: true,
+        // maintainAspectRatio: false,
         borderWidth: "30px",
         scales: {
           yAxes: [
             {
-              ticks: {},
+              ticks: {
+                fontSize: 16,
+              },
             },
           ],
           xAxes: [
             {
-              ticks: {},
+              ticks: {
+                fontSize: 16,
+              },
             },
           ],
         },
