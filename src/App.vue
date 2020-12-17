@@ -20,7 +20,6 @@
 </template>
 
 <script>
-// import LineChart from "@/components/charts/LineChart";
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
 import DataTable from "@/components/DataTable";
@@ -207,7 +206,6 @@ export default {
       console.log("App.cleanData: loadedData = ", this.loadedData);
       for (const item in this.loadedData) {
         for (const [key] of Object.entries(this.loadedData[item])) {
-          // console.log("key = ", key);//, ", value = ", value);
           if (key == "") delete this.loadedData[item][key];
         }
       }
@@ -246,8 +244,6 @@ export default {
     fillData() {
       this.initXLabels();
       this.generateDatasets();
-      // console.log("xLabels length = ", this.xLabels.length, ", dataset[0] length = ", this.datasets[0].data.length);
-      // console.log("App.fillData: loadedData = ", this.datasets);
       this.dataCollection = {
         labels: this.xLabels,
         datasets: this.datasets,
@@ -269,7 +265,6 @@ export default {
           fill: false,
           borderWidth: 5,
           borderColor: this.getRandomColor(),
-          // backgroundColor: this.getRandomColor(),
           data: this.getKeyValuesByKey(keyArray[key]),
         });
       }
