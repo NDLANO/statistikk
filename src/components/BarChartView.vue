@@ -1,9 +1,6 @@
 <template lang="pug">
   div
     v-row
-      v-col
-        h2 Chart
-    v-row
       v-col.right-slider(sm="1")
         v-range-slider(
           @change="onYAxisSliderChange"
