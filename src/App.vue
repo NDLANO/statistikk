@@ -323,7 +323,6 @@ export default {
   padding-top: 60px;
 }
 .table {
-  width: 45%;
   margin: 10px;
   margin-top: 50px;
 }
