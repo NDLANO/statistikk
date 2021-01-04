@@ -202,6 +202,7 @@ export default {
     this.cleanData();
     this.extractKeyNames();
     this.init();
+    this.configData = Object.freeze(window.mfNdlaConfig);
   },
   methods: {
     onChartSelected(selected) {
