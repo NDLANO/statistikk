@@ -2,10 +2,12 @@ import Vue from "vue";
 import VueI18n from "vue-i18n";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
+import VuePapaParse from "vue-papa-parse";
 
 Vue.config.productionTip = false;
 
 Vue.use(VueI18n);
+Vue.use(VuePapaParse);
 
 const messages = {
   no: window.statistikkDictionary,
