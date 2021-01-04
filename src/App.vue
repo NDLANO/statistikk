@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { readFile } from "./js/fileTools";
+
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
 import DataTable from "@/components/DataTable";
@@ -41,6 +43,7 @@ export default {
   },
   data() {
     return {
+      configData: null,
       selectedDataset: "Datasett 1: Co2-regnskap Elbil og dieselbil",
       dataCollection: {},
       loadedData: [
@@ -199,10 +202,24 @@ export default {
     };
   },
   mounted() {
-    this.cleanData();
-    this.extractKeyNames();
-    this.init();
     this.configData = Object.freeze(window.mfNdlaConfig);
+    for(var dataset in this.configData.datasets){
+      var csvData = readFile(this.configData.datasets[dataset].filename);
+      console.log("csvData = ", csvData);
+      var jsonData = this.$papa.parse(csvData, { header: true, dynamicTyping: true }).data;
+      this.cleanData(jsonData);
+      console.table(jsonData);
+      this.datasets.push({
+        name: this.configData.datasets[dataset].name,
+        data: jsonData
+      });
+    }
+
+    console.log("datsets = ", this.datasets);
+
+    // this.cleanData();
+    // this.extractKeyNames();
+    // this.init();
   },
   methods: {
     onChartSelected(selected) {
@@ -213,11 +230,11 @@ export default {
       this.$refs.lineChart.resetChart();
     },
     // * Removes empty object keys
-    cleanData() {
-      console.log("App.cleanData: loadedData = ", this.loadedData);
-      for (const item in this.loadedData) {
-        for (const [key] of Object.entries(this.loadedData[item])) {
-          if (key == "") delete this.loadedData[item][key];
+    cleanData(jsonArray) {
+      // console.log("App.cleanData: loadedData = ", this.loadedData);
+      for (const item in jsonArray) {
+        for (const [key] of Object.entries(jsonArray[item])) {
+          if (key == "") delete jsonArray[item][key];
         }
       }
     },
