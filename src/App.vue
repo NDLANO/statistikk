@@ -20,7 +20,7 @@
           v-col(v-show="selectedChart == 2"  md="9")
             BarChartView(ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
-            v-select(v-model="selectedDataset" :items=["Datasett 1: Co2-regnskap Elbil og dieselbil", "Datasett 2"] outlined)
+            v-select(v-model="selectedDataset" :items="datasets" item-text="name" return-object outlined)
             img.import-icon.float-left(src="@/assets/table-arrow-left.png")
             DataTable.small.table(:rowHeadings="keyNames" :data="loadedData" :value="activeRows" @dataChanged="fillData")
 </template>
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       configData: null,
-      selectedDataset: "Datasett 1: Co2-regnskap Elbil og dieselbil",
+      selectedDataset: null,
       dataCollection: {},
       loadedData: [
         {
@@ -178,7 +178,7 @@ export default {
       xLabels: [],
       activeRows: [],
       datasets: [],
-      keyNames: [],
+      // keyNames: [],
       colorArray: ["#f07822", "#137a6b"],
       lineChartOptions: {
         animation: {
@@ -217,9 +217,15 @@ export default {
 
     console.log("datsets = ", this.datasets);
 
+    this.selectedDataset = this.datasets[0];
     // this.cleanData();
     // this.extractKeyNames();
     // this.init();
+  },
+  computed: {
+    keyNames() {
+      return Object.keys(this.selectedDataset.data[0]);;
+    }
   },
   methods: {
     onChartSelected(selected) {
@@ -238,9 +244,9 @@ export default {
         }
       }
     },
-    extractKeyNames() {
-      this.keyNames = Object.keys(this.loadedData[0]);
-    },
+    // extractKeyNames() {
+    //   this.keyNames = Object.keys(this.selectedDataset.data[0]);
+    // },
     /**
      * initActiveRows creates an array the length of loadedData with booleans.
      * Each boolean corresponds to a row in loaded data.
