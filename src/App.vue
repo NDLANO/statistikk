@@ -180,7 +180,7 @@ export default {
       datasets: [],
       chartDataset: [],
       // keyNames: [],
-      colorArray: ["#f07822", "#137a6b"],
+      colorArray: ["#f07822", "#137a6b", "#a00"],
       lineChartOptions: {
         animation: {
           duration: 0,
