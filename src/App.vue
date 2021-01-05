@@ -22,7 +22,7 @@
           v-col(md="3")
             v-select(v-model="selectedDataset" :items="datasets" item-text="name" return-object outlined)
             img.import-icon.float-left(src="@/assets/table-arrow-left.png")
-            DataTable.small.table(:rowHeadings="keyNames" :data="selectedDataset.data" :value="activeRows" @dataChanged="fillData")
+            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="fillData")
 </template>
 
 <script>
