@@ -178,6 +178,7 @@ export default {
       xLabels: [],
       activeRows: [],
       datasets: [],
+      chartDataset: [],
       // keyNames: [],
       colorArray: ["#f07822", "#137a6b"],
       lineChartOptions: {
@@ -205,26 +206,33 @@ export default {
     this.configData = Object.freeze(window.mfNdlaConfig);
     for(var dataset in this.configData.datasets){
       var csvData = readFile(this.configData.datasets[dataset].filename);
-      console.log("csvData = ", csvData);
+      // console.log("csvData = ", csvData);
       var jsonData = this.$papa.parse(csvData, { header: true, dynamicTyping: true }).data;
       this.cleanData(jsonData);
-      console.table(jsonData);
-      this.datasets.push({
+      // console.table(jsonData);
+      var activeRows = Array(jsonData.length).fill(true);
+
+      var newDataset = {
         name: this.configData.datasets[dataset].name,
-        data: jsonData
-      });
+        data: jsonData,
+        activeRows: activeRows,     
+      };
+
+      // console.log("newDataset  = ", newDataset);
+      this.datasets.push(newDataset);
+
     }
 
-    console.log("datsets = ", this.datasets);
-
     this.selectedDataset = this.datasets[0];
-    // this.cleanData();
-    // this.extractKeyNames();
-    // this.init();
+    this.init();
   },
   computed: {
     keyNames() {
-      return Object.keys(this.selectedDataset.data[0]);;
+      if(this.selectedDataset) {
+        return Object.keys(this.selectedDataset.data[0]);
+      } 
+
+      return [];
     }
   },
   methods: {
@@ -280,11 +288,11 @@ export default {
       this.generateDatasets();
       this.dataCollection = {
         labels: this.xLabels,
-        datasets: this.datasets,
+        datasets: this.chartDataset,
       };
     },
     generateDatasets() {
-      this.datasets = [];
+      this.chartDataset = [];
       let keyArray = Object.keys(this.selectedDataset.data[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
       console.log("keys = ", keyArray);
@@ -297,7 +305,7 @@ export default {
         );
         const tmpColor = this.colorArray[counter];
         counter++;
-        this.datasets.push({
+        this.chartDataset.push({
           label: keyArray[key],
           fill: false,
           borderWidth: 5,
@@ -307,7 +315,7 @@ export default {
         });
       }
 
-      console.log("this.datasets = ", this.datasets);
+      console.log("this.chartDataset = ", this.chartDataset);
     },
     removeStringFromArray(inputArray, inputString) {
       let newArray = [...inputArray];
@@ -318,7 +326,7 @@ export default {
     getKeyValuesByKey(key) {
       let valuesArray = [];
       for (var i = 0; i < this.selectedDataset.data.length; i++) {
-        if (this.activeRows[i]) valuesArray.push(this.selectedDataset.data[i][key]);
+        if (this.selectedDataset.activeRows[i]) valuesArray.push(this.selectedDataset.data[i][key]);
       }
       return valuesArray;
     },
@@ -326,7 +334,7 @@ export default {
       let labelArray = [];
       for (var i = 0; i < this.selectedDataset.data.length; i++) {
         // console.log("item = ", Object.values(this.loadedData[item])[index]);
-        if (this.activeRows[i])
+        if (this.selectedDataset.activeRows[i])
           labelArray.push(Object.values(this.selectedDataset.data[i])[index]);
       }
       return labelArray;
