@@ -7,9 +7,7 @@
           th Aktiv 
             input(type="checkbox")
         tr(v-for="(item, index) in data" :key="index")
-          td {{Object.values(item)[0]}}
-          td {{Object.values(item)[1]}}
-          td {{Object.values(item)[2]}}
+          td(v-for="(itemValue, index) in Object.values(item)" ) {{ itemValue }}
           td
             input(type="checkbox" v-model="value[index]" @change="onCheckboxChanged")
             //- v-checkbox(v-model="value[i]" @change="onCheckboxChanged")
