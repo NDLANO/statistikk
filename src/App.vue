@@ -251,27 +251,27 @@ export default {
      * initActiveRows creates an array the length of loadedData with booleans.
      * Each boolean corresponds to a row in loaded data.
      */
-    initActiveRows(randomize = false) {
-      this.activeRows = [];
-      for (var i = 0; i < this.selectedDataset.data.length; i++) {
-        if (randomize) {
-          this.activeRows[i] = Math.random() < 0.5; // randomizes active state
-        } else {
-          this.activeRows[i] = true;
-        }
-      }
-      console.log("activeRows = ", this.activeRows);
-    },
+    // initActiveRows(dataset, randomize = false) {
+    //   this.activeRows = [];
+    //   for (var i = 0; i < dataset.data.length; i++) {
+    //     if (randomize) {
+    //       this.activeRows[i] = Math.random() < 0.5; // randomizes active state
+    //     } else {
+    //       this.activeRows[i] = true;
+    //     }
+    //   }
+    //   console.log("activeRows = ", this.activeRows);
+    // },
     initXLabels() {
       this.xLabels = this.getKeyValuesByIndex(0);
       console.log("xLabels = ", this.xLabels);
     },
     initRandomized() {
-      this.initActiveRows(true);
+      // this.initActiveRows(true);
       this.fillData();
     },
     init() {
-      this.initActiveRows();
+      // this.initActiveRows();
       // this.resetYMax();
       this.fillData();
     },
