@@ -20,9 +20,9 @@
           v-col(v-show="selectedChart == 2"  md="9")
             BarChartView(ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
-            v-select(v-model="selectedDataset" :items="datasets" item-text="name" return-object outlined)
+            v-select(v-model="selectedDataset" :items="datasets" item-text="name" @change="init" return-object outlined)
             img.import-icon.float-left(src="@/assets/table-arrow-left.png")
-            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="fillData")
+            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="init")
 </template>
 
 <script>
