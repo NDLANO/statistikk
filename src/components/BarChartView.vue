@@ -26,11 +26,11 @@
               type="number"
               style="width: 60px"
               @change="$set(yAxisValues, 1, $event)")                               
-      v-col.chart-container(sm="11")
-        LineChart(ref="lineChart" :height="700" :chart-data="dataCollection" :options="lineChartOptions")
+      v-col.chart-container(sm="6")
+        BarChart(ref="barChart" :height="300"  :chart-data="dataCollection" :options="barChartOptions")
     v-row
       v-col(sm="1")
-      v-col.bottom-slider(sm="11")
+      v-col.bottom-slider(sm="6")
         v-range-slider(
           @change="onXAxisSliderChange"
           v-model="xAxisValues"
@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import LineChart from "@/components/charts/LineChart";
+import BarChart from "@/components/charts/BarChart";
 
 export default {
-  name: "LineChartView",
+  name: "BarChartView",
   props: {
     dataCollection: {
       type: Object,
@@ -68,33 +68,32 @@ export default {
     },
   },
   components: {
-    LineChart,
+    BarChart,
   },
   data() {
     return {
-      yAxisValues: [0, 80000],
+      chartjsMaxY: 1,
+      yAxisValues: [0, 100000],
       xAxisValues: [0, 20],
-      defaultYAxisValues: [0, 80000],
-      defaultXAxisValues: [0, 20],
-      lineChartOptions: {
+      barChartOptions: {
         animation: {
           duration: 0,
         },
         responsive: true,
-        maintainAspectRatio: false,
+        // maintainAspectRatio: false,
         borderWidth: "30px",
         scales: {
           yAxes: [
             {
               ticks: {
-                fontSize: 20,
+                fontSize: 16,
               },
             },
           ],
           xAxes: [
             {
               ticks: {
-                fontSize: 20,
+                fontSize: 16,
               },
             },
           ],
@@ -104,26 +103,21 @@ export default {
   },
   methods: {
     onYAxisSliderChange(event) {
-      const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
+      const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
-      this.lineChartOptions = tmpOptions;
+      this.barChartOptions = tmpOptions;
     },
     onXAxisSliderChange(event) {
-      const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
+      const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
       tmpOptions.scales.xAxes[0].ticks.min = event[0];
       tmpOptions.scales.xAxes[0].ticks.max = event[1];
-      this.lineChartOptions = tmpOptions;
+      this.barChartOptions = tmpOptions;
     },
-    resetChart() {
-      this.yAxisValues = [...this.defaultYAxisValues];
-      this.xAxisValues = [...this.defaultXAxisValues];
-      this.onYAxisSliderChange(this.yAxisValues);
-      this.onXAxisSliderChange(this.xAxisValues);
-    },
+
     resetYMax() {
       this.$nextTick(() => {
-        this.chartjsMaxY = this.$refs.lineChart._data._chart.scales[
+        this.chartjsMaxY = this.$refs.barChart._data._chart.scales[
           "y-axis-0"
         ].end;
         console.log("this.chartjsMaxY = ", this.chartjsMaxY);

@@ -4,13 +4,13 @@
       table
         tr
           th(v-for="item in rowHeadings" :key="item") {{item}}
-          th Aktiv
+          th Aktiv 
+            input(type="checkbox")
         tr(v-for="(item, index) in data" :key="index")
-          td {{Object.values(item)[0]}}
-          td {{Object.values(item)[1]}}
-          td {{Object.values(item)[2]}}
+          td(v-for="(itemValue, index) in Object.values(item)" ) {{ itemValue }}
           td
             input(type="checkbox" v-model="value[index]" @change="onCheckboxChanged")
+            //- v-checkbox(v-model="value[i]" @change="onCheckboxChanged")
 </template>
 
 <script>
@@ -18,24 +18,24 @@ export default {
   props: {
     value: {
       type: Array,
-      required: true
+      required: true,
     },
     rowHeadings: {
       type: Array,
-      required: true
+      required: true,
     },
     data: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onCheckboxChanged() {
       let checked = [].concat(this.value);
       this.$emit("input", checked);
       this.$emit("dataChanged");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -43,6 +43,7 @@ export default {
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 20px;
 }
 td,
 th {
