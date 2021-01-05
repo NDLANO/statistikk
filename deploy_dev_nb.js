@@ -22,7 +22,7 @@ sftp({
   port: "22",
   user: login_prefs.user,
   pass: login_prefs.password,
-  remotePath: "/home/doublfkx/public_html/vaaland/alpha",
+  remotePath: "/home/doublfkx/public_html/ndla_statistikk",
   sourcePath: "./dist/",
   // includePattern:  /.*\.(js|css|html)$/,  // optional, upload only js css and html files
   // sort: sortingFunction,                          // optional
