@@ -1,0 +1,3 @@
+- [NDLA Statistikk](/)
+  - [Oppbygging og filestruktur](filestructure.md)
+  - [Lasting og parsing av CSV-filer](csvfiles.md)
