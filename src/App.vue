@@ -5,12 +5,16 @@
           v-col(md="12")
             h2 {{$t("general.heading")}}  
         v-row        
-          v-col.toolbar(md="3")
+          v-col.toolbar(md="5")
             v-btn( @click="resetCharts")
-              img(src="@/assets/home.png")
+              v-icon(large) mdi-home
+              div Resett?
+              //- img(src="@/assets/home.png")
             v-btn
-              img(src="@/assets/content-save.png")
-          v-col(md="6")
+              v-icon(large) mdi-file-image-outline
+              div Lagre graf
+              //- img(src="@/assets/content-save.png")              
+          v-col(md="4")
             v-btn(@click="onChartSelected('1')") Linje
             v-btn(@click="onChartSelected('2')") Stolpe
           v-col(md="3")
@@ -21,7 +25,10 @@
             BarChartView(ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
             v-select(v-model="selectedDataset" :items="datasets" item-text="name" @change="init" return-object outlined)
-            img.import-icon.float-left(src="@/assets/table-arrow-left.png")
+            v-btn
+              v-icon(large) mdi-table-arrow-left
+              div Importer data
+            //- img.import-icon.float-left(src="@/assets/table-arrow-left.png")
             DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="init")
 </template>
 
@@ -374,7 +381,4 @@ button {
 //   padding: 0 10px;
 //   cursor: pointer;
 // }
-.import-icon {
-  padding-left: 10px;
-}
 </style>
