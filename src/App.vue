@@ -5,19 +5,19 @@
           v-col(md="12")
             h2 {{$t("general.heading")}}  
         v-row        
-          v-col.toolbar(md="5")
+          v-col.toolbar(md="6")
             v-btn( @click="resetCharts")
               v-icon(large) mdi-home
-              div Resett?
+              div {{ $t("general.reset") }}
               //- img(src="@/assets/home.png")
             v-btn
               v-icon(large) mdi-file-image-outline
-              div Lagre graf
+              div {{ $t("general.saveGraph") }}
               //- img(src="@/assets/content-save.png")              
-          v-col(md="4")
-            v-btn(@click="onChartSelected('1')") Linje
-            v-btn(@click="onChartSelected('2')") Stolpe
-          v-col(md="3")
+          v-col(md="6")
+            v-btn(@click="onChartSelected('1')") {{ $t("general.lineGraph") }}
+            v-btn(@click="onChartSelected('2')") {{ $t("general.barGraph") }}
+          //- v-col(md="3")
         v-row
           v-col(v-show="selectedChart == 1" md="9")
             LineChartView(ref="lineChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
@@ -27,7 +27,7 @@
             v-select(v-model="selectedDataset" :items="datasets" item-text="name" @change="init" return-object outlined)
             v-btn
               v-icon(large) mdi-table-arrow-left
-              div Importer data
+              div {{ $t("general.importData") }}
             //- img.import-icon.float-left(src="@/assets/table-arrow-left.png")
             DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="init")
 </template>
