@@ -53,6 +53,7 @@ export default {
       for(let i = 0; i < this.value.length; i++) {
         this.value[i] = this.allSelected;
       }
+      this.$emit("dataChanged");
     },
     onCheckboxChanged() {
       let checked = [].concat(this.value);
