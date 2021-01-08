@@ -57,7 +57,7 @@ export default {
     },
     onCheckboxChanged() {
       let checked = [].concat(this.value);
-      this.$emit("input", checked);
+      // this.$emit("input", checked);
       this.$emit("dataChanged");
     },
   },
