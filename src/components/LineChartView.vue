@@ -96,6 +96,13 @@ export default {
       },
     };
   },
+  computed: {
+    gotData() {
+      if (this.dataCollection.labels.length > 0) return true;
+
+      return false;
+    }
+  },
   methods: {
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
@@ -129,45 +136,61 @@ export default {
       });
     },
     init() {
+      console.log("--init--");
       this.resetYMax();
     },
+    initXAxis() {
+      if (!this.dataCollection.lineChart) {
+        this.dataCollection.lineChart = {};
+        this.dataCollection.lineChart.xAxisMin = 0;
+        this.dataCollection.lineChart.xAxisMax = this.dataCollection.labels.length - 1;
+        this.dataCollection.lineChart.xAxisRange = [
+          this.dataCollection.lineChart.xAxisMin,
+          this.dataCollection.lineChart.xAxisMax
+        ];
+        // console.log("dataCollection.mounted: dataCollection.lineChart = ", this.dataCollection.lineChart);
+      }
+    }
   },
   watch: {
     dataCollection(newValue, oldValue) {
 
       console.log("datacollection new value = ", newValue.labels, ", old value = ", oldValue);
 
-      var newXMinIndex = 0;
-      var newXMaxIndex = newValue.labels.length - 1;
-
-      console.log("dataCollection oldValue.length = ", oldValue);
-      if(oldValue.labels) {
-        var oldXMinValue = oldValue.labels[this.xAxisValues[0]];
-        console.log("dataCollection: oldXMinValue = ", oldXMinValue);
-        newXMinIndex = newValue.labels.indexOf(oldXMinValue);
-        if(newXMinIndex === -1) newXMinIndex = 0;
-
-        var oldXMaxValue = oldValue.labels[this.xAxisValues[1]];
-        newXMaxIndex = newValue.labels.indexOf(oldXMaxValue);
-        if(newXMaxIndex === -1) newXMaxIndex = newValue.labels.length - 1;
+      // * If no lineChart object, data is new -> init
+      if (!this.dataCollection.lineChart) {
+        this.initXAxis();
+        return;
       }
-      console.log("dataCollection: newXMinIndex = ", newXMinIndex);
 
-      this.xAxisValues = [newXMinIndex, newXMaxIndex];
-      this.xAxisMin = 0;
-      this.xAxisMax = newValue.labels.length - 1;
+      // * If data is modified, not new
+      // var newXMinIndex = 0;
+      // var newXMaxIndex = newValue.labels.length - 1;
+
+      // console.log("dataCollection oldValue.length = ", oldValue);
+      // if (oldValue.labels) {
+      //   var oldXMinValue = oldValue.labels[this.xAxisValues[0]];
+      //   console.log("dataCollection: oldXMinValue = ", oldXMinValue);
+      //   newXMinIndex = newValue.labels.indexOf(oldXMinValue);
+      //   if (newXMinIndex === -1) newXMinIndex = 0;
+
+      //   var oldXMaxValue = oldValue.labels[this.xAxisValues[1]];
+      //   newXMaxIndex = newValue.labels.indexOf(oldXMaxValue);
+      //   if (newXMaxIndex === -1) newXMaxIndex = newValue.labels.length - 1;
+      // }
+      // console.log("dataCollection: newXMinIndex = ", newXMinIndex);
+
+      // this.xAxisValues = [newXMinIndex, newXMaxIndex];
+      // this.xAxisMin = 0;
+      // this.xAxisMax = newValue.labels.length - 1;
 
     }
   },
   mounted() {
-    if (!this.dataCollection.lineChart) {
-      this.dataCollection.lineChart = {};
-      this.dataCollection.lineChart.xAxisMin = 0;
-      this.dataCollection.lineChart.xAxisMax = this.dataCollection.labels.length - 1;
-      this.dataCollection.lineChart.xAxisRange = [this.xAxisMin, this.xAxisMax];
-      // console.log("dataCollection.mounted: dataCollection.lineChart = ", this.dataCollection.lineChart);
-    }
-    this.init();
+    console.log("datacollection = ", this.dataCollection);
+
+    // * Only run init if we got real data, not if we got empty object
+    if (this.gotData) this.init();
   },
 };
 </script>
