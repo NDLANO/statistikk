@@ -169,7 +169,7 @@ export default {
       }
       console.log("dataCollection: newXMinIndex = ", newXMinIndex);
 
-      this.xAxisValues = [newXMinIndex, newValue.labels.length - 1];
+      this.xAxisValues = [newXMinIndex, newXMaxIndex];
       this.xAxisMin = 0;
       this.xAxisMax = newValue.labels.length - 1;
 
