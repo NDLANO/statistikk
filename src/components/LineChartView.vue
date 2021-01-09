@@ -42,25 +42,9 @@
           template(v-slot:prepend)
             div
               span(v-if="xAxisValues && dataCollection.labels") {{ dataCollection.labels[xAxisValues[0]]}}
-          //-   v-text-field(
-          //-     :value="xAxisValues[0]"
-          //-     class="mt-0 pt-0"
-          //-     hide-details
-          //-     single-line
-          //-     type="number"
-          //-     style="width: 60px"
-          //-     @change="$set(xAxisValues, 0, $event)")              
           template(v-slot:append)
             div
               span(v-if="xAxisValues && dataCollection.labels") {{ dataCollection.labels[xAxisValues[1]]}}
-          //-   v-text-field(
-          //-     :value="xAxisValues[1]"
-          //-     class="mt-0 pt-0"
-          //-     hide-details
-          //-     single-line
-          //-     type="number"
-          //-     style="width: 60px"
-          //-     @change="$set(xAxisValues, 1, $event)")               
 </template>
 
 <script>
