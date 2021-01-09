@@ -160,7 +160,13 @@ export default {
     }
   },
   mounted() {
-    console.log("datacollection = ", this.dataCollection.labels[0]);
+    if (!this.dataCollection.lineChart) {
+      this.dataCollection.lineChart = {};
+      this.dataCollection.lineChart.xAxisMin = 0;
+      this.dataCollection.lineChart.xAxisMax = this.dataCollection.labels.length - 1;
+      this.dataCollection.lineChart.xAxisRange = [this.xAxisMin, this.xAxisMax];
+      // console.log("dataCollection.mounted: dataCollection.lineChart = ", this.dataCollection.lineChart);
+    }
     this.init();
   },
 };
