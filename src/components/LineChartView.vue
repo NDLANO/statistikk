@@ -32,19 +32,20 @@
       v-col(sm="1")
       v-col.bottom-slider(sm="11")
         v-range-slider(
+          v-if="gotData"
           @change="onXAxisSliderChange"
-          v-model="xAxisValues"
-          :min="xAxisMin"
-          :max="xAxisMax"
+          v-model="dataCollection.lineChart.xAxisRange"
+          :min="dataCollection.lineChart.xAxisMin"
+          :max="dataCollection.lineChart.xAxisMax"
           ticks="always",
           tick-size="4"
           )
           template(v-slot:prepend)
             div
-              span(v-if="xAxisValues && dataCollection.labels") {{ dataCollection.labels[xAxisValues[0]]}}
+              span(v-if="dataCollection.lineChart.xAxisRange && dataCollection.labels") {{ dataCollection.labels[dataCollection.lineChart.xAxisRange[0]]}}
           template(v-slot:append)
             div
-              span(v-if="xAxisValues && dataCollection.labels") {{ dataCollection.labels[xAxisValues[1]]}}
+              span(v-if="dataCollection.lineChart.xAxisRange && dataCollection.labels") {{ dataCollection.labels[dataCollection.lineChart.xAxisRange[1]]}}
 </template>
 
 <script>
@@ -98,7 +99,8 @@ export default {
   },
   computed: {
     gotData() {
-      if (this.dataCollection.labels.length > 0) return true;
+      console.log("gotData: dataCollection = ", this.dataCollection);
+      if (this.dataCollection.labels && this.dataCollection.labels.length > 0) return true;
 
       return false;
     }
@@ -155,7 +157,7 @@ export default {
   watch: {
     dataCollection(newValue, oldValue) {
 
-      console.log("datacollection new value = ", newValue.labels, ", old value = ", oldValue);
+      console.log("dataCollection new value = ", newValue.labels, ", old value = ", oldValue);
 
       // * If no lineChart object, data is new -> init
       if (!this.dataCollection.lineChart) {
@@ -187,7 +189,7 @@ export default {
     }
   },
   mounted() {
-    console.log("datacollection = ", this.dataCollection);
+    console.log("dataCollection = ", this.dataCollection);
 
     // * Only run init if we got real data, not if we got empty object
     if (this.gotData) this.init();
