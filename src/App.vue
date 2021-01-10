@@ -177,7 +177,8 @@ export default {
       datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(
         datasetIn.chartDataCollection
       );
-      console.log("App.generateChartDataset: chartDataset = ", chartDataset);
+
+      if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
     },
     generateLineChartRange(dataCollection) {
       let chartRange = {
