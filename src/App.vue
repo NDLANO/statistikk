@@ -1,6 +1,6 @@
 <template lang="pug">
   v-app#app
-      v-container(fluid)
+      v-container(fluid v-if="selectedDataset")
         v-row
           v-col(md="12")
             h2 {{$t("general.heading")}}  
