@@ -21,8 +21,8 @@
               :dataset="selectedDataset"
               :lineChartOptions="lineChartOptions")
           v-col(v-show="selectedChart == 2"  md="9")
-            //- BarChartView(
-            //-   ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            BarChartView(
+              ref="barChart" :dataCollection="selectedDataset.chartDataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
             v-select(v-model="selectedDataset" @change="onSelectChange()" :items="datasets" item-text="name" return-object outlined)
             v-btn
