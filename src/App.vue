@@ -204,7 +204,11 @@ export default {
         });
       }
 
-      datasetIn.chartDataCollection = {};
+      if(!datasetIn.chartDataCollection) { 
+        datasetIn.chartDataCollection = {};
+      } else {
+        datasetIn.chartDataCollection = { ...datasetIn.chartDataCollection };
+      }
       datasetIn.chartDataCollection.datasets = chartDataset;
       datasetIn.chartDataCollection.labels = xLabels;
       datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(datasetIn.chartDataCollection)
