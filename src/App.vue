@@ -99,6 +99,7 @@ export default {
     }
 
     this.selectedDataset = this.datasets[0];
+    console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
   },
   computed: {
     keyNames() {
@@ -112,6 +113,7 @@ export default {
   methods: {
     onSelectChange() {
       console.log("App.onSelectChange: selectedDataset = ", this.selectedDataset.name);
+      // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
         this.$refs.lineChart.resetYSlider();
       })
@@ -194,7 +196,7 @@ export default {
         yAxisOrgMin: -1,
         yAxisOrgMax: -1,
         yAxisMin: 0,
-        yAxisMax: 100,
+        yAxisMax: 10000,
         yAxisRange: [0, 200]
       };
       if (dataCollection.lineChartRange) {
