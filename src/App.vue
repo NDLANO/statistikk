@@ -184,7 +184,12 @@ export default {
       let chartRange = {
         xAxisMin: 0,
         xAxisMax: dataCollection.labels.length - 1,
-        xAxisRange: [0, dataCollection.labels.length - 1]
+        xAxisRange: [0, dataCollection.labels.length - 1],
+        yAxisOrgMin: -1,
+        yAxisOrgMax: -1,
+        yAxisMin: 0,
+        yAxisMax: 100,
+        yAxisRange: [0, 200]
       };
       if (dataCollection.lineChartRange) {
         var oldXRangeMin =
@@ -199,6 +204,7 @@ export default {
           newXRangeMaxIndex = dataCollection.labels.length - 1;
 
         chartRange.xAxisRange = [newXRangeMinIndex, newXRangeMaxIndex];
+
       }
       return chartRange;
     },
