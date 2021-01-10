@@ -56,8 +56,8 @@ export default {
   props: {
     dataset: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     LineChart,
@@ -93,22 +93,23 @@ export default {
   },
   computed: {
     gotData() {
-
-      if(this.dataset) {
-        console.log("LineChartview.gotData: dataset = ", Object.freeze(this.dataset));
+      if (this.dataset) {
+        console.log(
+          "LineChartview.gotData: dataset = ",
+          Object.freeze(this.dataset)
+        );
         return true;
       }
 
       return false;
     },
     yMaxValue() {
-      console.log("yMaxValue = ", this.$refs.lineChart._data._chart.scales[
-          "y-axis-0"
-        ].end);
-      return this.$refs.lineChart._data._chart.scales[
-          "y-axis-0"
-        ].end;
-    }
+      console.log(
+        "yMaxValue = ",
+        this.$refs.lineChart._data._chart.scales["y-axis-0"].end
+      );
+      return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+    },
   },
   methods: {
     onYAxisSliderChange(event) {
@@ -120,8 +121,12 @@ export default {
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[event[0]];
-      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[event[1]];
+      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[
+        event[0]
+      ];
+      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
+        event[1]
+      ];
       console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
     },
@@ -134,42 +139,67 @@ export default {
     },
     resetYSlider() {
       console.log("LineChartView.resetYSlider *****");
-      console.log("LineChartView.resetYSlider New dataset = ", this.dataset.name);
-      console.log("LineChartView.resetYSlider", this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax);
+      console.log(
+        "LineChartView.resetYSlider New dataset = ",
+        this.dataset.name
+      );
+      console.log(
+        "LineChartView.resetYSlider",
+        this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax
+      );
       // this.$nextTick(() => {
-        if (this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
-          console.log("LineChartView.resetYSlider: no org values", this.dataset.chartDataCollection.lineChartRange.yAxisRange);;
-          delete this.lineChartOptions.scales.yAxes[0].ticks.min;
-          delete this.lineChartOptions.scales.yAxes[0].ticks.max;
-        } else {
-          // this.onYAxisSliderChange([
-          //   this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin,
-          //   this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax
-          // ])
-        }
-        // this.$refs.lineChart.renderLineChart();
+      if (this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
+        console.log(
+          "LineChartView.resetYSlider: no org values",
+          this.dataset.chartDataCollection.lineChartRange.yAxisRange
+        );
+        delete this.lineChartOptions.scales.yAxes[0].ticks.min;
+        delete this.lineChartOptions.scales.yAxes[0].ticks.max;
+      } else {
+        // this.onYAxisSliderChange([
+        //   this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin,
+        //   this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax
+        // ])
+      }
+      // this.$refs.lineChart.renderLineChart();
 
-        console.log("LineChartView.resetYSlider New dataset next tick = ", this.dataset.name);
-                
-        let chartjsMinY = this.$refs.lineChart._data._chart.scales[
-          "y-axis-0"
-        ].start;
-        let chartjsMaxY = this.$refs.lineChart._data._chart.scales[
-          "y-axis-0"
-        ].end;
-        console.log("LinechartView.resetYSlider: this.chartjs = ", this.$refs.lineChart._data._chart.scales["y-axis-0"].end);
-        console.log("LinechartView.resetYSlider: this.chartjsMaxY = ", chartjsMaxY);
-        // if(this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
-          this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = chartjsMinY;
-          this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = chartjsMaxY;
-          this.dataset.chartDataCollection.lineChartRange.yAxisMin = chartjsMinY
-          this.dataset.chartDataCollection.lineChartRange.yAxisMax = chartjsMaxY;
-          this.dataset.chartDataCollection.lineChartRange.yAxisRange = [chartjsMinY, chartjsMaxY];
-        // } else {
-        //   this.onYAxisSliderChange(this.dataset.chartDataCollection.lineChartRange.yAxisRange);
-        // }
-        console.log("LinechartView.resetYSlider: y max = ", this.dataset.chartDataCollection.lineChartRange.yAxisMax);
-        console.log("LineChartView.resetYSlider: next tick values",Object.freeze(this.dataset.chartDataCollection.lineChartRange));;
+      console.log(
+        "LineChartView.resetYSlider New dataset next tick = ",
+        this.dataset.name
+      );
+
+      let chartjsMinY = this.$refs.lineChart._data._chart.scales["y-axis-0"]
+        .start;
+      let chartjsMaxY = this.$refs.lineChart._data._chart.scales["y-axis-0"]
+        .end;
+      console.log(
+        "LinechartView.resetYSlider: this.chartjs = ",
+        this.$refs.lineChart._data._chart.scales["y-axis-0"].end
+      );
+      console.log(
+        "LinechartView.resetYSlider: this.chartjsMaxY = ",
+        chartjsMaxY
+      );
+      // if(this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
+      this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = chartjsMinY;
+      this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = chartjsMaxY;
+      this.dataset.chartDataCollection.lineChartRange.yAxisMin = chartjsMinY;
+      this.dataset.chartDataCollection.lineChartRange.yAxisMax = chartjsMaxY;
+      this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
+        chartjsMinY,
+        chartjsMaxY,
+      ];
+      // } else {
+      //   this.onYAxisSliderChange(this.dataset.chartDataCollection.lineChartRange.yAxisRange);
+      // }
+      console.log(
+        "LinechartView.resetYSlider: y max = ",
+        this.dataset.chartDataCollection.lineChartRange.yAxisMax
+      );
+      console.log(
+        "LineChartView.resetYSlider: next tick values",
+        Object.freeze(this.dataset.chartDataCollection.lineChartRange)
+      );
       // });
     },
     init() {
@@ -178,7 +208,10 @@ export default {
     },
   },
   mounted() {
-    console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
+    console.log(
+      "LineChartView.mounted: dataset = ",
+      Object.freeze(this.dataset)
+    );
     this.init();
   },
 };
