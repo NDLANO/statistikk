@@ -27,24 +27,24 @@
               style="width: 60px"
               @change="$set(yAxisValues, 1, $event)")                               
       v-col.chart-container(sm="11")
-        LineChart(ref="lineChart" :height="700" :chart-data="dataCollection" :options="lineChartOptions")
+        LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
     v-row(v-if="gotData")
       v-col(sm="1")
       v-col.bottom-slider(sm="11")
         v-range-slider(
           @change="onXAxisSliderChange"
-          v-model="dataCollection.lineChart.xAxisRange"
-          :min="dataCollection.lineChart.xAxisMin"
-          :max="dataCollection.lineChart.xAxisMax"
+          v-model="dataset.chartDataCollection.lineChart.xAxisRange"
+          :min="dataset.chartDataCollection.lineChart.xAxisMin"
+          :max="dataset.chartDataCollection.lineChart.xAxisMax"
           ticks="always",
           tick-size="4"
           )
           template(v-slot:prepend)
             div
-              span(v-if="dataCollection.lineChart.xAxisRange && dataCollection.labels") {{ dataCollection.labels[dataCollection.lineChart.xAxisRange[0]]}}
+              span(v-if="dataset.chartDataCollection.lineChart.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChart.xAxisRange[0]]}}
           template(v-slot:append)
             div
-              span(v-if="dataCollection.lineChart.xAxisRange && dataCollection.labels") {{ dataCollection.labels[dataCollection.lineChart.xAxisRange[1]]}}
+              span(v-if="dataset.chartDataCollection.lineChart.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChart.xAxisRange[1]]}}
 </template>
 
 <script>
@@ -59,7 +59,7 @@ export default {
     },
     dataset: {
       type: Object,
-      default: () => {}
+      required: true
     }
   },
   components: {
@@ -103,14 +103,14 @@ export default {
   },
   computed: {
     gotData() {
-      console.log("gotData: dataCollection = ", this.dataCollection);
+      // console.log("LineChartView.gotData: dataset = ", this.dataCollection);
 
       if(this.dataset) {
-        console.log("gotData: dataset = ", Object.freeze(this.dataset));
-        if(!this.dataReceived) {
-          this.initXAxis();
-          this.setDataReceived();
-        }
+        console.log("LineChartview.gotData: dataset = ", Object.freeze(this.dataset));
+        // if(!this.dataReceived) {
+        //   this.initXAxis();
+        //   this.setDataReceived();
+        // }
         return true;
       }
       // if (this.dataCollection.labels && this.dataCollection.labels.length > 0) return true;
@@ -139,18 +139,19 @@ export default {
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      tmpOptions.scales.xAxes[0].ticks.min = this.dataCollection.labels[event[0]];
-      tmpOptions.scales.xAxes[0].ticks.max = this.dataCollection.labels[event[1]];
+      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[event[0]];
+      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[event[1]];
       // tmpOptions.scales.xAxes[0].ticks.min = event[0];
       // tmpOptions.scales.xAxes[0].ticks.max = event[1];
       console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
     },
     resetChart() {
-      this.yAxisValues = [...this.defaultYAxisValues];
-      this.xAxisValues = [...this.defaultXAxisValues];
-      this.onYAxisSliderChange(this.yAxisValues);
-      this.onXAxisSliderChange(this.xAxisValues);
+      console.warn("LineChartView.resetChart need refactoring");
+      // this.yAxisValues = [...this.defaultYAxisValues];
+      // this.xAxisValues = [...this.defaultXAxisValues];
+      // this.onYAxisSliderChange(this.yAxisValues);
+      // this.onXAxisSliderChange(this.xAxisValues);
     },
     resetYMax() {
       this.$nextTick(() => {
@@ -180,15 +181,15 @@ export default {
     }
   },
   watch: {
-    dataCollection(newValue, oldValue) {
+    dataset(newValue, oldValue) {
 
       console.log("LineChartView.watcher dataCollection new value = ", newValue.labels, ", old value = ", oldValue);
 
       // * If no lineChart object, data is new -> init
-      if (!this.dataCollection.lineChart) {
-        this.initXAxis();
-        return;
-      }
+      // if (!this.dataCollection.lineChart) {
+      //   this.initXAxis();
+      //   return;
+      // }
 
       // * If data is modified, not new
       // var newXMinIndex = 0;
@@ -214,7 +215,7 @@ export default {
     }
   },
   mounted() {
-    console.log("LineChartView.mounted: dataCollection = ", this.dataCollection);
+    // console.log("LineChartView.mounted: dataCollection = ", this.dataCollection);
     console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
 
     // * Only run init if we got real data, not if we got empty object
