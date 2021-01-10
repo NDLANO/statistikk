@@ -20,9 +20,13 @@
           //- v-col(md="3")
         v-row
           v-col(v-show="selectedChart == 1" md="9")
-            LineChartView(ref="lineChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            //- LineChartView(ref="lineChart"
+            //-   :dataCollection="dataCollection"
+            //-   :dataset="selectedDataset"
+            //-   :lineChartOptions="lineChartOptions")
           v-col(v-show="selectedChart == 2"  md="9")
-            BarChartView(ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            //- BarChartView(
+            //-   ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
             v-select(v-model="selectedDataset" :items="datasets" item-text="name" @change="init" return-object outlined)
             v-btn
