@@ -97,10 +97,12 @@ export default {
       var newDataset = {
         name: this.configData.datasets[dataset].name,
         data: jsonData,
-        activeRows: activeRows,     
+        activeRows: activeRows,
       };
 
-      // console.log("newDataset  = ", newDataset);
+      this.generateChartDataset(newDataset);
+
+      console.log("App.mounted: newDataset  = ", newDataset);
       this.datasets.push(newDataset);
 
     }
@@ -173,6 +175,47 @@ export default {
         datasets: this.chartDataset,
       };
     },
+    generateChartDataset(datasetIn) {
+      let chartDataset = [];
+      let xLabels = this.newGetKeyValuesByIndex(0, datasetIn);
+      console.log("App.generateChartDataset: datasetIn.data = ", datasetIn.data);
+
+      let keyArray = Object.keys(datasetIn.data[0]);
+      keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
+      console.log("App.generateChartDataset: keys = ", keyArray);
+
+      let counter = 0;
+      for (const key in keyArray) {
+        console.log("App.generateChartDataset: key = ", keyArray[key]);
+        console.log("App.generateChartDataset: for loop datasetIn.data = ", datasetIn.data);
+        console.log(
+          "App.generateChartDataset: key values array = ",
+          this.newGetKeyValuesByKey(keyArray[key], datasetIn)
+        );
+
+        const tmpColor = this.colorArray[counter];
+        counter++;
+        chartDataset.push({
+          label: keyArray[key],
+          fill: false,
+          borderWidth: 5,
+          borderColor: tmpColor,
+          backgroundColor: tmpColor,
+          data: this.newGetKeyValuesByKey(keyArray[key], datasetIn),
+        });
+      }
+
+      datasetIn.chartDataCollection = {};
+      datasetIn.chartDataCollection.datasets = chartDataset;
+      datasetIn.chartDataCollection.labels = xLabels;
+      datasetIn.chartDataCollection.lineChart = {
+        xAxisMin: 0,
+        xAxisMax: xLabels.length - 1,
+        xAxisRange: [0, xLabels.length - 1]
+      }
+      console.log("App.generateChartDataset: chartDataset = ", chartDataset);
+
+    },
     generateDatasets() {
       this.chartDataset = [];
       let keyArray = Object.keys(this.selectedDataset.data[0]);
@@ -205,12 +248,28 @@ export default {
       newArray.splice(stringIndex, 1);
       return newArray;
     },
+    newGetKeyValuesByKey(key, dataset) {
+      let valuesArray = [];
+      for (var i = 0; i < dataset.data.length; i++) {
+        if (dataset.activeRows[i]) valuesArray.push(dataset.data[i][key]);
+      }
+      return valuesArray;
+    },
     getKeyValuesByKey(key) {
       let valuesArray = [];
       for (var i = 0; i < this.selectedDataset.data.length; i++) {
         if (this.selectedDataset.activeRows[i]) valuesArray.push(this.selectedDataset.data[i][key]);
       }
       return valuesArray;
+    },
+    newGetKeyValuesByIndex(index, dataset) {
+      let labelArray = [];
+      for (var i = 0; i < dataset.data.length; i++) {
+        // console.log("item = ", Object.values(this.loadedData[item])[index]);
+        if (dataset.activeRows[i])
+          labelArray.push(Object.values(dataset.data[i])[index]);
+      }
+      return labelArray;
     },
     getKeyValuesByIndex(index) {
       let labelArray = [];
