@@ -64,7 +64,6 @@ export default {
   data() {
     return {
       yAxisValues: [0, 80000],
-
       lineChartOptions: {
         animation: {
           duration: 0,
@@ -113,8 +112,6 @@ export default {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[event[0]];
       tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[event[1]];
-      // tmpOptions.scales.xAxes[0].ticks.min = event[0];
-      // tmpOptions.scales.xAxes[0].ticks.max = event[1];
       console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
     },
@@ -139,40 +136,6 @@ export default {
       console.log("--init--");
       this.resetYMax();
     },
-  },
-  watch: {
-    dataset(newValue, oldValue) {
-
-      console.log("LineChartView.watcher dataCollection new value = ", newValue.labels, ", old value = ", oldValue);
-
-      // * If no lineChart object, data is new -> init
-      // if (!this.dataCollection.lineChart) {
-      //   this.initXAxis();
-      //   return;
-      // }
-
-      // * If data is modified, not new
-      // var newXMinIndex = 0;
-      // var newXMaxIndex = newValue.labels.length - 1;
-
-      // console.log("dataCollection oldValue.length = ", oldValue);
-      // if (oldValue.labels) {
-      //   var oldXMinValue = oldValue.labels[this.xAxisValues[0]];
-      //   console.log("dataCollection: oldXMinValue = ", oldXMinValue);
-      //   newXMinIndex = newValue.labels.indexOf(oldXMinValue);
-      //   if (newXMinIndex === -1) newXMinIndex = 0;
-
-      //   var oldXMaxValue = oldValue.labels[this.xAxisValues[1]];
-      //   newXMaxIndex = newValue.labels.indexOf(oldXMaxValue);
-      //   if (newXMaxIndex === -1) newXMaxIndex = newValue.labels.length - 1;
-      // }
-      // console.log("dataCollection: newXMinIndex = ", newXMinIndex);
-
-      // this.xAxisValues = [newXMinIndex, newXMaxIndex];
-      // this.xAxisMin = 0;
-      // this.xAxisMax = newValue.labels.length - 1;
-
-    }
   },
   mounted() {
     console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
