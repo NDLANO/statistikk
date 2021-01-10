@@ -53,10 +53,6 @@ import LineChart from "@/components/charts/LineChart";
 export default {
   name: "LineChartView",
   props: {
-    dataCollection: {
-      type: Object,
-      required: true,
-    },
     dataset: {
       type: Object,
       required: true
@@ -67,13 +63,7 @@ export default {
   },
   data() {
     return {
-      dataReceived: false,
       yAxisValues: [0, 80000],
-      xAxisValues: [0, 20],
-      xAxisMin: 0,
-      xAxisMax: 10,
-      defaultYAxisValues: [0, 80000],
-      defaultXAxisValues: [0, 20],
 
       lineChartOptions: {
         animation: {
@@ -103,34 +93,16 @@ export default {
   },
   computed: {
     gotData() {
-      // console.log("LineChartView.gotData: dataset = ", this.dataCollection);
 
       if(this.dataset) {
         console.log("LineChartview.gotData: dataset = ", Object.freeze(this.dataset));
-        // if(!this.dataReceived) {
-        //   this.initXAxis();
-        //   this.setDataReceived();
-        // }
         return true;
       }
-      // if (this.dataCollection.labels && this.dataCollection.labels.length > 0) return true;
 
       return false;
     },
-    chartData() {
-      // if(this.gotData) {
-      //   return {
-      //     labels: 
-      //   }
-      // }
-
-      return null;
-    }
   },
   methods: {
-    setDataReceived() {
-      this.dataReceived = true;
-    },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
@@ -167,18 +139,6 @@ export default {
       console.log("--init--");
       this.resetYMax();
     },
-    initXAxis() {
-      // if (!this.dataCollection.lineChart) {
-      //   this.dataCollection.lineChart = {};
-      //   this.dataCollection.lineChart.xAxisMin = 0;
-      //   this.dataCollection.lineChart.xAxisMax = this.dataCollection.labels.length - 1;
-      //   this.dataCollection.lineChart.xAxisRange = [
-      //     this.dataCollection.lineChart.xAxisMin,
-      //     this.dataCollection.lineChart.xAxisMax
-      //   ];
-      //   // console.log("dataCollection.mounted: dataCollection.lineChart = ", this.dataCollection.lineChart);
-      // }
-    }
   },
   watch: {
     dataset(newValue, oldValue) {
@@ -215,11 +175,8 @@ export default {
     }
   },
   mounted() {
-    // console.log("LineChartView.mounted: dataCollection = ", this.dataCollection);
     console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
 
-    // * Only run init if we got real data, not if we got empty object
-    // if (this.gotData) this.init();
   },
 };
 </script>
