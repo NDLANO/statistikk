@@ -106,7 +106,7 @@ export default {
     }
 
     this.selectedDataset = this.datasets[0];
-    this.init();
+    // this.init();
   },
   computed: {
     keyNames() {
