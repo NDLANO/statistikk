@@ -207,11 +207,7 @@ export default {
       datasetIn.chartDataCollection = {};
       datasetIn.chartDataCollection.datasets = chartDataset;
       datasetIn.chartDataCollection.labels = xLabels;
-      datasetIn.chartDataCollection.lineChartRange = {
-        xAxisMin: 0,
-        xAxisMax: xLabels.length - 1,
-        xAxisRange: [0, xLabels.length - 1]
-      }
+      datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(datasetIn.chartDataCollection)
       console.log("App.generateChartDataset: chartDataset = ", chartDataset);
 
     },
@@ -240,6 +236,14 @@ export default {
       }
 
       console.log("this.chartDataset = ", this.chartDataset);
+    },
+    generateLineChartRange(dataCollection) {
+      let chartRange = {
+        xAxisMin: 0,
+        xAxisMax: dataCollection.labels.length - 1,
+        xAxisRange: [0, dataCollection.labels.length - 1]
+      }
+      return chartRange;
     },
     removeStringFromArray(inputArray, inputString) {
       let newArray = [...inputArray];
