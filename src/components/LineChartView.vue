@@ -218,7 +218,7 @@ export default {
     console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
 
     // * Only run init if we got real data, not if we got empty object
-    if (this.gotData) this.init();
+    // if (this.gotData) this.init();
   },
 };
 </script>
