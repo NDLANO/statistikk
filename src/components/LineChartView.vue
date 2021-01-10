@@ -64,7 +64,7 @@ export default {
   },
   data() {
     return {
-      yAxisValues: [0, 80000],
+      currentDataset: "",
       lineChartOptions: {
         animation: {
           duration: 0,
