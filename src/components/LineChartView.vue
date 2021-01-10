@@ -103,11 +103,10 @@ export default {
 
       return false;
     },
+    yMinValue() {
+      return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+    },
     yMaxValue() {
-      console.log(
-        "yMaxValue = ",
-        this.$refs.lineChart._data._chart.scales["y-axis-0"].end
-      );
       return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
     },
   },
