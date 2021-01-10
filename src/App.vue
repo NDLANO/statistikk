@@ -24,7 +24,7 @@
             //- BarChartView(
             //-   ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
-            v-select(v-model="selectedDataset" :items="datasets" item-text="name" return-object outlined)
+            v-select(v-model="selectedDataset" @change="onSelectChange()" :items="datasets" item-text="name" return-object outlined)
             v-btn
               v-icon(large) mdi-table-arrow-left
               div {{ $t("general.importData") }}
@@ -110,6 +110,12 @@ export default {
     }
   },
   methods: {
+    onSelectChange() {
+      console.log("App.onSelectChange: selectedDataset = ", this.selectedDataset.name);
+      this.$nextTick(() => {
+        this.$refs.lineChart.resetYSlider();
+      })
+    },
     onChartSelected(selected) {
       console.log("onChartSelected = ", selected);
       this.selectedChart = selected;
