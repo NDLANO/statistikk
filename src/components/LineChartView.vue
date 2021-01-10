@@ -33,18 +33,18 @@
       v-col.bottom-slider(sm="11")
         v-range-slider(
           @change="onXAxisSliderChange"
-          v-model="dataset.chartDataCollection.lineChart.xAxisRange"
-          :min="dataset.chartDataCollection.lineChart.xAxisMin"
-          :max="dataset.chartDataCollection.lineChart.xAxisMax"
+          v-model="dataset.chartDataCollection.lineChartRange.xAxisRange"
+          :min="dataset.chartDataCollection.lineChartRange.xAxisMin"
+          :max="dataset.chartDataCollection.lineChartRange.xAxisMax"
           ticks="always",
           tick-size="4"
           )
           template(v-slot:prepend)
             div
-              span(v-if="dataset.chartDataCollection.lineChart.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChart.xAxisRange[0]]}}
+              span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[0]]}}
           template(v-slot:append)
             div
-              span(v-if="dataset.chartDataCollection.lineChart.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChart.xAxisRange[1]]}}
+              span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[1]]}}
 </template>
 
 <script>

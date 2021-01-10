@@ -207,7 +207,7 @@ export default {
       datasetIn.chartDataCollection = {};
       datasetIn.chartDataCollection.datasets = chartDataset;
       datasetIn.chartDataCollection.labels = xLabels;
-      datasetIn.chartDataCollection.lineChart = {
+      datasetIn.chartDataCollection.lineChartRange = {
         xAxisMin: 0,
         xAxisMax: xLabels.length - 1,
         xAxisRange: [0, xLabels.length - 1]
