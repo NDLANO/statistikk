@@ -210,10 +210,14 @@ export default {
         datasetIn.chartDataCollection = { ...datasetIn.chartDataCollection };
       }
       datasetIn.chartDataCollection.datasets = chartDataset;
+      datasetIn.chartDataCollection.oldLabels = [];
+      if(datasetIn.chartDataCollection.labels) {
+        datasetIn.chartDataCollection.oldLabels = [...datasetIn.chartDataCollection.labels];
+      }
       datasetIn.chartDataCollection.labels = xLabels;
       datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(datasetIn.chartDataCollection)
       console.log("App.generateChartDataset: chartDataset = ", chartDataset);
-
+      
     },
     generateDatasets() {
       this.chartDataset = [];
@@ -246,6 +250,17 @@ export default {
         xAxisMin: 0,
         xAxisMax: dataCollection.labels.length - 1,
         xAxisRange: [0, dataCollection.labels.length - 1]
+      }
+      if(dataCollection.lineChartRange) {
+        var oldXRangeMin = dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
+        var newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
+        if(newXRangeMinIndex === -1) newXRangeMinIndex = 0;
+
+        var oldXRangeMax = dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
+        var newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
+        if(newXRangeMaxIndex === -1) newXRangeMaxIndex = dataCollection.labels.length - 1;
+
+        chartRange.xAxisRange = [newXRangeMinIndex, newXRangeMaxIndex];
       }
       return chartRange;
     },
