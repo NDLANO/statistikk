@@ -32,7 +32,7 @@
               v-icon(large) mdi-table-arrow-left
               div {{ $t("general.importData") }}
             //- img.import-icon.float-left(src="@/assets/table-arrow-left.png")
-            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="init")
+            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="generateChartDataset(selectedDataset)")
 </template>
 
 <script>
