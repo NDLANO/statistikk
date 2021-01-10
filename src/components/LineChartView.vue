@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-row
+    v-row(v-if="gotData")
       v-col.right-slider(sm="1")
         v-range-slider(
           @change="onYAxisSliderChange"
@@ -28,11 +28,10 @@
               @change="$set(yAxisValues, 1, $event)")                               
       v-col.chart-container(sm="11")
         LineChart(ref="lineChart" :height="700" :chart-data="dataCollection" :options="lineChartOptions")
-    v-row
+    v-row(v-if="gotData")
       v-col(sm="1")
       v-col.bottom-slider(sm="11")
         v-range-slider(
-          v-if="gotData"
           @change="onXAxisSliderChange"
           v-model="dataCollection.lineChart.xAxisRange"
           :min="dataCollection.lineChart.xAxisMin"
@@ -58,12 +57,17 @@ export default {
       type: Object,
       required: true,
     },
+    dataset: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: {
     LineChart,
   },
   data() {
     return {
+      dataReceived: false,
       yAxisValues: [0, 80000],
       xAxisValues: [0, 20],
       xAxisMin: 0,
@@ -100,12 +104,33 @@ export default {
   computed: {
     gotData() {
       console.log("gotData: dataCollection = ", this.dataCollection);
-      if (this.dataCollection.labels && this.dataCollection.labels.length > 0) return true;
+
+      if(this.dataset) {
+        console.log("gotData: dataset = ", Object.freeze(this.dataset));
+        if(!this.dataReceived) {
+          this.initXAxis();
+          this.setDataReceived();
+        }
+        return true;
+      }
+      // if (this.dataCollection.labels && this.dataCollection.labels.length > 0) return true;
 
       return false;
+    },
+    chartData() {
+      // if(this.gotData) {
+      //   return {
+      //     labels: 
+      //   }
+      // }
+
+      return null;
     }
   },
   methods: {
+    setDataReceived() {
+      this.dataReceived = true;
+    },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
@@ -142,22 +167,22 @@ export default {
       this.resetYMax();
     },
     initXAxis() {
-      if (!this.dataCollection.lineChart) {
-        this.dataCollection.lineChart = {};
-        this.dataCollection.lineChart.xAxisMin = 0;
-        this.dataCollection.lineChart.xAxisMax = this.dataCollection.labels.length - 1;
-        this.dataCollection.lineChart.xAxisRange = [
-          this.dataCollection.lineChart.xAxisMin,
-          this.dataCollection.lineChart.xAxisMax
-        ];
-        // console.log("dataCollection.mounted: dataCollection.lineChart = ", this.dataCollection.lineChart);
-      }
+      // if (!this.dataCollection.lineChart) {
+      //   this.dataCollection.lineChart = {};
+      //   this.dataCollection.lineChart.xAxisMin = 0;
+      //   this.dataCollection.lineChart.xAxisMax = this.dataCollection.labels.length - 1;
+      //   this.dataCollection.lineChart.xAxisRange = [
+      //     this.dataCollection.lineChart.xAxisMin,
+      //     this.dataCollection.lineChart.xAxisMax
+      //   ];
+      //   // console.log("dataCollection.mounted: dataCollection.lineChart = ", this.dataCollection.lineChart);
+      // }
     }
   },
   watch: {
     dataCollection(newValue, oldValue) {
 
-      console.log("dataCollection new value = ", newValue.labels, ", old value = ", oldValue);
+      console.log("LineChartView.watcher dataCollection new value = ", newValue.labels, ", old value = ", oldValue);
 
       // * If no lineChart object, data is new -> init
       if (!this.dataCollection.lineChart) {
@@ -189,7 +214,8 @@ export default {
     }
   },
   mounted() {
-    console.log("dataCollection = ", this.dataCollection);
+    console.log("LineChartView.mounted: dataCollection = ", this.dataCollection);
+    console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
 
     // * Only run init if we got real data, not if we got empty object
     if (this.gotData) this.init();
