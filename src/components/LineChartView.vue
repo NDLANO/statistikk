@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-row
+    v-row(v-if="gotData")
       v-col.right-slider(sm="1")
         v-range-slider(
           @change="onYAxisSliderChange"
@@ -27,33 +27,24 @@
               style="width: 60px"
               @change="$set(yAxisValues, 1, $event)")                               
       v-col.chart-container(sm="11")
-        LineChart(ref="lineChart" :height="700" :chart-data="dataCollection" :options="lineChartOptions")
-    v-row
+        LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
+    v-row(v-if="gotData")
       v-col(sm="1")
       v-col.bottom-slider(sm="11")
         v-range-slider(
           @change="onXAxisSliderChange"
-          v-model="xAxisValues"
-          :min="0"
-          :max="20")
+          v-model="dataset.chartDataCollection.lineChartRange.xAxisRange"
+          :min="dataset.chartDataCollection.lineChartRange.xAxisMin"
+          :max="dataset.chartDataCollection.lineChartRange.xAxisMax"
+          ticks="always",
+          tick-size="4"
+          )
           template(v-slot:prepend)
-            v-text-field(
-              :value="xAxisValues[0]"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
-              style="width: 60px"
-              @change="$set(xAxisValues, 0, $event)")              
+            div
+              span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[0]]}}
           template(v-slot:append)
-            v-text-field(
-              :value="xAxisValues[1]"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
-              style="width: 60px"
-              @change="$set(xAxisValues, 1, $event)")               
+            div
+              span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[1]]}}
 </template>
 
 <script>
@@ -62,10 +53,10 @@ import LineChart from "@/components/charts/LineChart";
 export default {
   name: "LineChartView",
   props: {
-    dataCollection: {
+    dataset: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   components: {
     LineChart,
@@ -73,9 +64,6 @@ export default {
   data() {
     return {
       yAxisValues: [0, 80000],
-      xAxisValues: [0, 20],
-      defaultYAxisValues: [0, 80000],
-      defaultXAxisValues: [0, 20],
       lineChartOptions: {
         animation: {
           duration: 0,
@@ -102,6 +90,17 @@ export default {
       },
     };
   },
+  computed: {
+    gotData() {
+
+      if(this.dataset) {
+        console.log("LineChartview.gotData: dataset = ", Object.freeze(this.dataset));
+        return true;
+      }
+
+      return false;
+    },
+  },
   methods: {
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
@@ -111,15 +110,17 @@ export default {
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      tmpOptions.scales.xAxes[0].ticks.min = event[0];
-      tmpOptions.scales.xAxes[0].ticks.max = event[1];
+      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[event[0]];
+      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[event[1]];
+      console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
     },
     resetChart() {
-      this.yAxisValues = [...this.defaultYAxisValues];
-      this.xAxisValues = [...this.defaultXAxisValues];
-      this.onYAxisSliderChange(this.yAxisValues);
-      this.onXAxisSliderChange(this.xAxisValues);
+      console.warn("LineChartView.resetChart need refactoring");
+      // this.yAxisValues = [...this.defaultYAxisValues];
+      // this.xAxisValues = [...this.defaultXAxisValues];
+      // this.onYAxisSliderChange(this.yAxisValues);
+      // this.onXAxisSliderChange(this.xAxisValues);
     },
     resetYMax() {
       this.$nextTick(() => {
@@ -132,11 +133,13 @@ export default {
       });
     },
     init() {
+      console.log("--init--");
       this.resetYMax();
     },
   },
   mounted() {
-    this.init();
+    console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
+
   },
 };
 </script>
