@@ -17,7 +17,7 @@
               single-line
               type="number"
               style="width: 60px"
-              @change="$set(dataset.chartDataCollection.lineChartRange.yAxisRange, 0, $event)")     
+              @change="onYAxisTextChange(0, $event)")     
           template(v-slot:append)
             v-text-field(
               :value="dataset.chartDataCollection.lineChartRange.yAxisRange[1]"
@@ -26,7 +26,7 @@
               single-line
               type="number"
               style="width: 60px"
-              @change="$set(dataset.chartDataCollection.lineChartRange.yAxisRange, 1, $event)")                               
+              @change="onYAxisTextChange(1, $event)")                               
       v-col.chart-container(sm="11")
         LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
     v-row(v-if="gotData")
@@ -117,6 +117,19 @@ export default {
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
       this.dataset.chartDataCollection.lineChartRange.yAxisRange = event;
       this.lineChartOptions = tmpOptions;
+    },
+    onYAxisTextChange(rangeIndex, event) {
+      console.log(
+        "LineChartView.onYAxisTextChange: rangeIndex = ",
+        rangeIndex,
+        ", event = ",
+        typeof Number(event)
+      );
+      this.$set(
+        this.dataset.chartDataCollection.lineChartRange.yAxisRange,
+        rangeIndex,
+        Number(event)
+      );
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
