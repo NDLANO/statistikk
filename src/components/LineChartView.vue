@@ -129,6 +129,14 @@ export default {
       console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
     },
+    setChartScales(arrayIn) {
+      this.lineChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
+      this.lineChartOptions.scales.yAxes[0].ticks.max = arrayIn[1];
+    },
+    deleteChartScales() {
+      delete this.lineChartOptions.scales.yAxes[0].ticks.min;
+      delete this.lineChartOptions.scales.yAxes[0].ticks.max;
+    },
     resetChart() {
       console.warn("LineChartView.resetChart need refactoring");
       // this.yAxisValues = [...this.defaultYAxisValues];
@@ -152,9 +160,10 @@ export default {
           "LineChartView.resetYSlider: chart change detected",
           this.dataset.chartDataCollection.lineChartRange.yAxisRange
         );
-        delete this.lineChartOptions.scales.yAxes[0].ticks.min;
-        delete this.lineChartOptions.scales.yAxes[0].ticks.max;
         //this.dataset.chartDataCollection.lineChartRange.yAxisRange = [this.yMinValue, this.yMaxValue];
+
+        this.deleteChartScales();
+
         if (this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
           console.log(
             "LineChartViwe.resetYSlider: yAxisOrgMin = -1?",
@@ -173,8 +182,9 @@ export default {
             "LineChartView.resetYSlider: yAxisRange = ",
             this.dataset.chartDataCollection.lineChartRange.yAxisRange
           );
-          this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
-          this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+          this.setChartScales(
+            this.dataset.chartDataCollection.lineChartRange.yAxisRange
+          );
         }
         this.currentDataset = this.dataset.name;
       }
