@@ -2,31 +2,28 @@
   div
     v-row(v-if="gotData")
       v-btn(@click="resetYSlider") Resett slider
+      //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
+
       v-col.right-slider(sm="1")
         v-range-slider(
           @change="onYAxisSliderChange"
           v-model="dataset.chartDataCollection.lineChartRange.yAxisRange"
           vertical 
           :min="dataset.chartDataCollection.lineChartRange.yAxisMin"
-          :max="dataset.chartDataCollection.lineChartRange.yAxisMax")
+          :max="dataset.chartDataCollection.lineChartRange.yAxisMax"
+          )
           template(v-slot:prepend)
-            v-text-field(
-              :value="dataset.chartDataCollection.lineChartRange.yAxisRange[0]"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
+            input(
+              type="number" 
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]"
               style="width: 60px"
-              @change="onYAxisTextChange(0, $event)")     
+              @change="onYAxisTextChange")
           template(v-slot:append)
-            v-text-field(
-              :value="dataset.chartDataCollection.lineChartRange.yAxisRange[1]"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
+            input(
+              type="number" 
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]"
               style="width: 60px"
-              @change="onYAxisTextChange(1, $event)")                               
+              @change="onYAxisTextChange")
       v-col.chart-container(sm="11")
         LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
     v-row(v-if="gotData")
@@ -111,6 +108,9 @@ export default {
     },
   },
   methods: {
+    onTestEvent() {
+      console.log("LineChartview.onTestEvent");
+    },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
@@ -118,18 +118,12 @@ export default {
       this.dataset.chartDataCollection.lineChartRange.yAxisRange = event;
       this.lineChartOptions = tmpOptions;
     },
-    onYAxisTextChange(rangeIndex, event) {
-      console.log(
-        "LineChartView.onYAxisTextChange: rangeIndex = ",
-        rangeIndex,
-        ", event = ",
-        typeof Number(event)
+    onYAxisTextChange() {
+      // * Adjust chart axis and redraw chart
+      this.setChartScales(
+        this.dataset.chartDataCollection.lineChartRange.yAxisRange
       );
-      this.$set(
-        this.dataset.chartDataCollection.lineChartRange.yAxisRange,
-        rangeIndex,
-        Number(event)
-      );
+      this.$refs.lineChart.renderLineChart();
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
@@ -143,6 +137,7 @@ export default {
       this.lineChartOptions = tmpOptions;
     },
     setChartScales(arrayIn) {
+      console.log("LineChartView.setChartScales: arrayIn = ", arrayIn);
       this.lineChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = arrayIn[1];
     },
