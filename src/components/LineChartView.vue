@@ -156,19 +156,24 @@ export default {
         delete this.lineChartOptions.scales.yAxes[0].ticks.max;
         //this.dataset.chartDataCollection.lineChartRange.yAxisRange = [this.yMinValue, this.yMaxValue];
         if (this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
-          console.log("LineChartViwe.resetYSlider: yAxisOrgMin = -1?", this.dataset.chartDataCollection.lineChartRange);
+          console.log(
+            "LineChartViwe.resetYSlider: yAxisOrgMin = -1?",
+            this.dataset.chartDataCollection.lineChartRange
+          );
           this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
           this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
           this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
           this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
-          this.dataset.chartDataCollection.lineChartRange.yAxisRange = [this.yMinValue, this.yMaxValue];
+          this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
+            this.yMinValue,
+            this.yMaxValue,
+          ];
         } else {
           console.log("LineChartView.resetYSlider: yAxisRange = ...");
         }
         this.currentDataset = this.dataset.name;
-      } 
+      }
       this.$refs.lineChart.renderLineChart();
-
 
       // let chartjsMinY = this.$refs.lineChart._data._chart.scales["y-axis-0"]
       //   .start;
