@@ -43,7 +43,7 @@ export default {
   components: {
     LineChartView,
     BarChartView,
-    DataTable
+    DataTable,
   },
   data() {
     return {
@@ -54,23 +54,23 @@ export default {
       colorArray: ["#f07822", "#137a6b", "#a00"],
       lineChartOptions: {
         animation: {
-          duration: 0
+          duration: 0,
         },
         responsive: true,
         borderWidth: "30px",
         scales: {
           yAxes: [
             {
-              ticks: {}
-            }
+              ticks: {},
+            },
           ],
           xAxes: [
             {
-              ticks: {}
-            }
-          ]
-        }
-      }
+              ticks: {},
+            },
+          ],
+        },
+      },
     };
   },
   mounted() {
@@ -80,7 +80,7 @@ export default {
       // console.log("csvData = ", csvData);
       var jsonData = this.$papa.parse(csvData, {
         header: true,
-        dynamicTyping: true
+        dynamicTyping: true,
       }).data;
       this.cleanData(jsonData);
       // console.table(jsonData);
@@ -89,7 +89,7 @@ export default {
       var newDataset = {
         name: this.configData.datasets[dataset].name,
         data: jsonData,
-        activeRows: activeRows
+        activeRows: activeRows,
       };
 
       this.generateChartDataset(newDataset);
@@ -108,15 +108,18 @@ export default {
       }
 
       return [];
-    }
+    },
   },
   methods: {
     onSelectChange() {
-      console.log("App.onSelectChange: selectedDataset = ", this.selectedDataset.name);
+      console.log(
+        "App.onSelectChange: selectedDataset = ",
+        this.selectedDataset.name
+      );
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
         this.$refs.lineChart.resetYSlider();
-      })
+      });
     },
     onChartSelected(selected) {
       console.log("onChartSelected = ", selected);
@@ -165,7 +168,7 @@ export default {
           borderWidth: 5,
           borderColor: tmpColor,
           backgroundColor: tmpColor,
-          data: this.newGetKeyValuesByKey(keyArray[key], datasetIn)
+          data: this.newGetKeyValuesByKey(keyArray[key], datasetIn),
         });
       }
 
@@ -178,7 +181,7 @@ export default {
       datasetIn.chartDataCollection.oldLabels = [];
       if (datasetIn.chartDataCollection.labels) {
         datasetIn.chartDataCollection.oldLabels = [
-          ...datasetIn.chartDataCollection.labels
+          ...datasetIn.chartDataCollection.labels,
         ];
       }
       datasetIn.chartDataCollection.labels = xLabels;
@@ -198,8 +201,9 @@ export default {
         yAxisOrgMax: -1,
         yAxisMin: 0,
         yAxisMax: 10000,
-        yAxisRange: [0, 200]
+        yAxisRange: [0, 200],
       };
+      // debugger;
       if (dataCollection.lineChartRange) {
         var oldXRangeMin =
           dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
@@ -213,7 +217,6 @@ export default {
           newXRangeMaxIndex = dataCollection.labels.length - 1;
 
         chartRange.xAxisRange = [newXRangeMinIndex, newXRangeMaxIndex];
-
       }
       return chartRange;
     },
@@ -238,7 +241,7 @@ export default {
           labelArray.push(Object.values(dataset.data[i])[index]);
       }
       return labelArray;
-    }
+    },
     // getRandomColor() {
     //   var letters = "0123456789ABCDEF";
     //   var color = "#";
@@ -250,7 +253,7 @@ export default {
     // getRandomInt() {
     //   return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     // },
-  }
+  },
 };
 </script>
 
