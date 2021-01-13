@@ -169,7 +169,12 @@ export default {
             this.yMaxValue,
           ];
         } else {
-          console.log("LineChartView.resetYSlider: yAxisRange = ...");
+          console.log(
+            "LineChartView.resetYSlider: yAxisRange = ",
+            this.dataset.chartDataCollection.lineChartRange.yAxisRange
+          );
+          this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
+          this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
         }
         this.currentDataset = this.dataset.name;
       }
