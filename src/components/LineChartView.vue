@@ -123,7 +123,6 @@ export default {
       this.setChartScales(
         this.dataset.chartDataCollection.lineChartRange.yAxisRange
       );
-      this.$refs.lineChart.renderLineChart();
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
@@ -140,10 +139,12 @@ export default {
       console.log("LineChartView.setChartScales: arrayIn = ", arrayIn);
       this.lineChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = arrayIn[1];
+      this.$refs.lineChart.renderLineChart();
     },
     deleteChartScales() {
       delete this.lineChartOptions.scales.yAxes[0].ticks.min;
       delete this.lineChartOptions.scales.yAxes[0].ticks.max;
+      this.$refs.lineChart.renderLineChart();
     },
     resetChart() {
       console.warn("LineChartView.resetChart need refactoring");
@@ -153,21 +154,11 @@ export default {
       // this.onXAxisSliderChange(this.xAxisValues);
     },
     resetYSlider() {
-      console.log("LineChartView.resetYSlider *****");
-      console.log(
-        "LineChartView.resetYSlider New dataset = ",
-        this.dataset.name
-      );
-      console.log(
-        "LineChartView.resetYSlider",
-        this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax
-      );
-      // this.$nextTick(() => {
+      // * If dataset switched
       if (this.currentDataset !== this.dataset.name) {
-        // * Delete scales and render chart to get a "clean" chart
+        // * Delete scales to get a "clean" chart
         // * which can be used to extract min/max scales values
         this.deleteChartScales();
-        this.$refs.lineChart.renderLineChart();
 
         if (this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
           // * If dataset not used before
@@ -185,7 +176,6 @@ export default {
           this.setChartScales(
             this.dataset.chartDataCollection.lineChartRange.yAxisRange
           );
-          this.$refs.lineChart.renderLineChart();
         }
 
         this.currentDataset = this.dataset.name;
