@@ -25,15 +25,16 @@
             BarChartView(
               ref="barChart" :dataCollection="selectedDataset.chartDataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
-            v-select(v-model="selectedDatasetName" @change="onSelectChange()" :items="datsetNames" item-text="name" outlined)
+            v-select(v-model="selectedDatasetName" @change="onSelectChange()" :items="datasetNames" item-text="name" outlined)
             v-btn
               v-icon(large) mdi-table-arrow-left
               div {{ $t("general.importData") }}
-            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="generateChartDataset(selectedDataset)")
+            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="onActiveRowsChanged")
 </template>
 
 <script>
 import { readFile } from "./js/fileTools";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
@@ -50,9 +51,9 @@ export default {
     return {
       configData: null,
       selectedDatasetName: undefined,
-      selectedDataset: null,
+      // selectedDataset: null,
       selectedChart: 1,
-      datasets: [],
+      // datasets: [],
       colorArray: ["#f07822", "#137a6b", "#a00"],
       lineChartOptions: {
         animation: {
@@ -95,16 +96,17 @@ export default {
       };
 
       this.generateChartDataset(newDataset);
-
+      this.addDataset(newDataset);
       console.log("App.mounted: newDataset  = ", newDataset);
-      this.datasets.push(newDataset);
+      // this.datasets.push(newDataset);
     }
 
-    this.selectedDataset = this.datasets[0];
+    // this.selectedDataset = this.datasets[0];
     this.selectedDatasetName = this.selectedDataset.name;
     console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
   },
   computed: {
+    ...mapGetters(["selectedDataset", "datasetNames"]),
     keyNames() {
       if (this.selectedDataset) {
         return Object.keys(this.selectedDataset.data[0]);
@@ -112,15 +114,25 @@ export default {
 
       return [];
     },
-    datsetNames() {
-      let names = [];
-      for (var i = 0; i < this.datasets.length; i++) {
-        names.push(this.datasets[i].name);
-      }
-      return names;
-    },
+    // datsetNames() {
+    //   let names = [];
+    //   console.log("App.datasetNames");
+    //   debugger;
+    //   for (var i = 0; i < this.selectedDataset.length; i++) {
+    //     names.push(this.selectedDataset[i].name);
+    //   }
+    //   return names;
+    // },
   },
   methods: {
+    ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    onActiveRowsChanged() {
+      console.log(
+        "App.onActiveRowsChanged: active rows = ",
+        this.selectedDataset.activeRows
+      );
+      this.setActiveRows(this.selectedDataset.activeRows);
+    },
     onLineChartMinMaxChanged(newMin, newMax) {
       console.log(
         "App.onLineChartMinMaxChanged: newMin = ",
@@ -138,9 +150,11 @@ export default {
       console.log("this.datasets = ", this.datasets);
       // eslint-disable-next-line prettier/prettier
       // debugger;
-      this.selectedDataset = this.datasets.find((dataset) => {
-        return dataset.name === this.selectedDatasetName;
-      });
+      // this.selectedDataset = this.datasets.find((dataset) => {
+      //   return dataset.name === this.selectedDatasetName;
+      // });
+
+      this.selectDataset(this.selectedDatasetName);
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
         this.$refs.lineChart.resetYSlider();
@@ -223,8 +237,8 @@ export default {
         xAxisMin: 0,
         xAxisMax: dataCollection.labels.length - 1,
         xAxisRange: [0, dataCollection.labels.length - 1],
-        yAxisOrgMin: -1,
-        yAxisOrgMax: -1,
+        yAxisOrgMin: undefined,
+        yAxisOrgMax: undefined,
         yAxisMin: 0,
         yAxisMax: 10000,
         yAxisRange: [0, 200],
