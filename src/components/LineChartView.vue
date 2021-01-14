@@ -91,15 +91,15 @@ export default {
     };
   },
   watch: {
-    activeDataCollection(newValue, oldValue) {
+    updated(newValue, oldValue) {
       //   console.log("LineChartView.activeDataCollection watcher");
-      console.log("LineChartView: activeDataCollection watcher");
+      console.log("LineChartView: updated watcher");
       // this.onXAxisSliderChange();
       this.redraw();
     },
   },
   computed: {
-    ...mapGetters(["selectedDataset", "activeDataCollection"]),
+    ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
     gotData() {
       if (this.dataset) {
         console.log(
