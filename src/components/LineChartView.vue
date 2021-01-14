@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div 
     v-row(v-if="gotData")
       v-btn(@click="resetYSlider") Resett slider
       //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 import LineChart from "@/components/charts/LineChart";
 
 export default {
@@ -88,7 +90,16 @@ export default {
       },
     };
   },
+  watch: {
+    updated(newValue, oldValue) {
+      //   console.log("LineChartView.activeDataCollection watcher");
+      console.log("LineChartView: updated watcher");
+      // this.onXAxisSliderChange();
+      this.redraw();
+    },
+  },
   computed: {
+    ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
     gotData() {
       if (this.dataset) {
         console.log(
@@ -108,8 +119,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["initYAxisValues"]),
     onTestEvent() {
       console.log("LineChartview.onTestEvent");
+    },
+    redraw() {
+      this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
+      this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+      this.$refs.lineChart.renderLineChart();
     },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
@@ -160,16 +177,25 @@ export default {
         // * which can be used to extract min/max scales values
         this.deleteChartScales();
 
-        if (this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == -1) {
+        if (
+          this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin ==
+          undefined
+        ) {
           // * If dataset not used before
-          this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
-          this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
-          this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
-          this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
-          this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
-            this.yMinValue,
-            this.yMaxValue,
-          ];
+          console.warn("LineChartview.resetYSlider: unitiated dataset");
+          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
+          this.initYAxisValues({
+            rangeType: "lineChartRange",
+            newMin: this.yMinValue,
+            newMax: this.yMaxValue,
+          });
+          // this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
+          //   this.yMinValue,
+          //   this.yMaxValue,
+          // ];
         } else {
           // * If dataset have been used before, reset scales with
           // * selected y range

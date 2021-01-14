@@ -13,12 +13,12 @@ export default {
   methods: {
     renderBarChart() {
       this.renderChart(this.chartData, this.options);
-    },
+    }
   },
   watch: {
     options(newValue, oldValue) {
       this.renderBarChart();
-    },
-  },
+    }
+  }
 };
 </script>

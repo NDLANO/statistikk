@@ -14,12 +14,12 @@ export default {
   methods: {
     renderLineChart() {
       this.renderChart(this.chartData, this.options);
-    },
+    }
   },
   watch: {
     options(newValue, oldValue) {
       this.renderLineChart();
-    },
-  },
+    }
+  }
 };
 </script>

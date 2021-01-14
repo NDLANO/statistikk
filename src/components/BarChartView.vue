@@ -64,11 +64,11 @@ export default {
   props: {
     dataCollection: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   components: {
-    BarChart,
+    BarChart
   },
   data() {
     return {
@@ -77,7 +77,7 @@ export default {
       xAxisValues: [0, 20],
       barChartOptions: {
         animation: {
-          duration: 0,
+          duration: 0
         },
         responsive: true,
         // maintainAspectRatio: false,
@@ -86,19 +86,19 @@ export default {
           yAxes: [
             {
               ticks: {
-                fontSize: 16,
-              },
-            },
+                fontSize: 16
+              }
+            }
           ],
           xAxes: [
             {
               ticks: {
-                fontSize: 16,
-              },
-            },
-          ],
-        },
-      },
+                fontSize: 16
+              }
+            }
+          ]
+        }
+      }
     };
   },
   methods: {
@@ -127,11 +127,11 @@ export default {
     },
     init() {
       this.resetYMax();
-    },
+    }
   },
   mounted() {
     this.init();
-  },
+  }
 };
 </script>
 
