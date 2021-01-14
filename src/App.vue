@@ -18,13 +18,14 @@
         v-row
           v-col(v-show="selectedChart == 1" md="9")
             LineChartView(ref="lineChart"
-              :dataset="selectedDataset"
-              :lineChartOptions="lineChartOptions")
+              :dataset="selectedDataset"              
+              :lineChartOptions="lineChartOptions"
+              @minMaxChanged="onLineChartMinMaxChanged")
           v-col(v-show="selectedChart == 2"  md="9")
             BarChartView(
               ref="barChart" :dataCollection="selectedDataset.chartDataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
-            v-select(v-model="selectedDataset" @change="onSelectChange()" :items="datasets" item-text="name" return-object outlined)
+            v-select(v-model="selectedDatasetName" @change="onSelectChange()" :items="datsetNames" item-text="name" outlined)
             v-btn
               v-icon(large) mdi-table-arrow-left
               div {{ $t("general.importData") }}
@@ -48,6 +49,7 @@ export default {
   data() {
     return {
       configData: null,
+      selectedDatasetName: undefined,
       selectedDataset: null,
       selectedChart: 1,
       datasets: [],
@@ -99,6 +101,7 @@ export default {
     }
 
     this.selectedDataset = this.datasets[0];
+    this.selectedDatasetName = this.selectedDataset.name;
     console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
   },
   computed: {
@@ -109,13 +112,35 @@ export default {
 
       return [];
     },
+    datsetNames() {
+      let names = [];
+      for (var i = 0; i < this.datasets.length; i++) {
+        names.push(this.datasets[i].name);
+      }
+      return names;
+    },
   },
   methods: {
+    onLineChartMinMaxChanged(newMin, newMax) {
+      console.log(
+        "App.onLineChartMinMaxChanged: newMin = ",
+        newMin,
+        ", newMax = ",
+        newMax
+      );
+    },
     onSelectChange() {
       console.log(
-        "App.onSelectChange: selectedDataset = ",
-        this.selectedDataset.name
+        "App.onSelectChange: selectedDatasetName = ",
+        this.selectedDatasetName
       );
+
+      console.log("this.datasets = ", this.datasets);
+      // eslint-disable-next-line prettier/prettier
+      // debugger;
+      this.selectedDataset = this.datasets.find((dataset) => {
+        return dataset.name === this.selectedDatasetName;
+      });
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
         this.$refs.lineChart.resetYSlider();
@@ -177,6 +202,7 @@ export default {
       } else {
         datasetIn.chartDataCollection = { ...datasetIn.chartDataCollection };
       }
+
       datasetIn.chartDataCollection.datasets = chartDataset;
       datasetIn.chartDataCollection.oldLabels = [];
       if (datasetIn.chartDataCollection.labels) {
@@ -204,7 +230,14 @@ export default {
         yAxisRange: [0, 200],
       };
       // debugger;
+      console.log("App.generateLineChartRange initiated");
+
+      // * Modify values if lineCharRange values already exist
       if (dataCollection.lineChartRange) {
+        console.log(
+          "App.generateLineCharRange: old range detected: ",
+          dataCollection.lineChartRange
+        );
         var oldXRangeMin =
           dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
         var newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
@@ -221,6 +254,11 @@ export default {
         chartRange.yAxisMin = dataCollection.lineChartRange.yAxisOrgMin;
         chartRange.yAxisMax = dataCollection.lineChartRange.yAxisOrgMax;
         chartRange.yAxisRange = [...dataCollection.lineChartRange.yAxisRange];
+      } else {
+        console.warn(
+          "App.generateLineChartRange: New chart range, not yet initiated: ",
+          dataCollection
+        );
       }
       return chartRange;
     },
