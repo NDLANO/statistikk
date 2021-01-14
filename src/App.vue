@@ -185,6 +185,7 @@ export default {
 
       let keyArray = Object.keys(datasetIn.data[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
+      datasetIn.keys = keyArray;
       console.log("App.generateChartDataset: keys = ", keyArray);
 
       let counter = 0;
