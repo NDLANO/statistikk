@@ -7,7 +7,7 @@ window.statistikkDictionary = {
     nextButton: "Neste",
     alt1Button: "A",
     alt2Button: "B",
-    reset: "Resett data(?)",
+    reset: "Resett graf",
     saveGraph: "Skjermdump av grafen",
     lineGraph: "Linjegraf",
     barGraph: "Stolpediagram",
