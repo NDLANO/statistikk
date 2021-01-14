@@ -1,7 +1,7 @@
 <template lang="pug">
   div 
     v-row(v-if="gotData")
-      //- v-btn(@click="resetYSlider") Resett slider
+      //- v-btn(@click="resetChart") Resett slider
       //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
 
       v-col.right-slider(sm="1")
@@ -119,7 +119,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["initYAxisValues"]),
+    ...mapActions(["initYAxisValues", "resetXSlider"]),
     onTestEvent() {
       console.log("LineChartview.onTestEvent");
     },
@@ -164,15 +164,18 @@ export default {
       this.$refs.lineChart.renderLineChart();
     },
     resetChart() {
-      console.warn("LineChartView.resetChart need refactoring");
-      // this.yAxisValues = [...this.defaultYAxisValues];
-      // this.xAxisValues = [...this.defaultXAxisValues];
-      // this.onYAxisSliderChange(this.yAxisValues);
-      // this.onXAxisSliderChange(this.xAxisValues);
+      console.log("LineChartView.resetChart");
+      this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = undefined;
+      this.deleteChartScales();
+      this.resetYSlider();
+      this.resetXSlider();
     },
     resetYSlider() {
       // * If dataset switched
-      if (this.currentDataset !== this.dataset.name) {
+      if (
+        this.currentDataset !== this.dataset.name ||
+        this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == undefined
+      ) {
         // * Delete scales to get a "clean" chart
         // * which can be used to extract min/max scales values
         this.deleteChartScales();
@@ -199,6 +202,9 @@ export default {
         } else {
           // * If dataset have been used before, reset scales with
           // * selected y range
+          console.log(
+            "LineChartView.resetYSlider: dataset initiated, setChartScales"
+          );
           this.setChartScales(
             this.dataset.chartDataCollection.lineChartRange.yAxisRange
           );
