@@ -192,7 +192,7 @@ export default {
       if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
     },
     generateLineChartRange(dataCollection) {
-      // * TODO: Handle if yAxis vars already are set
+      // * Create charRange object with default values
       let chartRange = {
         xAxisMin: 0,
         xAxisMax: dataCollection.labels.length - 1,
