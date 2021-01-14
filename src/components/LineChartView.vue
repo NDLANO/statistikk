@@ -1,7 +1,7 @@
 <template lang="pug">
   div 
     v-row(v-if="gotData")
-      v-btn(@click="resetYSlider") Resett slider
+      //- v-btn(@click="resetYSlider") Resett slider
       //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
 
       v-col.right-slider(sm="1")
