@@ -124,6 +124,8 @@ export default {
       console.log("LineChartview.onTestEvent");
     },
     redraw() {
+      this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
+      this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
       this.$refs.lineChart.renderLineChart();
     },
     onYAxisSliderChange(event) {
