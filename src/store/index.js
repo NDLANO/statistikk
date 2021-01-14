@@ -173,6 +173,16 @@ export default new Vuex.Store({
         state.datasets[state.selectedDatasetIndex]
       );
     },
+    mResetXSlider(state) {
+      console.log(
+        "store.mResetXSlider: state.selectedDataset = ",
+        state.datasets[state.selectedDatasetIndex]
+      );
+
+      let collection =
+        state.datasets[state.selectedDatasetIndex].chartDataCollection;
+      collection.lineChartRange.xAxisRange = [0, collection.labels.length - 1];
+    },
   },
   actions: {
     addDataset({ commit }, dataset) {
@@ -230,6 +240,10 @@ export default new Vuex.Store({
       }
 
       this.commit("mRecalculateDataCollection");
+    },
+    resetXSlider({ commit }) {
+      console.log("store.resetXSlider");
+      this.commit("mResetXSlider");
     },
   },
   modules: {},
