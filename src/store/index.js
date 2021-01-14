@@ -82,6 +82,13 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    mRecalculateDataCollection: (state, getters) => {
+      // getters.updated();
+      state.updated = new Date().getTime();
+      console.log("store.activeDataCollection: arh!");
+      // return undefined;
+    },
+
     mAddDataset(state, dataset) {
       state.datasets.push(dataset);
       if (!state.selectedDatasetIndex) {
@@ -139,8 +146,46 @@ export default new Vuex.Store({
       console.log("store.initYMinMax: min = ", newMin, ", max = ", newMax);
       this.commit("mInitYAxisValues", { rangeType, newMin, newMax });
     },
-    setActiveRows({ commit }, newActiveRows) {
+    setActiveRows({ commit, dispatch }, newActiveRows) {
       this.commit("mSetActiveRows", newActiveRows);
+      this.dispatch("recalculateDataCollection");
+    },
+    recalculateDataCollection({ commit, state, getters }) {
+      if (state.datasets) {
+        console.log("store.activeDataCollection init");
+        // * Set labes based on activeRows
+        console.log("store.activeDataCollection: getters = ", getters);
+        getters.selectedDataset.chartDataCollection.labels = getActiveLabels(
+          getters.selectedDataset
+        );
+
+        for (let i = 0; i < getters.selectedDataset.keys.length; i++) {
+          console.log(
+            "store.activeDataCollection: data for key ",
+            i,
+            " = ",
+            generateActiveData(
+              getters.selectedDataset.activeRows,
+              getters.selectedDataset.keys[i],
+              getters.selectedDataset.data
+            )
+          );
+          getters.selectedDataset.chartDataCollection.datasets[
+            i
+          ].data = generateActiveData(
+            getters.selectedDataset.activeRows,
+            getters.selectedDataset.keys[i],
+            getters.selectedDataset.data
+          );
+        }
+        console.log(
+          "store.activeDataCollection: selectedDataset = ",
+          getters.selectedDataset
+        );
+        // return getters.selectedDataset.chartDataCollection;
+      }
+
+      this.commit("mRecalculateDataCollection");
     },
   },
   modules: {},
