@@ -165,7 +165,9 @@ export default {
       this.selectedChart = selected;
     },
     resetCharts() {
-      this.$refs.lineChart.resetChart();
+      if (this.selectedChart === 1) {
+        this.$refs.lineChart.resetChart();
+      }
     },
     // * Removes empty object keys
     cleanData(jsonArray) {
