@@ -28,8 +28,12 @@ export default new Vuex.Store({
   state: {
     datasets: [],
     selectedDatasetIndex: undefined,
+    updated: new Date().getTime(),
   },
   getters: {
+    updated(state) {
+      return state.updated;
+    },
     selectedDataset(state) {
       return state.datasets[state.selectedDatasetIndex];
     },
