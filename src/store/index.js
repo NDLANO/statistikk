@@ -13,6 +13,17 @@ function getActiveLabels(datasetIn) {
   return labelArray;
 }
 
+function generateActiveData(activeRows, key, data) {
+  let newData = [];
+
+  for (let i = 0; i < data.length; i++) {
+    if (activeRows[i]) {
+      newData.push(data[i][key]);
+    }
+  }
+  return newData;
+}
+
 export default new Vuex.Store({
   state: {
     datasets: [],
@@ -31,13 +42,34 @@ export default new Vuex.Store({
     },
     activeDataCollection: (state, getters) => {
       if (state.datasets) {
+        console.log("store.activeDataCollection init");
         // * Set labes based on activeRows
         getters.selectedDataset.chartDataCollection.labels = getActiveLabels(
           getters.selectedDataset
         );
+
+        for (let i = 0; i < getters.selectedDataset.keys.length; i++) {
+          console.log(
+            "store.activeDataCollection: data for key ",
+            i,
+            " = ",
+            generateActiveData(
+              getters.selectedDataset.activeRows,
+              getters.selectedDataset.keys[i],
+              getters.selectedDataset.data
+            )
+          );
+          getters.selectedDataset.chartDataCollection.datasets[
+            i
+          ].data = generateActiveData(
+            getters.selectedDataset.activeRows,
+            getters.selectedDataset.keys[i],
+            getters.selectedDataset.data
+          );
+        }
         console.log(
-          "store.activeDataCollection: activeDataCollection = ",
-          getters.selectedDataset.chartDataCollection
+          "store.activeDataCollection: selectedDataset = ",
+          getters.selectedDataset
         );
         return getters.selectedDataset.chartDataCollection;
       }
