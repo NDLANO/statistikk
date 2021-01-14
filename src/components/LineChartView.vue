@@ -25,7 +25,7 @@
               style="width: 60px"
               @change="onYAxisTextChange")
       v-col.chart-container(sm="11")
-        LineChart(ref="lineChart" :height="700" :chart-data="activeDataCollection" :options="lineChartOptions")
+        LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
     v-row(v-if="gotData")
       v-col(sm="1")
       v-col.bottom-slider(sm="11")
