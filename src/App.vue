@@ -217,6 +217,10 @@ export default {
           newXRangeMaxIndex = dataCollection.labels.length - 1;
 
         chartRange.xAxisRange = [newXRangeMinIndex, newXRangeMaxIndex];
+
+        chartRange.yAxisMin = dataCollection.lineChartRange.yAxisOrgMin;
+        chartRange.yAxisMax = dataCollection.lineChartRange.yAxisOrgMax;
+        chartRange.yAxisRange = [...dataCollection.lineChartRange.yAxisRange];
       }
       return chartRange;
     },
