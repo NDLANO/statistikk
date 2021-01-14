@@ -219,13 +219,13 @@ export default {
       }
 
       datasetIn.chartDataCollection.datasets = chartDataset;
+      datasetIn.chartDataCollection.labels = xLabels;
       datasetIn.chartDataCollection.oldLabels = [];
       if (datasetIn.chartDataCollection.labels) {
         datasetIn.chartDataCollection.oldLabels = [
           ...datasetIn.chartDataCollection.labels,
         ];
       }
-      datasetIn.chartDataCollection.labels = xLabels;
       datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(
         datasetIn.chartDataCollection
       );
