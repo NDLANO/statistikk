@@ -26,7 +26,7 @@ sftp({
   sourcePath: "./dist/",
   // includePattern:  /.*\.(js|css|html)$/,  // optional, upload only js css and html files
   // sort: sortingFunction,                          // optional
-  cacheFile: "sftp-cache.json", // optional
+  cacheFile: "sftp-cache.json" // optional
 })
   .then(function() {
     console.log("deploy successful");
