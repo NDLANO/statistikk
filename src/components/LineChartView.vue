@@ -1,31 +1,29 @@
 <template lang="pug">
-  div
+  div 
     v-row(v-if="gotData")
+      v-btn(@click="resetYSlider") Resett slider
+      //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
+
       v-col.right-slider(sm="1")
         v-range-slider(
           @change="onYAxisSliderChange"
-          v-model="yAxisValues"
+          v-model="dataset.chartDataCollection.lineChartRange.yAxisRange"
           vertical 
-          :min="0"
-          :max="80000")
+          :min="dataset.chartDataCollection.lineChartRange.yAxisMin"
+          :max="dataset.chartDataCollection.lineChartRange.yAxisMax"
+          )
           template(v-slot:prepend)
-            v-text-field(
-              :value="yAxisValues[0]"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
+            input(
+              type="number" 
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]"
               style="width: 60px"
-              @change="$set(yAxisValues, 0, $event)")     
+              @change="onYAxisTextChange")
           template(v-slot:append)
-            v-text-field(
-              :value="yAxisValues[1]"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              type="number"
+            input(
+              type="number" 
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]"
               style="width: 60px"
-              @change="$set(yAxisValues, 1, $event)")                               
+              @change="onYAxisTextChange")
       v-col.chart-container(sm="11")
         LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
     v-row(v-if="gotData")
@@ -48,6 +46,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 import LineChart from "@/components/charts/LineChart";
 
 export default {
@@ -55,15 +55,15 @@ export default {
   props: {
     dataset: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     LineChart,
   },
   data() {
     return {
-      yAxisValues: [0, 80000],
+      currentDataset: "",
       lineChartOptions: {
         animation: {
           duration: 0,
@@ -90,30 +90,78 @@ export default {
       },
     };
   },
+  watch: {
+    updated(newValue, oldValue) {
+      //   console.log("LineChartView.activeDataCollection watcher");
+      console.log("LineChartView: updated watcher");
+      // this.onXAxisSliderChange();
+      this.redraw();
+    },
+  },
   computed: {
+    ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
     gotData() {
-
-      if(this.dataset) {
-        console.log("LineChartview.gotData: dataset = ", Object.freeze(this.dataset));
+      if (this.dataset) {
+        console.log(
+          "LineChartview.gotData: dataset = ",
+          Object.freeze(this.dataset)
+        );
         return true;
       }
 
       return false;
     },
+    yMinValue() {
+      return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+    },
+    yMaxValue() {
+      return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+    },
   },
   methods: {
+    ...mapActions(["initYAxisValues"]),
+    onTestEvent() {
+      console.log("LineChartview.onTestEvent");
+    },
+    redraw() {
+      this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
+      this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+      this.$refs.lineChart.renderLineChart();
+    },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
+      this.dataset.chartDataCollection.lineChartRange.yAxisRange = event;
       this.lineChartOptions = tmpOptions;
+    },
+    onYAxisTextChange() {
+      // * Adjust chart axis and redraw chart
+      this.setChartScales(
+        this.dataset.chartDataCollection.lineChartRange.yAxisRange
+      );
     },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[event[0]];
-      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[event[1]];
+      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[
+        event[0]
+      ];
+      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
+        event[1]
+      ];
       console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
+    },
+    setChartScales(arrayIn) {
+      console.log("LineChartView.setChartScales: arrayIn = ", arrayIn);
+      this.lineChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
+      this.lineChartOptions.scales.yAxes[0].ticks.max = arrayIn[1];
+      this.$refs.lineChart.renderLineChart();
+    },
+    deleteChartScales() {
+      delete this.lineChartOptions.scales.yAxes[0].ticks.min;
+      delete this.lineChartOptions.scales.yAxes[0].ticks.max;
+      this.$refs.lineChart.renderLineChart();
     },
     resetChart() {
       console.warn("LineChartView.resetChart need refactoring");
@@ -122,24 +170,56 @@ export default {
       // this.onYAxisSliderChange(this.yAxisValues);
       // this.onXAxisSliderChange(this.xAxisValues);
     },
-    resetYMax() {
-      this.$nextTick(() => {
-        this.chartjsMaxY = this.$refs.lineChart._data._chart.scales[
-          "y-axis-0"
-        ].end;
-        console.log("this.chartjsMaxY = ", this.chartjsMaxY);
-        this.yAxisValues[0] = 0;
-        this.yAxisValues[1] = this.chartjsMaxY;
-      });
+    resetYSlider() {
+      // * If dataset switched
+      if (this.currentDataset !== this.dataset.name) {
+        // * Delete scales to get a "clean" chart
+        // * which can be used to extract min/max scales values
+        this.deleteChartScales();
+
+        if (
+          this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin ==
+          undefined
+        ) {
+          // * If dataset not used before
+          console.warn("LineChartview.resetYSlider: unitiated dataset");
+          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
+          this.initYAxisValues({
+            rangeType: "lineChartRange",
+            newMin: this.yMinValue,
+            newMax: this.yMaxValue,
+          });
+          // this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
+          //   this.yMinValue,
+          //   this.yMaxValue,
+          // ];
+        } else {
+          // * If dataset have been used before, reset scales with
+          // * selected y range
+          this.setChartScales(
+            this.dataset.chartDataCollection.lineChartRange.yAxisRange
+          );
+        }
+
+        this.currentDataset = this.dataset.name;
+      }
+
+      let chartjsMaxY = this.yMaxValue;
+      console.log(
+        "LinechartView.resetYSlider: this.chartjsMaxY = ",
+        chartjsMaxY
+      );
     },
     init() {
       console.log("--init--");
-      this.resetYMax();
+      this.resetYSlider();
     },
   },
   mounted() {
-    console.log("LineChartView.mounted: dataset = ", Object.freeze(this.dataset));
-
+    this.init();
   },
 };
 </script>

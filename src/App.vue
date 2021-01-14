@@ -18,21 +18,23 @@
         v-row
           v-col(v-show="selectedChart == 1" md="9")
             LineChartView(ref="lineChart"
-              :dataset="selectedDataset"
-              :lineChartOptions="lineChartOptions")
+              :dataset="selectedDataset"              
+              :lineChartOptions="lineChartOptions"
+              @minMaxChanged="onLineChartMinMaxChanged")
           v-col(v-show="selectedChart == 2"  md="9")
-            //- BarChartView(
-            //-   ref="barChart" :dataCollection="dataCollection" :lineChartOptions="lineChartOptions")
+            BarChartView(
+              ref="barChart" :dataCollection="selectedDataset.chartDataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
-            v-select(v-model="selectedDataset" :items="datasets" item-text="name" return-object outlined)
+            v-select(v-model="selectedDatasetName" @change="onSelectChange()" :items="datasetNames" item-text="name" outlined)
             v-btn
               v-icon(large) mdi-table-arrow-left
               div {{ $t("general.importData") }}
-            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="generateChartDataset(selectedDataset)")
+            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="onActiveRowsChanged")
 </template>
 
 <script>
 import { readFile } from "./js/fileTools";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
@@ -43,34 +45,35 @@ export default {
   components: {
     LineChartView,
     BarChartView,
-    DataTable
+    DataTable,
   },
   data() {
     return {
       configData: null,
-      selectedDataset: null,
+      selectedDatasetName: undefined,
+      // selectedDataset: null,
       selectedChart: 1,
-      datasets: [],
+      // datasets: [],
       colorArray: ["#f07822", "#137a6b", "#a00"],
       lineChartOptions: {
         animation: {
-          duration: 0
+          duration: 0,
         },
         responsive: true,
         borderWidth: "30px",
         scales: {
           yAxes: [
             {
-              ticks: {}
-            }
+              ticks: {},
+            },
           ],
           xAxes: [
             {
-              ticks: {}
-            }
-          ]
-        }
-      }
+              ticks: {},
+            },
+          ],
+        },
+      },
     };
   },
   mounted() {
@@ -80,7 +83,7 @@ export default {
       // console.log("csvData = ", csvData);
       var jsonData = this.$papa.parse(csvData, {
         header: true,
-        dynamicTyping: true
+        dynamicTyping: true,
       }).data;
       this.cleanData(jsonData);
       // console.table(jsonData);
@@ -89,27 +92,74 @@ export default {
       var newDataset = {
         name: this.configData.datasets[dataset].name,
         data: jsonData,
-        activeRows: activeRows
+        activeRows: activeRows,
       };
 
       this.generateChartDataset(newDataset);
-
+      this.addDataset(newDataset);
       console.log("App.mounted: newDataset  = ", newDataset);
-      this.datasets.push(newDataset);
+      // this.datasets.push(newDataset);
     }
 
-    this.selectedDataset = this.datasets[0];
+    // this.selectedDataset = this.datasets[0];
+    this.selectedDatasetName = this.selectedDataset.name;
+    console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
   },
   computed: {
+    ...mapGetters(["selectedDataset", "datasetNames"]),
     keyNames() {
       if (this.selectedDataset) {
         return Object.keys(this.selectedDataset.data[0]);
       }
 
       return [];
-    }
+    },
+    // datsetNames() {
+    //   let names = [];
+    //   console.log("App.datasetNames");
+    //   debugger;
+    //   for (var i = 0; i < this.selectedDataset.length; i++) {
+    //     names.push(this.selectedDataset[i].name);
+    //   }
+    //   return names;
+    // },
   },
   methods: {
+    ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    onActiveRowsChanged() {
+      console.log(
+        "App.onActiveRowsChanged: active rows = ",
+        this.selectedDataset.activeRows
+      );
+      this.setActiveRows(this.selectedDataset.activeRows);
+    },
+    onLineChartMinMaxChanged(newMin, newMax) {
+      console.log(
+        "App.onLineChartMinMaxChanged: newMin = ",
+        newMin,
+        ", newMax = ",
+        newMax
+      );
+    },
+    onSelectChange() {
+      console.log(
+        "App.onSelectChange: selectedDatasetName = ",
+        this.selectedDatasetName
+      );
+
+      console.log("this.datasets = ", this.datasets);
+      // eslint-disable-next-line prettier/prettier
+      // debugger;
+      // this.selectedDataset = this.datasets.find((dataset) => {
+      //   return dataset.name === this.selectedDatasetName;
+      // });
+
+      this.selectDataset(this.selectedDatasetName);
+      // * nextTick is needed to make sure selectedDataset is refreshed in chart
+      this.$nextTick(() => {
+        this.$refs.lineChart.resetYSlider();
+      });
+    },
     onChartSelected(selected) {
       console.log("onChartSelected = ", selected);
       this.selectedChart = selected;
@@ -135,6 +185,7 @@ export default {
 
       let keyArray = Object.keys(datasetIn.data[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
+      datasetIn.keys = keyArray;
       console.log("App.generateChartDataset: keys = ", keyArray);
 
       let counter = 0;
@@ -157,7 +208,7 @@ export default {
           borderWidth: 5,
           borderColor: tmpColor,
           backgroundColor: tmpColor,
-          data: this.newGetKeyValuesByKey(keyArray[key], datasetIn)
+          data: this.newGetKeyValuesByKey(keyArray[key], datasetIn),
         });
       }
 
@@ -166,26 +217,42 @@ export default {
       } else {
         datasetIn.chartDataCollection = { ...datasetIn.chartDataCollection };
       }
+
       datasetIn.chartDataCollection.datasets = chartDataset;
+      datasetIn.chartDataCollection.labels = xLabels;
       datasetIn.chartDataCollection.oldLabels = [];
       if (datasetIn.chartDataCollection.labels) {
         datasetIn.chartDataCollection.oldLabels = [
-          ...datasetIn.chartDataCollection.labels
+          ...datasetIn.chartDataCollection.labels,
         ];
       }
-      datasetIn.chartDataCollection.labels = xLabels;
       datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(
         datasetIn.chartDataCollection
       );
-      console.log("App.generateChartDataset: chartDataset = ", chartDataset);
+
+      if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
     },
     generateLineChartRange(dataCollection) {
+      // * Create charRange object with default values
       let chartRange = {
         xAxisMin: 0,
         xAxisMax: dataCollection.labels.length - 1,
-        xAxisRange: [0, dataCollection.labels.length - 1]
+        xAxisRange: [0, dataCollection.labels.length - 1],
+        yAxisOrgMin: undefined,
+        yAxisOrgMax: undefined,
+        yAxisMin: 0,
+        yAxisMax: 10000,
+        yAxisRange: [0, 200],
       };
+      // debugger;
+      console.log("App.generateLineChartRange initiated");
+
+      // * Modify values if lineCharRange values already exist
       if (dataCollection.lineChartRange) {
+        console.log(
+          "App.generateLineCharRange: old range detected: ",
+          dataCollection.lineChartRange
+        );
         var oldXRangeMin =
           dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
         var newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
@@ -198,6 +265,15 @@ export default {
           newXRangeMaxIndex = dataCollection.labels.length - 1;
 
         chartRange.xAxisRange = [newXRangeMinIndex, newXRangeMaxIndex];
+
+        chartRange.yAxisMin = dataCollection.lineChartRange.yAxisOrgMin;
+        chartRange.yAxisMax = dataCollection.lineChartRange.yAxisOrgMax;
+        chartRange.yAxisRange = [...dataCollection.lineChartRange.yAxisRange];
+      } else {
+        console.warn(
+          "App.generateLineChartRange: New chart range, not yet initiated: ",
+          dataCollection
+        );
       }
       return chartRange;
     },
@@ -222,7 +298,7 @@ export default {
           labelArray.push(Object.values(dataset.data[i])[index]);
       }
       return labelArray;
-    }
+    },
     // getRandomColor() {
     //   var letters = "0123456789ABCDEF";
     //   var color = "#";
@@ -234,7 +310,7 @@ export default {
     // getRandomInt() {
     //   return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     // },
-  }
+  },
 };
 </script>
 
@@ -252,5 +328,9 @@ export default {
 }
 button {
   margin: 10px;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
 }
 </style>

@@ -3,6 +3,7 @@ import VueI18n from "vue-i18n";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import VuePapaParse from "vue-papa-parse";
+import store from "./store";
 
 Vue.config.productionTip = false;
 
@@ -10,16 +11,17 @@ Vue.use(VueI18n);
 Vue.use(VuePapaParse);
 
 const messages = {
-  no: window.statistikkDictionary,
+  no: window.statistikkDictionary
 };
 
 const i18n = new VueI18n({
   locale: "no",
-  messages,
+  messages
 });
 
 new Vue({
   i18n,
   vuetify,
-  render: (h) => h(App),
+  store,
+  render: h => h(App)
 }).$mount("#app");

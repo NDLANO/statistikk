@@ -19,21 +19,21 @@ export default {
   props: {
     value: {
       type: Array,
-      required: true,
+      required: true
     },
     rowHeadings: {
       type: Array,
-      required: true,
+      required: true
     },
     data: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       allSelected: false
-    }
+    };
   },
   computed: {
     allSelectedCheck() {
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     onToggleAll() {
-      for(let i = 0; i < this.value.length; i++) {
+      for (let i = 0; i < this.value.length; i++) {
         this.value[i] = this.allSelected;
       }
       this.$emit("dataChanged");
@@ -59,11 +59,11 @@ export default {
       let checked = [].concat(this.value);
       // this.$emit("input", checked);
       this.$emit("dataChanged");
-    },
+    }
   },
-  mounted () {
+  mounted() {
     this.allSelected = this.allSelectedCheck;
-  },
+  }
 };
 </script>
 
