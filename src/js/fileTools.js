@@ -8,3 +8,16 @@ export function readFile(filename) {
 
   return null;
 }
+
+export function readFileObject(file) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsText(file, "UTF-8");
+  });
+}
