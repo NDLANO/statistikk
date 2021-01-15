@@ -26,7 +26,13 @@
               ref="barChart" :dataCollection="selectedDataset.chartDataCollection" :lineChartOptions="lineChartOptions")
           v-col(md="3")
             v-select(v-model="selectedDatasetName" @change="onSelectChange()" :items="datasetNames" item-text="name" outlined)
-            v-btn
+            input( 
+              type="file" 
+              ref="csvFile" 
+              accept=".csv" 
+              style="display: none" @change="onFileSelected"
+              )
+            v-btn( @click="$refs.csvFile.click()")
               v-icon(large) mdi-table-arrow-left
               div {{ $t("general.importData") }}
             DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="onActiveRowsChanged")
@@ -143,6 +149,24 @@ export default {
       alink.href = img;
       alink.download = filename + ".png";
       alink.click();
+    },
+    onFileSelected() {
+      console.log(
+        "App.onFileSelected: File selected = ",
+        this.$refs.csvFile.files[0]
+      );
+      let file = this.$refs.csvFile.files[0];
+      let fileContents = "";
+
+      let reader = new FileReader();
+      reader.readAsText(file, "UTF-8");
+      reader.onload = (evt) => {
+        fileContents = evt.target.result;
+        console.log("App.onFileSelected: fileContents = ", fileContents);
+      };
+      reader.onerror = (evt) => {
+        console.error(evt);
+      };
     },
     onActiveRowsChanged() {
       console.log(
