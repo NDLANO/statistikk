@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { readFile } from "./js/fileTools";
+import { readFile, readFileObject } from "./js/fileTools";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 import LineChartView from "@/components/LineChartView";
@@ -150,7 +150,7 @@ export default {
       alink.download = filename + ".png";
       alink.click();
     },
-    onFileSelected() {
+    async onFileSelected() {
       console.log(
         "App.onFileSelected: File selected = ",
         this.$refs.csvFile.files[0]
@@ -158,15 +158,12 @@ export default {
       let file = this.$refs.csvFile.files[0];
       let fileContents = "";
 
-      let reader = new FileReader();
-      reader.readAsText(file, "UTF-8");
-      reader.onload = (evt) => {
-        fileContents = evt.target.result;
-        console.log("App.onFileSelected: fileContents = ", fileContents);
-      };
-      reader.onerror = (evt) => {
-        console.error(evt);
-      };
+      try {
+        fileContents = await readFileObject(file);
+        console.log("App.onFileSelected: fileContents =", fileContents);
+      } catch (err) {
+        console.error(err);
+      }
     },
     onActiveRowsChanged() {
       console.log(
