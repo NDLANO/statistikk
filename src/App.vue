@@ -9,7 +9,7 @@
             v-btn( @click="resetCharts")
               v-icon(large) mdi-home
               div {{ $t("general.reset") }}
-            v-btn
+            v-btn( @click="saveScreenshot")
               v-icon(large) mdi-file-image-outline
               div {{ $t("general.saveGraph") }}
           v-col(md="6")
@@ -126,6 +126,24 @@ export default {
   },
   methods: {
     ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    async saveScreenshot() {
+      if (this.selectedChart === 1) {
+        const options = {
+          type: "dataURL",
+        };
+        var output = await this.$html2canvas(
+          this.$refs.lineChart.getChartRef(),
+          options
+        );
+
+        var filename = "linjegraf";
+      }
+      var img = output;
+      var alink = document.createElement("a");
+      alink.href = img;
+      alink.download = filename + ".png";
+      alink.click();
+    },
     onActiveRowsChanged() {
       console.log(
         "App.onActiveRowsChanged: active rows = ",
