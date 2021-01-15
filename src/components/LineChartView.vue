@@ -37,9 +37,10 @@
           ticks="always",
           tick-size="4"
           )
+          template(v-slot:thumb-label="props") {{ getXAxisLabel(props.value) }}
           template(v-slot:prepend)
             div
-              span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[0]]}}
+              span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[0]] }}
           template(v-slot:append)
             div
               span(v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels") {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[1]]}}
@@ -122,6 +123,9 @@ export default {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
     onTestEvent() {
       console.log("LineChartview.onTestEvent");
+    },
+    getXAxisLabel(val) {
+      return this.dataset.chartDataCollection.labels[val];
     },
     getChartRef() {
       return this.$refs.lineChartWrapper;
