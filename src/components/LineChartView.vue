@@ -24,7 +24,7 @@
               v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]"
               style="width: 60px"
               @change="onYAxisTextChange")
-      v-col.chart-container(sm="11")
+      v-col.chart-container(sm="11" ref="lineChartWrapper")
         LineChart(ref="lineChart" :height="700" :chart-data="dataset.chartDataCollection" :options="lineChartOptions")
     v-row(v-if="gotData")
       v-col(sm="1")
@@ -122,6 +122,9 @@ export default {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
     onTestEvent() {
       console.log("LineChartview.onTestEvent");
+    },
+    getChartRef() {
+      return this.$refs.lineChartWrapper;
     },
     redraw() {
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
