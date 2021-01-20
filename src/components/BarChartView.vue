@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container(fluid, class="my=5")
+div
   v-row
     v-col.right-slider(sm="1")
       v-range-slider(

@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container(fluid, class="my=2")
+div
   .data-table
     table
       tr

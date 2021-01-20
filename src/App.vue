@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app#app
-  v-container(fluid, class="my=2", v-if="selectedDataset")
+  v-container.my-2(fluid, v-if="selectedDataset")
     v-row
       v-col
         h2 {{ $t('general.heading') }}
@@ -16,7 +16,7 @@ v-app#app
               item-text="name",
               outlined
             )
-          v-col#diagramtypecol(md="4", xs="12", sm="4")
+          v-col#diagramtype_col(md="4", xs="12", sm="4")
             v-row#diagramtype_row
               label Diagramtype
               v-radio.ml-2(
@@ -32,19 +32,20 @@ v-app#app
           v-col#resetchart_col(md="4", xs="12", sm="4")
             v-btn.primary--text(@click="resetCharts", color="#DEEBF6", rounded)
               div {{ $t('general.reset') }}
-        v-row(v-show="selectedChart == 1", xs="12", md="6", sm="12")
-          LineChartView(
-            ref="lineChart",
-            :dataset="selectedDataset",
-            :lineChartOptions="lineChartOptions",
-            @minMaxChanged="onLineChartMinMaxChanged"
-          )
-        v-row(v-show="selectedChart == 2", xs="12", md="6", sm="12")
-          BarChartView(
-            ref="barChart",
-            :dataCollection="selectedDataset.chartDataCollection",
-            :lineChartOptions="lineChartOptions"
-          ) 
+        v-row.justify-center(xs="12", md="6", sm="12")
+          v-col(v-show="selectedChart == 1")
+            LineChartView(
+              ref="lineChart",
+              :dataset="selectedDataset",
+              :lineChartOptions="lineChartOptions",
+              @minMaxChanged="onLineChartMinMaxChanged"
+            )
+          v-col(v-show="selectedChart == 2")
+            BarChartView(
+              ref="barChart",
+              :dataCollection="selectedDataset.chartDataCollection",
+              :lineChartOptions="lineChartOptions"
+            ) 
 
       v-col#datatable_column(md="6", xs="12", sm="12")
         v-row#datatable_row
@@ -56,13 +57,14 @@ v-app#app
             v-btn(color="#20588F", rounded, dark)
               div {{ $t('general.importData') }}
         v-row(xs="12", md="6", sm="12")
-          DataTable.small.table(
-            v-if="selectedDataset",
-            :rowHeadings="keyNames",
-            :data="selectedDataset.data",
-            :value="selectedDataset.activeRows",
-            @dataChanged="onActiveRowsChanged"
-          )
+          v-col
+            DataTable.small.table(
+              v-if="selectedDataset",
+              :rowHeadings="keyNames",
+              :data="selectedDataset.data",
+              :value="selectedDataset.activeRows",
+              @dataChanged="onActiveRowsChanged"
+            )
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container(fluid, class="my=5")
+div
   v-row(v-if="gotData")
     //- v-btn(@click="resetChart") Resett slider
     //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
