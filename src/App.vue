@@ -1,41 +1,70 @@
 <template lang="pug">
-  v-app#app
-      v-container(fluid v-if="selectedDataset")
-        v-row
-          v-col(md="12")
-            h2 {{$t("general.heading")}}  
-        v-row        
-          v-col.toolbar(md="6")
-            v-btn( @click="resetCharts")
-              v-icon(large) mdi-home
-              div {{ $t("general.reset") }}
-            v-btn( @click="saveScreenshot")
-              v-icon(large) mdi-file-image-outline
-              div {{ $t("general.saveGraph") }}
-          v-col(md="6")
-            v-btn(@click="onChartSelected('1')") {{ $t("general.lineGraph") }}
-            v-btn(@click="onChartSelected('2')") {{ $t("general.barGraph") }}
-        v-row
-          v-col(v-show="selectedChart == 1" md="9")
-            LineChartView(ref="lineChart"
-              :dataset="selectedDataset"              
-              :lineChartOptions="lineChartOptions"
-              @minMaxChanged="onLineChartMinMaxChanged")
-          v-col(v-show="selectedChart == 2"  md="9")
-            BarChartView(
-              ref="barChart" :dataCollection="selectedDataset.chartDataCollection" :lineChartOptions="lineChartOptions")
-          v-col(md="3")
-            v-select(v-model="selectedDatasetName" @change="onSelectChange()" :items="datasetNames" item-text="name" outlined)
-            input( 
-              type="file" 
-              ref="csvFile" 
-              accept=".csv" 
-              style="display: none" @change="onFileSelected"
+v-app#app
+  v-container.my-2(fluid, v-if="selectedDataset")
+    v-row
+      v-col
+        h2 {{ $t('general.heading') }}
+    v-row
+      v-col#graph_col(md="6", xs="12", sm="12")
+        v-row#graph_row
+          v-col(md="4", xs="12", sm="4")
+            label Dataset
+            v-select(
+              v-model="selectedDatasetName",
+              @change="onSelectChange()",
+              :items="datasetNames",
+              item-text="name",
+              outlined
+            )
+          v-col#diagramtype_col(md="4", xs="12", sm="4")
+            v-row#diagramtype_row
+              label Diagramtype
+              v-radio.ml-2(
+                @click="onChartSelected('1')",
+                label="Linje",
+                value="value"
               )
-            v-btn( @click="$refs.csvFile.click()")
-              v-icon(large) mdi-table-arrow-left
-              div {{ $t("general.importData") }}
-            DataTable.small.table(v-if="selectedDataset" :rowHeadings="keyNames" :data="selectedDataset.data" :value="selectedDataset.activeRows" @dataChanged="onActiveRowsChanged")
+              v-radio.ml-2(
+                @click="onChartSelected('2')",
+                label="Stolpe",
+                value="value"
+              )
+          v-col#resetchart_col(md="4", xs="12", sm="4")
+            v-btn.primary--text(@click="resetCharts", color="#DEEBF6", rounded)
+              div {{ $t('general.reset') }}
+        v-row.justify-center(xs="12", md="6", sm="12")
+          v-col(v-show="selectedChart == 1")
+            LineChartView(
+              ref="lineChart",
+              :dataset="selectedDataset",
+              :lineChartOptions="lineChartOptions",
+              @minMaxChanged="onLineChartMinMaxChanged"
+            )
+          v-col(v-show="selectedChart == 2")
+            BarChartView(
+              ref="barChart",
+              :dataCollection="selectedDataset.chartDataCollection",
+              :lineChartOptions="lineChartOptions"
+            ) 
+
+      v-col#datatable_column(md="6", xs="12", sm="12")
+        v-row#datatable_row
+          v-col#download_btn(md="6", xs="12", sm="6")
+            v-btn(@click="saveScreenshot", icon, color="#20588F")
+              v-icon.mr-2(color="#20588F") mdi-cloud-download
+              div {{ $t('general.saveGraph') }}
+          v-col#importdata_btn(md="6", xs="12", sm="6")
+            v-btn(color="#20588F", rounded, dark)
+              div {{ $t('general.importData') }}
+        v-row(xs="12", md="6", sm="12")
+          v-col
+            DataTable.small.table(
+              v-if="selectedDataset",
+              :rowHeadings="keyNames",
+              :data="selectedDataset.data",
+              :value="selectedDataset.activeRows",
+              @dataChanged="onActiveRowsChanged"
+            )
 </template>
 
 <script>
@@ -356,22 +385,5 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  padding-top: 60px;
-}
-.table {
-  margin: 10px;
-}
-button {
-  margin: 10px;
-}
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  opacity: 1;
-}
+@import "src/style/_main.scss";
 </style>
