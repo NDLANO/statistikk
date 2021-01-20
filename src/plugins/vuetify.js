@@ -8,9 +8,12 @@ Vue.use(Vuetify);
 export default new Vuetify({
   lang: {
     locales: { no },
-    current: "no"
+    current: "no",
   },
   icons: {
-    iconfont: "mdi"
-  }
+    iconfont: "mdi",
+  },
+  theme: {
+    primary: "#20588F",
+  },
 });

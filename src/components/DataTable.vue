@@ -1,38 +1,41 @@
 <template lang="pug">
-  div
-    .data-table
-      table
-        tr
-          th(v-for="item in rowHeadings" :key="item") {{item}}
-          th
-            .checkbox-container
-              v-checkbox(v-model="allSelected" @click="onToggleAll" label="Aktiv")
-        tr(v-for="(item, index) in data" :key="index")
-          td(v-for="(itemValue, index) in Object.values(item)" ) {{ itemValue }}
-          td
-            .checkbox-container
-              v-checkbox(v-model="value[index]" @change="onCheckboxChanged")
+v-container(fluid, class="my=2")
+  .data-table
+    table
+      tr
+        th(v-for="item in rowHeadings", :key="item") {{ item }}
+        th
+          .checkbox-container
+            v-checkbox(
+              v-model="allSelected",
+              @click="onToggleAll",
+              label="Aktiv"
+            )
+      tr(v-for="(item, index) in data", :key="index")
+        td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
+        td
+          .checkbox-container
+            v-checkbox(v-model="value[index]", @change="onCheckboxChanged")
 </template>
-
 <script>
 export default {
   props: {
     value: {
       type: Array,
-      required: true
+      required: true,
     },
     rowHeadings: {
       type: Array,
-      required: true
+      required: true,
     },
     data: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      allSelected: false
+      allSelected: false,
     };
   },
   computed: {
@@ -41,12 +44,12 @@ export default {
         if (!this.value[i]) return false;
       }
       return true;
-    }
+    },
   },
   watch: {
     allSelectedCheck(newValue, oldValue) {
       this.allSelected = newValue;
-    }
+    },
   },
   methods: {
     onToggleAll() {
@@ -59,11 +62,11 @@ export default {
       let checked = [].concat(this.value);
       // this.$emit("input", checked);
       this.$emit("dataChanged");
-    }
+    },
   },
   mounted() {
     this.allSelected = this.allSelectedCheck;
-  }
+  },
 };
 </script>
 
