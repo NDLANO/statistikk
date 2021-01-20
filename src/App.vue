@@ -68,7 +68,7 @@ v-app#app
 </template>
 
 <script>
-import { readFile } from "./js/fileTools";
+import { readFile, readFileObject } from "./js/fileTools";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 import LineChartView from "@/components/LineChartView";
@@ -178,6 +178,21 @@ export default {
       alink.href = img;
       alink.download = filename + ".png";
       alink.click();
+    },
+    async onFileSelected() {
+      console.log(
+        "App.onFileSelected: File selected = ",
+        this.$refs.csvFile.files[0]
+      );
+      let file = this.$refs.csvFile.files[0];
+      let fileContents = "";
+
+      try {
+        fileContents = await readFileObject(file);
+        console.log("App.onFileSelected: fileContents =", fileContents);
+      } catch (err) {
+        console.error(err);
+      }
     },
     onActiveRowsChanged() {
       console.log(
