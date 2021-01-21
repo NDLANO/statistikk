@@ -7,15 +7,21 @@ div
           th.text-center(v-for="item in rowHeadings", :key="item") {{ item }}
           th.text-center.checkbox-container
             v-checkbox(
+              color="#20588F",
               v-model="allSelected",
               @click="onToggleAll",
               label="Aktiv"
             )
+
       tbody
         tr(v-for="(item, index) in data", :key="index")
           td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
           td.checkbox-container
-            v-checkbox(v-model="value[index]", @change="onCheckboxChanged")
+            v-checkbox(
+              v-model="value[index]",
+              @change="onCheckboxChanged",
+              color="#20588F"
+            )
 </template>
 <script>
 export default {

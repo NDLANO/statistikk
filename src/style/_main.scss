@@ -21,24 +21,51 @@ input[type="number"]::-webkit-outer-spin-button {
   text-transform: none !important;
   font-size: 0.8rem;
 }
-#graph_col {
-  align-items: center;
-  justify-content: center;
-}
-#graph_row {
-  align-items: center;
-  font-size: 0.8rem;
-}
-#dataset_lbl {
-  display: flex;
-}
-#reserchart_col {
-  flex-shrink: 1;
-
+#heading_row {
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    align-items: center;
-    justify-content: center;
     margin-top: -2rem;
   }
 }
+#filter_col {
+  align-items: center;
+  justify-content: center;
+}
+#filter_row {
+  align-items: center;
+  font-size: 0.8rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -1rem;
+  }
+}
+#dataset_lbl {
+  display: flex;
+  font-size: 0.8rem;
+}
+#diagramtype_col {
+  @media only screen and (max-width: 600px) {
+    margin-top: -2rem;
+    margin-left: 1rem;
+  }
+}
+#resetchart_col {
+  flex-shrink: 1;
 
+  @media only screen and (max-width: 600px) {
+    margin-top: -1rem;
+  }
+}
+
+#download_btn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -4rem;
+  }
+}
+#import_btn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -2rem;
+  }
+}
