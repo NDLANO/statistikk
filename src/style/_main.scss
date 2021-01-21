@@ -17,12 +17,20 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
 }
+#btn {
+  text-transform: none !important;
+  font-size: 0.8rem;
+}
 #graph_col {
   align-items: center;
   justify-content: center;
 }
 #graph_row {
   align-items: center;
+  font-size: 0.8rem;
+}
+#dataset_lbl {
+  display: flex;
 }
 #reserchart_col {
   flex-shrink: 1;
@@ -33,27 +41,4 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: -2rem;
   }
 }
-#diagramtyperow {
-  align-items: center;
-}
-#diagramtype_row {
-  flex-wrap: nowrap;
-  flex-shrink: 1;
-  /* Smartphones (portrait and landscape) ----------- */
-  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    align-items: center;
-    justify-content: center;
-    margin-top: -2rem;
-  }
-  #download_btn {
-    flex-shrink: 1;
-  }
 
-  #datatable_column {
-    align-items: center;
-    justify-content: center;
-  }
-  #datatable_row {
-    justify-content: space-between;
-  }
-}

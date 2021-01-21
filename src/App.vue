@@ -8,7 +8,8 @@ v-app#app
       v-col#graph_col(md="6", xs="12", sm="12")
         v-row#graph_row
           v-col(md="4", xs="12", sm="4")
-            label Dataset
+            #dataset_lbl.font-weight-bold
+              label Dataset
             v-select(
               v-model="selectedDatasetName",
               @change="onSelectChange()",
@@ -17,20 +18,29 @@ v-app#app
               outlined
             )
           v-col#diagramtype_col(md="4", xs="12", sm="4")
-            v-row#diagramtype_row
-              label Diagramtype
-              v-radio.ml-2(
-                @click="onChartSelected('1')",
-                label="Linje",
-                value="value"
-              )
-              v-radio.ml-2(
-                @click="onChartSelected('2')",
-                label="Stolpe",
-                value="value"
-              )
+            v-toolbar(flat)
+              v-radio-group(v-model="selectedChart")
+                v-flex.flex-nowrap.flex-shrink-1(row)
+                  label.font-weight-bold.mr-1 DiagramType
+                  v-radio.mr-1(
+                    name="selectedChart",
+                    :value="1",
+                    key="1",
+                    label="Linje"
+                  ) 
+                  v-radio.mb-2(
+                    name="selectedChart",
+                    :value="2",
+                    key="2",
+                    label="Stolpe"
+                  )
+
           v-col#resetchart_col(md="4", xs="12", sm="4")
-            v-btn.primary--text(@click="resetCharts", color="#DEEBF6", rounded)
+            v-btn#btn.primary--text.font-weight-bold.mt-n3(
+              @click="resetCharts",
+              color="#DEEBF6",
+              rounded
+            )
               div {{ $t('general.reset') }}
         v-row.justify-center(xs="12", md="6", sm="12")
           v-col(v-show="selectedChart == 1")
@@ -49,12 +59,16 @@ v-app#app
 
       v-col#datatable_column(md="6", xs="12", sm="12")
         v-row#datatable_row
-          v-col#download_btn(md="6", xs="12", sm="6")
-            v-btn(@click="saveScreenshot", icon, color="#20588F")
+          v-col#download_btn.my-4(md="6", xs="12", sm="6")
+            v-btn#btn.font-weight-bold.justify-space-around(
+              @click="saveScreenshot",
+              icon,
+              color="#20588F"
+            )
               v-icon.mr-2(color="#20588F") mdi-cloud-download
               div {{ $t('general.saveGraph') }}
-          v-col#importdata_btn(md="6", xs="12", sm="6")
-            v-btn(color="#20588F", rounded, dark)
+          v-col#importdata_btn.my-4(md="6", xs="12", sm="6")
+            v-btn#btn.font-weight-bold(color="#20588F", rounded, dark)
               div {{ $t('general.importData') }}
         v-row(xs="12", md="6", sm="12")
           v-col
