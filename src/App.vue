@@ -141,28 +141,10 @@ export default {
     this.configData = Object.freeze(window.mfNdlaConfig);
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
-      // console.log("csvData = ", csvData);
-      var jsonData = this.$papa.parse(csvData, {
-        header: true,
-        dynamicTyping: true,
-      }).data;
-      this.cleanData(jsonData);
-      // console.table(jsonData);
-      var activeRows = Array(jsonData.length).fill(true);
-
-      var newDataset = {
-        name: this.configData.datasets[dataset].name,
-        data: jsonData,
-        activeRows: activeRows,
-      };
-
-      this.generateChartDataset(newDataset);
-      this.addDataset(newDataset);
-      console.log("App.mounted: newDataset  = ", newDataset);
-      // this.datasets.push(newDataset);
+      console.log("csvData = ", csvData);
+      this.addCsvData(csvData, this.configData.datasets[dataset].name);
     }
 
-    // this.selectedDataset = this.datasets[0];
     this.selectedDatasetName = this.selectedDataset.name;
     console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
   },
@@ -175,18 +157,33 @@ export default {
 
       return [];
     },
-    // datsetNames() {
-    //   let names = [];
-    //   console.log("App.datasetNames");
-    //   debugger;
-    //   for (var i = 0; i < this.selectedDataset.length; i++) {
-    //     names.push(this.selectedDataset[i].name);
-    //   }
-    //   return names;
-    // },
   },
   methods: {
     ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    addCsvData(csvData, datasetName) {
+      var jsonData = this.$papa.parse(csvData, {
+        header: true,
+        dynamicTyping: false,
+        transformHeader: function (h) {
+          return h.toString();
+        },
+      }).data;
+      console.log("App.addCsvData: jsonData = ", jsonData);
+      this.cleanData(jsonData);
+      console.log("App.addCsvData: cleaned jsonData = ", jsonData);
+      // console.table(jsonData);
+      var activeRows = Array(jsonData.length).fill(true);
+
+      var newDataset = {
+        name: datasetName,
+        data: jsonData,
+        activeRows: activeRows,
+      };
+
+      this.generateChartDataset(newDataset);
+      this.addDataset(newDataset);
+      this.selectedDatasetName = datasetName;
+    },
     async saveScreenshot() {
       if (this.selectedChart === 1) {
         const options = {
@@ -216,6 +213,40 @@ export default {
       try {
         fileContents = await readFileObject(file);
         console.log("App.onFileSelected: fileContents =", fileContents);
+
+        // ** Header number fix/hack start
+        // * resources https://dirask.com/posts/JavaScript-how-to-split-string-by-newline-k1wEQp
+        // * https://wsvincent.com/javascript-convert-array-to-string/
+        let fileLines = fileContents.split(/\r\n|\n\r|\n|\r/);
+        console.log("First line = ", fileLines[0]);
+        let firstLineCommaArray = fileLines[0].split(",");
+        console.log(
+          "App.onFileSelected: first firstLineArray length = ",
+          firstLineCommaArray.length
+        );
+        let firstLineSemiArray = fileLines[0].split(";");
+        let firstLineArray = undefined;
+        let delimiter = undefined;
+        if (firstLineSemiArray.length > firstLineCommaArray.length) {
+          firstLineArray = firstLineSemiArray;
+          delimiter = ";";
+        } else {
+          firstLineArray = firstLineCommaArray;
+          delimiter = ",";
+        }
+
+        firstLineArray = firstLineArray.map((el) => {
+          return el + " ";
+        });
+        fileLines[0] = firstLineArray.join(delimiter);
+        console.log("App.onFileSelected: First line = ", fileLines[0]);
+
+        fileContents = fileLines.join("\r\n");
+        console.log("App.onFileSelected: firstLineArray = ", firstLineArray);
+        // ** Header number fix/hack end
+
+        this.addCsvData(fileContents, file.name);
+        this.onSelectChange();
       } catch (err) {
         console.error(err);
       }
