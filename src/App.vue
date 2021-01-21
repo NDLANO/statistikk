@@ -143,27 +143,8 @@ export default {
       var csvData = readFile(this.configData.datasets[dataset].filename);
       console.log("csvData = ", csvData);
       this.addCsvData(csvData, this.configData.datasets[dataset].name);
-      // var jsonData = this.$papa.parse(csvData, {
-      //   header: true,
-      //   dynamicTyping: true,
-      // }).data;
-      // this.cleanData(jsonData);
-      // // console.table(jsonData);
-      // var activeRows = Array(jsonData.length).fill(true);
-
-      // var newDataset = {
-      //   name: this.configData.datasets[dataset].name,
-      //   data: jsonData,
-      //   activeRows: activeRows,
-      // };
-
-      // this.generateChartDataset(newDataset);
-      // this.addDataset(newDataset);
-      // console.log("App.mounted: newDataset  = ", newDataset);
-      // // this.datasets.push(newDataset);
     }
 
-    // this.selectedDataset = this.datasets[0];
     this.selectedDatasetName = this.selectedDataset.name;
     console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
   },
@@ -176,15 +157,6 @@ export default {
 
       return [];
     },
-    // datsetNames() {
-    //   let names = [];
-    //   console.log("App.datasetNames");
-    //   debugger;
-    //   for (var i = 0; i < this.selectedDataset.length; i++) {
-    //     names.push(this.selectedDataset[i].name);
-    //   }
-    //   return names;
-    // },
   },
   methods: {
     ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
