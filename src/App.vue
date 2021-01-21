@@ -241,6 +241,8 @@ export default {
       try {
         fileContents = await readFileObject(file);
         console.log("App.onFileSelected: fileContents =", fileContents);
+        this.addCsvData(fileContents, file.name);
+        this.onSelectChange();
       } catch (err) {
         console.error(err);
       }
