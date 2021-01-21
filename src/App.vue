@@ -141,25 +141,26 @@ export default {
     this.configData = Object.freeze(window.mfNdlaConfig);
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
-      // console.log("csvData = ", csvData);
-      var jsonData = this.$papa.parse(csvData, {
-        header: true,
-        dynamicTyping: true,
-      }).data;
-      this.cleanData(jsonData);
-      // console.table(jsonData);
-      var activeRows = Array(jsonData.length).fill(true);
+      console.log("csvData = ", csvData);
+      this.addCsvData(csvData, this.configData.datasets[dataset].name);
+      // var jsonData = this.$papa.parse(csvData, {
+      //   header: true,
+      //   dynamicTyping: true,
+      // }).data;
+      // this.cleanData(jsonData);
+      // // console.table(jsonData);
+      // var activeRows = Array(jsonData.length).fill(true);
 
-      var newDataset = {
-        name: this.configData.datasets[dataset].name,
-        data: jsonData,
-        activeRows: activeRows,
-      };
+      // var newDataset = {
+      //   name: this.configData.datasets[dataset].name,
+      //   data: jsonData,
+      //   activeRows: activeRows,
+      // };
 
-      this.generateChartDataset(newDataset);
-      this.addDataset(newDataset);
-      console.log("App.mounted: newDataset  = ", newDataset);
-      // this.datasets.push(newDataset);
+      // this.generateChartDataset(newDataset);
+      // this.addDataset(newDataset);
+      // console.log("App.mounted: newDataset  = ", newDataset);
+      // // this.datasets.push(newDataset);
     }
 
     // this.selectedDataset = this.datasets[0];
@@ -187,6 +188,30 @@ export default {
   },
   methods: {
     ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    addCsvData(csvData, datasetName) {
+      var jsonData = this.$papa.parse(csvData, {
+        header: true,
+        dynamicTyping: false,
+        transformHeader: function (h) {
+          return h.toString();
+        },
+      }).data;
+      console.log("App.addCsvData: jsonData = ", jsonData);
+      this.cleanData(jsonData);
+      console.log("App.addCsvData: cleaned jsonData = ", jsonData);
+      // console.table(jsonData);
+      var activeRows = Array(jsonData.length).fill(true);
+
+      var newDataset = {
+        name: datasetName,
+        data: jsonData,
+        activeRows: activeRows,
+      };
+
+      this.generateChartDataset(newDataset);
+      this.addDataset(newDataset);
+      this.selectedDatasetName = datasetName;
+    },
     async saveScreenshot() {
       if (this.selectedChart === 1) {
         const options = {
