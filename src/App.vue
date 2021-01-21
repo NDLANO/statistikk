@@ -68,7 +68,19 @@ v-app#app
               v-icon.mr-2(color="#20588F") mdi-cloud-download
               div {{ $t('general.saveGraph') }}
           v-col#importdata_btn.my-4(md="6", xs="12", sm="6")
-            v-btn#btn.font-weight-bold(color="#20588F", rounded, dark)
+            input(
+              type="file",
+              ref="csvFile",
+              accept=".csv",
+              style="display: none",
+              @change="onFileSelected"
+            ) 
+            v-btn#btn.font-weight-bold(
+              @click="$refs.csvFile.click()",
+              color="#20588F",
+              rounded,
+              dark
+            )
               div {{ $t('general.importData') }}
         v-row(xs="12", md="6", sm="12")
           v-col
