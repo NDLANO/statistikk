@@ -1,20 +1,20 @@
 <template lang="pug">
 div
-  .data-table
-    table
-      tr
-        th(v-for="item in rowHeadings", :key="item") {{ item }}
-        th
-          .checkbox-container
+  v-simple-table
+    template(v-slot:default)
+      thead
+        tr
+          th.text-center(v-for="item in rowHeadings", :key="item") {{ item }}
+          th.text-center.checkbox-container
             v-checkbox(
               v-model="allSelected",
               @click="onToggleAll",
               label="Aktiv"
             )
-      tr(v-for="(item, index) in data", :key="index")
-        td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
-        td
-          .checkbox-container
+      tbody
+        tr(v-for="(item, index) in data", :key="index")
+          td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
+          td.checkbox-container
             v-checkbox(v-model="value[index]", @change="onCheckboxChanged")
 </template>
 <script>
@@ -71,17 +71,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 20px;
-}
-td,
-th {
-  border: 1px solid grey;
-}
-.checkbox-container {
-  display: flex;
-  justify-content: center;
-}
+@import "src/style/_dataTable.scss";
 </style>
