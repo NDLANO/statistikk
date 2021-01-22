@@ -2,3 +2,9 @@
   display: flex;
   justify-content: center;
 }
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+  color: black;
+  font-weight: bolder;
+  font-size: 1rem;
+}
