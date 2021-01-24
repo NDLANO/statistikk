@@ -112,7 +112,11 @@ export default {
     getChartRef() {
       return this.$refs.barChartWrapper;
     },
-
+    redraw() {
+      // this.barChartOptions.scales.yAxes[0].ticks.min = this.dataCollection.barChartRange.yAxisRange[0];
+      // this.barChartOptions.scales.yAxes[0].ticks.max = this.dataCollection.barChartRange.yAxisRange[1];
+      this.$refs.barChart.renderBarChart();
+    },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];

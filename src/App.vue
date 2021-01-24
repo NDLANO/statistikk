@@ -156,7 +156,7 @@ export default {
     this.configData = Object.freeze(window.mfNdlaConfig);
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
-      console.log("csvData = ", csvData);
+      // console.log("csvData = ", csvData);
       this.addCsvData(csvData, this.configData.datasets[dataset].name);
     }
 
@@ -171,6 +171,19 @@ export default {
       }
 
       return [];
+    },
+  },
+  watch: {
+    selectedChart(newValue, oldValue) {
+      if (newValue === 1) {
+        this.$nextTick(function () {
+          this.$refs.lineChart.redraw();
+        });
+      } else if (newValue === 2) {
+        this.$nextTick(function () {
+          this.$refs.barChart.redraw();
+        });
+      }
     },
   },
   methods: {
