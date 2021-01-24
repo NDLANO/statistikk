@@ -176,6 +176,8 @@ export default {
   methods: {
     ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
     addCsvData(csvData, datasetName) {
+      csvData = cleanCsvString(csvData);
+
       var jsonData = this.$papa.parse(csvData, {
         header: true,
         dynamicTyping: false,
@@ -228,7 +230,6 @@ export default {
       try {
         fileContents = await readFileObject(file);
         // console.log("App.onFileSelected: fileContents =", fileContents);
-        fileContents = cleanCsvString(fileContents);
         this.addCsvData(fileContents, file.name);
         this.onSelectChange();
       } catch (err) {
