@@ -117,7 +117,19 @@ export default {
       // selectedDataset: null,
       selectedChart: 1,
       // datasets: [],
-      colorArray: ["#f07822", "#137a6b", "#a00"],
+      // colorArray: ["#f07822", "#137a6b", "#a00"],
+      colorArray: [
+        "#ffbe0bff",
+        "#fb5607ff",
+        "#ff006eff",
+        "#8338ecff",
+        "#3a86ffff",
+        "#134611ff",
+        "#410b13ff",
+        "#0b032dff",
+        "#75dbcdff",
+        "#1e212bff",
+      ],
       lineChartOptions: {
         animation: {
           duration: 0,
