@@ -27,7 +27,7 @@ div
             style="width: 60px",
             @change="$set(yAxisValues, 1, $event)"
           ) 
-    v-col.chart-container(sm="6")
+    v-col.chart-container(sm="6", ref="barChartWrapper")
       BarChart(
         ref="barChart",
         :height="300",
@@ -109,6 +109,10 @@ export default {
     };
   },
   methods: {
+    getChartRef() {
+      return this.$refs.barChartWrapper;
+    },
+
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];

@@ -202,16 +202,23 @@ export default {
       this.selectedDatasetName = datasetName;
     },
     async saveScreenshot() {
+      const options = {
+        type: "dataURL",
+      };
+      var output;
+      var filename;
       if (this.selectedChart === 1) {
-        const options = {
-          type: "dataURL",
-        };
-        var output = await this.$html2canvas(
+        output = await this.$html2canvas(
           this.$refs.lineChart.getChartRef(),
           options
         );
-
-        var filename = "linjegraf";
+        filename = "linjediagram";
+      } else if (this.selectedChart === 2) {
+        output = await this.$html2canvas(
+          this.$refs.barChart.getChartRef(),
+          options
+        );
+        filename = "stolpediagram";
       }
       var img = output;
       var alink = document.createElement("a");
