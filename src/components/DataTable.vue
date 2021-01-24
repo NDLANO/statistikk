@@ -18,7 +18,7 @@ div
           td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
           td.checkbox-container
             v-checkbox(
-              v-model="value[index]",
+              v-model="localValue[index]",
               @change="onCheckboxChanged",
               color="#20588F"
             )
@@ -42,36 +42,55 @@ export default {
   data() {
     return {
       allSelected: false,
+      localValue: [],
     };
   },
   computed: {
     allSelectedCheck() {
+      console.log("DataTable.allSelectedCheck: value = ", this.value);
       for (let i = 0; i < this.data.length; i++) {
         if (!this.value[i]) return false;
       }
+      console.log("DataTable.allSelectedCheck: no false: value = ", this.value);
       return true;
     },
   },
   watch: {
     allSelectedCheck(newValue, oldValue) {
+      console.log("DataTable.allSelectedCheck watcher: newValue = ", newValue);
       this.allSelected = newValue;
+    },
+    value(newValue, oldValue) {
+      console.log("DataTable.value watcher: newValue = ", newValue);
+      this.localValue = [...newValue];
     },
   },
   methods: {
-    onToggleAll() {
-      for (let i = 0; i < this.value.length; i++) {
-        this.value[i] = this.allSelected;
+    areAllSelected() {
+      for (let i = 0; i < this.data.length; i++) {
+        if (!this.value[i]) return false;
       }
+      return true;
+    },
+    onToggleAll() {
+      let newValue = [...this.localValue];
+      for (let i = 0; i < newValue.length; i++) {
+        newValue[i] = this.allSelected;
+      }
+      this.$emit("input", [...newValue]);
       this.$emit("dataChanged");
     },
     onCheckboxChanged() {
-      let checked = [].concat(this.value);
+      // let checked = [].concat(this.value);
       // this.$emit("input", checked);
+      console.log("DataTable.onCheckboxChanges");
+      this.$emit("input", [...this.localValue]);
       this.$emit("dataChanged");
     },
   },
   mounted() {
-    this.allSelected = this.allSelectedCheck;
+    this.allSelected = this.areAllSelected();
+    this.localValue = [...this.value];
   },
 };
 </script>

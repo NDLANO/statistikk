@@ -90,7 +90,7 @@ v-app#app
               v-if="selectedDataset",
               :rowHeadings="keyNames",
               :data="selectedDataset.data",
-              :value="selectedDataset.activeRows",
+              v-model="selectedDataset.activeRows",
               @dataChanged="onActiveRowsChanged"
             )
 </template>
