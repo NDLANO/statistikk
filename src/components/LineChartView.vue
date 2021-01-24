@@ -144,6 +144,8 @@ export default {
     redraw() {
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+      this.lineChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.xAxisRange[0];
+      this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.xAxisRange[1];
       this.$refs.lineChart.renderLineChart();
     },
     onYAxisSliderChange(event) {
@@ -187,6 +189,7 @@ export default {
       this.deleteChartScales();
       this.resetYSlider();
       this.resetXSlider();
+      this.redraw();
     },
     resetYSlider() {
       // * If dataset switched
