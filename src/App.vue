@@ -173,6 +173,19 @@ export default {
       return [];
     },
   },
+  watch: {
+    selectedChart(newValue, oldValue) {
+      if (newValue === 1) {
+        this.$nextTick(function () {
+          this.$refs.lineChart.redraw();
+        });
+      } else if (newValue === 2) {
+        this.$nextTick(function () {
+          this.$refs.barChart.redraw();
+        });
+      }
+    },
+  },
   methods: {
     ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
     addCsvData(csvData, datasetName) {
