@@ -96,8 +96,9 @@ v-app#app
 </template>
 
 <script>
-import { readFile, readFileObject } from "./js/fileTools";
 import { mapActions, mapState, mapGetters } from "vuex";
+import { readFile, readFileObject } from "./js/fileTools";
+import { cleanCsvString } from "@/js/csvTools";
 
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
@@ -226,49 +227,8 @@ export default {
 
       try {
         fileContents = await readFileObject(file);
-        console.log("App.onFileSelected: fileContents =", fileContents);
-
-        // ** Header number fix/hack start
-        // * resources https://dirask.com/posts/JavaScript-how-to-split-string-by-newline-k1wEQp
-        // * https://wsvincent.com/javascript-convert-array-to-string/
-        let fileLines = fileContents.split(/\r\n|\n\r|\n|\r/);
-        console.log("First line = ", fileLines[0]);
-        let firstLineCommaArray = fileLines[0].split(",");
-        console.log(
-          "App.onFileSelected: first firstLineArray length = ",
-          firstLineCommaArray.length
-        );
-        let firstLineSemiArray = fileLines[0].split(";");
-        let firstLineArray = undefined;
-        let delimiter = undefined;
-        if (firstLineSemiArray.length > firstLineCommaArray.length) {
-          firstLineArray = firstLineSemiArray;
-          delimiter = ";";
-        } else {
-          firstLineArray = firstLineCommaArray;
-          delimiter = ",";
-        }
-
-        firstLineArray = firstLineArray.map((el) => {
-          return el + " ";
-        });
-        fileLines[0] = firstLineArray.join(delimiter);
-        console.log("App.onFileSelected: First line = ", fileLines[0]);
-
-        // ** Remove last line if empty
-        if (fileLines[fileLines.length - 1] == "") {
-          console.log("App.onFileSelected: Last line is empty: Removing");
-          fileLines.pop();
-          console.log(
-            "App.onFileSelected: last line after removing = ",
-            fileLines[fileLines.length - 1]
-          );
-        }
-
-        fileContents = fileLines.join("\r\n");
-        console.log("App.onFileSelected: firstLineArray = ", firstLineArray);
-        // ** Header number fix/hack end
-
+        // console.log("App.onFileSelected: fileContents =", fileContents);
+        fileContents = cleanCsvString(fileContents);
         this.addCsvData(fileContents, file.name);
         this.onSelectChange();
       } catch (err) {
