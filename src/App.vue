@@ -255,6 +255,16 @@ export default {
         fileLines[0] = firstLineArray.join(delimiter);
         console.log("App.onFileSelected: First line = ", fileLines[0]);
 
+        // ** Remove last line if empty
+        if (fileLines[fileLines.length - 1] == "") {
+          console.log("App.onFileSelected: Last line is empty: Removing");
+          fileLines.pop();
+          console.log(
+            "App.onFileSelected: last line after removing = ",
+            fileLines[fileLines.length - 1]
+          );
+        }
+
         fileContents = fileLines.join("\r\n");
         console.log("App.onFileSelected: firstLineArray = ", firstLineArray);
         // ** Header number fix/hack end
