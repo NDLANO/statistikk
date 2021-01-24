@@ -66,12 +66,6 @@ export default {
     },
   },
   methods: {
-    areAllSelected() {
-      for (let i = 0; i < this.data.length; i++) {
-        if (!this.value[i]) return false;
-      }
-      return true;
-    },
     onToggleAll() {
       let newValue = [...this.localValue];
       for (let i = 0; i < newValue.length; i++) {
@@ -89,7 +83,7 @@ export default {
     },
   },
   mounted() {
-    this.allSelected = this.areAllSelected();
+    this.allSelected = this.allSelectedCheck;
     this.localValue = [...this.value];
   },
 };
