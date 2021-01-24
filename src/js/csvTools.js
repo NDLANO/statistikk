@@ -6,7 +6,7 @@ export function cleanCsvString(csvString) {
   fileLines[0] = convertHeaderValuesToString(fileLines[0]);
   console.log("csvTools.cleanCsvString First line = ", fileLines[0]);
 
-  fileLines = removeEmptyLastLine(fileLines);
+  fileLines = removeEmptyLastElement(fileLines);
 
   csvString = fileLines.join("\r\n");
 
@@ -14,7 +14,7 @@ export function cleanCsvString(csvString) {
 }
 
 // ** Remove last line if empty
-export function removeEmptyLastLine(linesArray) {
+export function removeEmptyLastElement(linesArray) {
   let tmpArray = [...linesArray];
   if (tmpArray[tmpArray.length - 1] == "") {
     console.log("csvTools.removeEmptyLastLine: Last line is empty: Removing");
