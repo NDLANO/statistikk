@@ -156,7 +156,7 @@ export default {
     this.configData = Object.freeze(window.mfNdlaConfig);
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
-      console.log("csvData = ", csvData);
+      // console.log("csvData = ", csvData);
       this.addCsvData(csvData, this.configData.datasets[dataset].name);
     }
 
