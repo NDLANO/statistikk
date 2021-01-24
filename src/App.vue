@@ -327,19 +327,19 @@ export default {
       let keyArray = Object.keys(datasetIn.data[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
       datasetIn.keys = keyArray;
-      console.log("App.generateChartDataset: keys = ", keyArray);
+      // console.log("App.generateChartDataset: keys = ", keyArray);
 
       let counter = 0;
       for (const key in keyArray) {
-        console.log("App.generateChartDataset: key = ", keyArray[key]);
-        console.log(
-          "App.generateChartDataset: for loop datasetIn.data = ",
-          datasetIn.data
-        );
-        console.log(
-          "App.generateChartDataset: key values array = ",
-          this.newGetKeyValuesByKey(keyArray[key], datasetIn)
-        );
+        // console.log("App.generateChartDataset: key = ", keyArray[key]);
+        // console.log(
+        //   "App.generateChartDataset: for loop datasetIn.data = ",
+        //   datasetIn.data
+        // );
+        // console.log(
+        //   "App.generateChartDataset: key values array = ",
+        //   this.newGetKeyValuesByKey(keyArray[key], datasetIn)
+        // );
 
         const tmpColor = this.colorArray[counter];
         counter++;
