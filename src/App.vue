@@ -117,7 +117,19 @@ export default {
       // selectedDataset: null,
       selectedChart: 1,
       // datasets: [],
-      colorArray: ["#f07822", "#137a6b", "#a00"],
+      // colorArray: ["#f07822", "#137a6b", "#a00"],
+      colorArray: [
+        "#ffbe0bff",
+        "#fb5607ff",
+        "#ff006eff",
+        "#8338ecff",
+        "#3a86ffff",
+        "#134611ff",
+        "#410b13ff",
+        "#0b032dff",
+        "#75dbcdff",
+        "#1e212bff",
+      ],
       lineChartOptions: {
         animation: {
           duration: 0,
@@ -315,19 +327,19 @@ export default {
       let keyArray = Object.keys(datasetIn.data[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
       datasetIn.keys = keyArray;
-      console.log("App.generateChartDataset: keys = ", keyArray);
+      // console.log("App.generateChartDataset: keys = ", keyArray);
 
       let counter = 0;
       for (const key in keyArray) {
-        console.log("App.generateChartDataset: key = ", keyArray[key]);
-        console.log(
-          "App.generateChartDataset: for loop datasetIn.data = ",
-          datasetIn.data
-        );
-        console.log(
-          "App.generateChartDataset: key values array = ",
-          this.newGetKeyValuesByKey(keyArray[key], datasetIn)
-        );
+        // console.log("App.generateChartDataset: key = ", keyArray[key]);
+        // console.log(
+        //   "App.generateChartDataset: for loop datasetIn.data = ",
+        //   datasetIn.data
+        // );
+        // console.log(
+        //   "App.generateChartDataset: key values array = ",
+        //   this.newGetKeyValuesByKey(keyArray[key], datasetIn)
+        // );
 
         const tmpColor = this.colorArray[counter];
         counter++;
