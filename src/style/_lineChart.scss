@@ -1,0 +1,26 @@
+.y-slider ::v-deep .v-slider {
+  height: 35rem;
+}
+.x-slider ::v-deep .v-slider {
+  @media only screen and (max-width: 600px) {
+    width: 13rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.right-slider {
+  visibility: visible;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+    display: none;
+  }
+}
+.right-slider-mobile-bottom {
+  visibility: hidden;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+  }
+}
