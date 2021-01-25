@@ -358,14 +358,21 @@ export default {
           ...datasetIn.chartDataCollection.labels,
         ];
       }
-      datasetIn.chartDataCollection.lineChartRange = this.generateLineChartRange(
-        datasetIn.chartDataCollection
+      datasetIn.chartDataCollection.lineChartRange = this.generateChartRange(
+        datasetIn.chartDataCollection,
+        "line"
+      );
+      datasetIn.chartDataCollection.barChartRange = this.generateChartRange(
+        datasetIn.chartDataCollection,
+        "bar"
       );
 
       if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
     },
-    generateLineChartRange(dataCollection) {
+    generateChartRange(dataCollection, graphType) {
       // * Create charRange object with default values
+      let graphRangeName = graphType + "ChartRange";
+
       let chartRange = {
         xAxisMin: 0,
         xAxisMax: dataCollection.labels.length - 1,
@@ -377,38 +384,43 @@ export default {
         yAxisRange: [0, 200],
       };
       // debugger;
-      console.log("App.generateLineChartRange initiated");
+      console.log("App.generateChartRange initiated");
 
       // * Modify values if lineCharRange values already exist
-      if (dataCollection.lineChartRange) {
+      if (dataCollection[graphRangeName]) {
         console.log(
           "App.generateLineCharRange: old range detected: ",
-          dataCollection.lineChartRange
+          dataCollection[graphRangeName]
         );
         var oldXRangeMin =
-          dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
+          dataCollection.oldLabels[
+            dataCollection[graphRangeName].xAxisRange[0]
+          ];
         var newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
         if (newXRangeMinIndex === -1) newXRangeMinIndex = 0;
 
         var oldXRangeMax =
-          dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
+          dataCollection.oldLabels[
+            dataCollection[graphRangeName].xAxisRange[1]
+          ];
         var newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
         if (newXRangeMaxIndex === -1)
           newXRangeMaxIndex = dataCollection.labels.length - 1;
 
         chartRange.xAxisRange = [newXRangeMinIndex, newXRangeMaxIndex];
 
-        chartRange.yAxisMin = dataCollection.lineChartRange.yAxisOrgMin;
-        chartRange.yAxisMax = dataCollection.lineChartRange.yAxisOrgMax;
-        chartRange.yAxisRange = [...dataCollection.lineChartRange.yAxisRange];
+        chartRange.yAxisMin = dataCollection[graphRangeName].yAxisOrgMin;
+        chartRange.yAxisMax = dataCollection[graphRangeName].yAxisOrgMax;
+        chartRange.yAxisRange = [...dataCollection[graphRangeName].yAxisRange];
       } else {
         console.warn(
-          "App.generateLineChartRange: New chart range, not yet initiated: ",
+          "App.generateChartRange: New chart range, not yet initiated: ",
           dataCollection
         );
       }
       return chartRange;
     },
+
     removeStringFromArray(inputArray, inputString) {
       let newArray = [...inputArray];
       let stringIndex = newArray.indexOf(inputString);

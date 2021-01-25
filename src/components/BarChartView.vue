@@ -4,63 +4,56 @@ div
     v-col.right-slider(sm="1")
       v-range-slider(
         @change="onYAxisSliderChange",
-        v-model="yAxisValues",
+        v-model="dataset.chartDataCollection.barChartRange.yAxisRange",
         vertical,
-        :min="0",
-        :max="80000"
+        :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+        :max="dataset.chartDataCollection.barChartRange.yAxisMax"
       )
         template(v-slot:prepend)
           v-text-field.mt-0.pt-0(
-            :value="yAxisValues[0]",
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
             hide-details,
             single-line,
             type="number",
             style="width: 60px",
-            @change="$set(yAxisValues, 0, $event)"
+            @change="onYAxisTextChange"
           ) 
         template(v-slot:append)
           v-text-field.mt-0.pt-0(
-            :value="yAxisValues[1]",
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
             hide-details,
             single-line,
             type="number",
             style="width: 60px",
-            @change="$set(yAxisValues, 1, $event)"
+            @change="onYAxisTextChange"
           ) 
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",
         :height="300",
-        :chart-data="dataCollection",
+        :chart-data="dataset.chartDataCollection",
         :options="barChartOptions"
       )
   v-row
     v-col(sm="1")
-    v-col.bottom-slider(sm="6")
+    v-col.bottom-slider(sm="11")
       v-range-slider(
         @change="onXAxisSliderChange",
-        v-model="xAxisValues",
-        :min="0",
-        :max="20"
+        v-model="dataset.chartDataCollection.barChartRange.xAxisRange",
+        :min="dataset.chartDataCollection.barChartRange.xAxisMin",
+        :max="dataset.chartDataCollection.barChartRange.xAxisMax"
       )
+        template(v-slot:thumb-label="props") {{ getXAxisLabel(props.value) }}
         template(v-slot:prepend)
-          v-text-field.mt-0.pt-0(
-            :value="xAxisValues[0]",
-            hide-details,
-            single-line,
-            type="number",
-            style="width: 60px",
-            @change="$set(xAxisValues, 0, $event)"
-          ) 
+          div
+            span(
+              v-if="dataset.chartDataCollection.barChartRange.xAxisRange && dataset.chartDataCollection.labels"
+            ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.barChartRange.xAxisRange[0]] }}
         template(v-slot:append)
-          v-text-field.mt-0.pt-0(
-            :value="xAxisValues[1]",
-            hide-details,
-            single-line,
-            type="number",
-            style="width: 60px",
-            @change="$set(xAxisValues, 1, $event)"
-          ) 
+          div
+            span(
+              v-if="dataset.chartDataCollection.barChartRange.xAxisRange && dataset.chartDataCollection.labels"
+            ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.barChartRange.xAxisRange[1]] }}
 </template>
 
 <script>
@@ -75,6 +68,10 @@ export default {
       type: Object,
       required: true,
     },
+    dataset: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     BarChart,
@@ -84,6 +81,7 @@ export default {
       chartjsMaxY: 1,
       yAxisValues: [0, 100000],
       xAxisValues: [0, 20],
+      currentDataset: "",
       barChartOptions: {
         animation: {
           duration: 0,
@@ -113,15 +111,39 @@ export default {
   watch: {
     updated(newValue, oldValue) {
       //   console.log("LineChartView.activeDataCollection watcher");
-      console.log("BarChartView: updated watcher");
+      console.log(
+        "BarChartView.updated watcher: selectedDataset = ",
+        this.dataset
+      );
       // this.onXAxisSliderChange();
       this.redraw();
     },
   },
   computed: {
     ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
+    gotData() {
+      if (this.dataset) {
+        console.log(
+          "LineChartview.gotData: dataset = ",
+          Object.freeze(this.dataset)
+        );
+        return true;
+      }
+
+      return false;
+    },
+    yMinValue() {
+      return this.$refs.barChart._data._chart.scales["y-axis-0"].start;
+    },
+    yMaxValue() {
+      return this.$refs.barChart._data._chart.scales["y-axis-0"].end;
+    },
   },
   methods: {
+    ...mapActions(["initYAxisValues", "resetXSlider"]),
+    getXAxisLabel(val) {
+      return this.dataset.chartDataCollection.labels[val];
+    },
     getChartRef() {
       return this.$refs.barChartWrapper;
     },
@@ -136,28 +158,104 @@ export default {
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
       this.barChartOptions = tmpOptions;
     },
+    onYAxisTextChange() {
+      // * Adjust chart axis and redraw chart
+      this.setChartScales(
+        this.dataset.chartDataCollection.barChartRange.yAxisRange
+      );
+    },
     onXAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
-      tmpOptions.scales.xAxes[0].ticks.min = event[0];
-      tmpOptions.scales.xAxes[0].ticks.max = event[1];
+      tmpOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[
+        event[0]
+      ];
+      tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
+        event[1]
+      ];
       this.barChartOptions = tmpOptions;
     },
 
-    resetYMax() {
-      this.$nextTick(() => {
-        this.chartjsMaxY = this.$refs.barChart._data._chart.scales[
-          "y-axis-0"
-        ].end;
-        console.log("this.chartjsMaxY = ", this.chartjsMaxY);
-        this.yAxisValues[0] = 0;
-        this.yAxisValues[1] = this.chartjsMaxY;
-      });
+    // resetYMax() {
+    //   this.$nextTick(() => {
+    //     this.chartjsMaxY = this.$refs.barChart._data._chart.scales[
+    //       "y-axis-0"
+    //     ].end;
+    //     console.log("this.chartjsMaxY = ", this.chartjsMaxY);
+    //     this.yAxisValues[0] = 0;
+    //     this.yAxisValues[1] = this.chartjsMaxY;
+    //   });
+    // },
+    setChartScales(arrayIn) {
+      console.log("LineChartView.setChartScales: arrayIn = ", arrayIn);
+      this.barChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
+      this.barChartOptions.scales.yAxes[0].ticks.max = arrayIn[1];
+      this.$refs.barChart.renderBarChart();
+    },
+
+    deleteChartScales() {
+      delete this.barChartOptions.scales.yAxes[0].ticks.min;
+      delete this.barChartOptions.scales.yAxes[0].ticks.max;
+      this.$refs.barChart.renderBarChart();
+    },
+    resetYSlider() {
+      // * If dataset switched
+      if (
+        this.currentDataset !== this.dataset.name ||
+        this.dataset.chartDataCollection.barChartRange.yAxisOrgMin == undefined
+      ) {
+        // * Delete scales to get a "clean" chart
+        // * which can be used to extract min/max scales values
+        this.deleteChartScales();
+
+        console.log(
+          "BarChartView.resetYSlider: range = ",
+          this.dataset.chartDataCollection.barChartRange
+        );
+        if (
+          this.dataset.chartDataCollection.barChartRange.yAxisOrgMin ==
+          undefined
+        ) {
+          // * If dataset not used before
+          console.warn("BarChartview.resetYSlider: unitiated dataset");
+          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
+          this.initYAxisValues({
+            rangeType: "barChartRange",
+            newMin: this.yMinValue,
+            newMax: this.yMaxValue,
+          });
+          // this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
+          // this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
+          //   this.yMinValue,
+          //   this.yMaxValue,
+          // ];
+        } else {
+          // * If dataset have been used before, reset scales with
+          // * selected y range
+          console.log(
+            "BarChartview.resetYSlider: dataset initiated, setChartScales"
+          );
+          this.setChartScales(
+            this.dataset.chartDataCollection.barChartRange.yAxisRange
+          );
+        }
+
+        this.currentDataset = this.dataset.name;
+      }
+
+      let chartjsMaxY = this.yMaxValue;
+      console.log(
+        "BarchartView.resetYSlider: this.chartjsMaxY = ",
+        chartjsMaxY
+      );
     },
     init() {
-      this.resetYMax();
+      this.resetYSlider();
     },
   },
   mounted() {
+    console.log("BarChartView.mounted: dataset = ", this.dataset);
     this.init();
   },
 };
