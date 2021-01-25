@@ -64,6 +64,8 @@ div
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 import BarChart from "@/components/charts/BarChart";
 
 export default {
@@ -107,6 +109,17 @@ export default {
         },
       },
     };
+  },
+  watch: {
+    updated(newValue, oldValue) {
+      //   console.log("LineChartView.activeDataCollection watcher");
+      console.log("BarChartView: updated watcher");
+      // this.onXAxisSliderChange();
+      this.redraw();
+    },
+  },
+  computed: {
+    ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
   },
   methods: {
     getChartRef() {
