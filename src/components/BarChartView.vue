@@ -106,7 +106,6 @@ export default {
   },
   watch: {
     updated(newValue, oldValue) {
-      //   console.log("LineChartView.activeDataCollection watcher");
       console.log(
         "BarChartView.updated watcher: selectedDataset = ",
         this.dataset
@@ -120,7 +119,7 @@ export default {
     gotData() {
       if (this.dataset) {
         console.log(
-          "LineChartview.gotData: dataset = ",
+          "BarChartview.gotData: dataset = ",
           Object.freeze(this.dataset)
         );
         return true;
@@ -182,7 +181,7 @@ export default {
     //   });
     // },
     setChartScales(arrayIn) {
-      console.log("LineChartView.setChartScales: arrayIn = ", arrayIn);
+      console.log("BarChartView.setChartScales: arrayIn = ", arrayIn);
       this.barChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
       this.barChartOptions.scales.yAxes[0].ticks.max = arrayIn[1];
       this.$refs.barChart.renderBarChart();
@@ -213,19 +212,11 @@ export default {
         ) {
           // * If dataset not used before
           console.warn("BarChartview.resetYSlider: unitiated dataset");
-          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
-          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
           this.initYAxisValues({
             rangeType: "barChartRange",
             newMin: this.yMinValue,
             newMax: this.yMaxValue,
           });
-          // this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
-          // this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
-          // this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
-          //   this.yMinValue,
-          //   this.yMaxValue,
-          // ];
         } else {
           // * If dataset have been used before, reset scales with
           // * selected y range
