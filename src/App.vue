@@ -5,7 +5,7 @@ v-app#app
       v-col
         h2 {{ $t('general.heading') }}
     v-row
-      v-col#filter_col(cols="12", sm="12", md="6")
+      v-col#filter_col(cols="12", sm="12", md="7")
         v-row#filter_row
           v-col(cols="12", sm="4", md="4")
             #dataset_lbl.font-weight-bold
@@ -18,7 +18,7 @@ v-app#app
               outlined
             )
           v-col#diagramtype_col(cols="12", sm="4", md="4")
-            v-toolbar(flat)
+            v-toolbar#diagram-toolbar(flat)
               v-radio-group(v-model="selectedChart")
                 v-flex.flex-nowrap.flex-shrink-1(row)
                   label.font-weight-bold.mr-1 DiagramType
@@ -59,7 +59,7 @@ v-app#app
               :lineChartOptions="lineChartOptions"
             ) 
 
-      v-col#datatable_column(cols="12", sm="12", md="6")
+      v-col#datatable_column(cols="12", sm="12", md="5")
         v-row
           v-col#download_btn(cols="12", sm="6", md="6")
             v-btn#btn.font-weight-bold(
@@ -84,7 +84,7 @@ v-app#app
               dark
             )
               div {{ $t('general.importData') }}
-        v-row(cols="12", sm="12", md="6")
+        v-row#datatable_row(cols="12", sm="12", md="6")
           v-col
             DataTable.small.table(
               v-if="selectedDataset",
