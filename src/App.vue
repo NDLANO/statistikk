@@ -116,7 +116,7 @@ export default {
       configData: null,
       selectedDatasetName: undefined,
       // selectedDataset: null,
-      selectedChart: 2,
+      selectedChart: 1,
       // datasets: [],
       // colorArray: ["#f07822", "#137a6b", "#a00"],
       colorArray: [
