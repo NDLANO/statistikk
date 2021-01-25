@@ -55,7 +55,7 @@ v-app#app
           v-col(v-show="selectedChart == 2")
             BarChartView(
               ref="barChart",
-              :dataCollection="selectedDataset.chartDataCollection",
+              :dataset="selectedDataset",
               :lineChartOptions="lineChartOptions"
             ) 
 

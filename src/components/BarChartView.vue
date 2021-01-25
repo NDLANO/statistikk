@@ -64,10 +64,6 @@ import BarChart from "@/components/charts/BarChart";
 export default {
   name: "BarChartView",
   props: {
-    dataCollection: {
-      type: Object,
-      required: true,
-    },
     dataset: {
       type: Object,
       required: true,
