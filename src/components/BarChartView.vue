@@ -27,7 +27,7 @@ div
             style="width: 60px",
             @change="$set(yAxisValues, 1, $event)"
           ) 
-    v-col.chart-container(sm="6", ref="barChartWrapper")
+    v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",
         :height="300",
