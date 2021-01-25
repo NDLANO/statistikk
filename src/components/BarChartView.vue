@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  v-row
+  v-row(v-if="gotData")
     v-col.right-slider(sm="1")
       v-range-slider(
         @change="onYAxisSliderChange",
@@ -34,7 +34,7 @@ div
         :chart-data="dataset.chartDataCollection",
         :options="barChartOptions"
       )
-  v-row
+  v-row(v-if="gotData")
     v-col(sm="1")
     v-col.bottom-slider(sm="11")
       v-range-slider(
@@ -143,6 +143,7 @@ export default {
       return this.$refs.barChartWrapper;
     },
     redraw() {
+      console.log("BarChartView.redraw");
       this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisRange[0];
       this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisRange[1];
       this.barChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.xAxisRange[0];

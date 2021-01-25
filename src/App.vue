@@ -288,6 +288,7 @@ export default {
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
         this.$refs.lineChart.resetYSlider();
+        this.$refs.barChart.resetYSlider();
       });
     },
     onChartSelected(selected) {
@@ -370,6 +371,7 @@ export default {
       );
 
       if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
+      if (this.$refs.barChart) this.$refs.barChart.resetYSlider();
     },
     generateChartRange(dataCollection, graphType) {
       // * Create charRange object with default values
