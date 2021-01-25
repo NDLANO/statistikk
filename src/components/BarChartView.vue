@@ -192,6 +192,14 @@ export default {
       delete this.barChartOptions.scales.yAxes[0].ticks.max;
       this.$refs.barChart.renderBarChart();
     },
+    resetChart() {
+      console.log("BarChartView.resetChart");
+      this.dataset.chartDataCollection.barChartRange.yAxisOrgMin = undefined;
+      this.deleteChartScales();
+      this.resetYSlider();
+      this.resetXSlider();
+      this.redraw();
+    },
     resetYSlider() {
       // * If dataset switched
       if (
