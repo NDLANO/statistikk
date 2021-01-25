@@ -182,6 +182,7 @@ export default new Vuex.Store({
       let collection =
         state.datasets[state.selectedDatasetIndex].chartDataCollection;
       collection.lineChartRange.xAxisRange = [0, collection.labels.length - 1];
+      collection.barChartRange.xAxisRange = [0, collection.labels.length - 1];
     },
   },
   actions: {
