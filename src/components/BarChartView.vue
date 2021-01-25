@@ -143,8 +143,10 @@ export default {
       return this.$refs.barChartWrapper;
     },
     redraw() {
-      // this.barChartOptions.scales.yAxes[0].ticks.min = this.dataCollection.barChartRange.yAxisRange[0];
-      // this.barChartOptions.scales.yAxes[0].ticks.max = this.dataCollection.barChartRange.yAxisRange[1];
+      this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisRange[0];
+      this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisRange[1];
+      this.barChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.xAxisRange[0];
+      this.barChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.xAxisRange[1];
       this.$refs.barChart.renderBarChart();
     },
     onYAxisSliderChange(event) {
