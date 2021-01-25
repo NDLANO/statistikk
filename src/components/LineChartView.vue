@@ -3,40 +3,40 @@ div
   v-row(v-if="gotData")
     //- v-btn(@click="resetChart") Resett slider
     //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
-
-    v-col.right-slider(sm="1")
-      v-range-slider(
-        @change="onYAxisSliderChange",
-        v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
-        vertical,
-        :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
-        :max="dataset.chartDataCollection.lineChartRange.yAxisMax"
-      )
-        template(v-slot:prepend)
-          input(
-            type="number",
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
-            style="width: 60px",
-            @change="onYAxisTextChange"
-          )
-        template(v-slot:append)
-          input(
-            type="number",
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
-            style="width: 60px",
-            @change="onYAxisTextChange"
-          )
-    v-col.chart-container(sm="11", ref="lineChartWrapper")
-      LineChart(
-        ref="lineChart",
-        :height="700",
-        :chart-data="dataset.chartDataCollection",
-        :options="lineChartOptions"
-      )
+    v-flex#yaxis_row(row, wrap) 
+      v-col.right-slider(sm="1")
+        v-range-slider.y-slider(
+          @change="onYAxisSliderChange",
+          v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
+          :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+          :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
+          vertical
+        )
+          template(v-slot:prepend)
+            input(
+              type="number",
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
+              style="width: 60px",
+              @change="onYAxisTextChange"
+            )
+          template(v-slot:append)
+            input(
+              type="number",
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
+              style="width: 60px",
+              @change="onYAxisTextChange"
+            )
+      v-col.chart-container(sm="11", ref="lineChartWrapper")
+        LineChart(
+          ref="lineChart",
+          :height="700",
+          :chart-data="dataset.chartDataCollection",
+          :options="lineChartOptions"
+        )
   v-row(v-if="gotData")
     v-col(sm="1")
     v-col.bottom-slider(sm="11")
-      v-range-slider(
+      v-range-slider.x-slider(
         @change="onXAxisSliderChange",
         v-model="dataset.chartDataCollection.lineChartRange.xAxisRange",
         :min="dataset.chartDataCollection.lineChartRange.xAxisMin",
@@ -248,4 +248,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "src/style/_LineChart.scss";
+</style>

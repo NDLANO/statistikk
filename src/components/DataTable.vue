@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+#datatable_div
   v-simple-table
     template(v-slot:default)
       thead
