@@ -1,11 +1,5 @@
 .y-slider ::v-deep .v-slider {
   height: 35rem;
-
-  @media only screen and (max-width: 600px) {
-    height: 12rem;
-    margin-left: 2rem;
-    margin-top: -2rem;
-  }
 }
 .x-slider ::v-deep .v-slider {
   @media only screen and (max-width: 600px) {
@@ -14,26 +8,19 @@
     align-items: center;
   }
 }
-#yaxis_row {
-  /* mobile */
-  @media only screen and (max-width: 600px) {
-    flex-direction: column-reverse;
-    align-items: center;
-    justify-content: center;
-  }
-}
 
 .right-slider {
+  visibility: visible;
   /* mobile */
   @media only screen and (max-width: 600px) {
-    transform: rotate(90deg);
-    display: flex;
-    height: 10px;
-    align-items: center;
+    visibility: hidden;
+    display: none;
   }
 }
-
-.v-application--is-ltr .v-input__slider--vertical {
-  flex-direction: column-reverse;
-  align-items: center;
+.right-slider-mobile-bottom {
+  visibility: hidden;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+  }
 }
