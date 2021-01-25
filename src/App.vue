@@ -116,7 +116,7 @@ export default {
       configData: null,
       selectedDatasetName: undefined,
       // selectedDataset: null,
-      selectedChart: 1,
+      selectedChart: 2,
       // datasets: [],
       // colorArray: ["#f07822", "#137a6b", "#a00"],
       colorArray: [
@@ -297,6 +297,8 @@ export default {
     resetCharts() {
       if (this.selectedChart === 1) {
         this.$refs.lineChart.resetChart();
+      } else if (this.selectedChart === 2) {
+        this.$refs.barChart.resetChart();
       }
     },
     // * Removes empty object keys
