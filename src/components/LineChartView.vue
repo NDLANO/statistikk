@@ -103,6 +103,12 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         borderWidth: "30px",
+        legend: {
+          position: "top",
+          labels: {
+            fontSize: 20,
+          },
+        },
         scales: {
           yAxes: [
             {

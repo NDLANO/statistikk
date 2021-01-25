@@ -85,18 +85,24 @@ export default {
         responsive: true,
         // maintainAspectRatio: false,
         borderWidth: "30px",
+        legend: {
+          position: "top",
+          labels: {
+            fontSize: 20,
+          },
+        },
         scales: {
           yAxes: [
             {
               ticks: {
-                fontSize: 16,
+                fontSize: 20,
               },
             },
           ],
           xAxes: [
             {
               ticks: {
-                fontSize: 16,
+                fontSize: 20,
               },
             },
           ],
