@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  v-row(v-if="gotData")
+  v-row
     v-col.y-left-slider-barchart(sm="1")
       v-range-slider.y-slider(
         @change="onYAxisSliderChange",
