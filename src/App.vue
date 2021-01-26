@@ -288,6 +288,7 @@ export default {
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
         this.$refs.lineChart.resetYSlider();
+        this.$refs.barChart.resetYSlider();
       });
     },
     onChartSelected(selected) {
@@ -339,7 +340,8 @@ export default {
         chartDataset.push({
           label: keyArray[key],
           fill: false,
-          borderWidth: 5,
+          pointRadius: 0,
+          borderWidth: 3,
           borderColor: tmpColor,
           backgroundColor: tmpColor,
           data: this.newGetKeyValuesByKey(keyArray[key], datasetIn),
@@ -370,6 +372,7 @@ export default {
       );
 
       if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
+      if (this.$refs.barChart) this.$refs.barChart.resetYSlider();
     },
     generateChartRange(dataCollection, graphType) {
       // * Create charRange object with default values
