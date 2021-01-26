@@ -1,9 +1,7 @@
 <template lang="pug">
 div
   v-row(v-if="gotData")
-    //- v-btn(@click="resetChart") Resett slider
-    //- input(type="number" v-model="dataset.chartDataCollection.lineChartRange.zAxisMin[0]")
-    v-col.right-slider(sm="1")
+    v-col.y-left-slider(sm="1")
       v-range-slider.y-slider(
         @change="onYAxisSliderChange",
         v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
@@ -32,49 +30,66 @@ div
         :chart-data="dataset.chartDataCollection",
         :options="lineChartOptions"
       )
-  v-row(v-if="gotData")
-    v-col(sm="1")
-    v-col.bottom-slider(sm="11")
-      v-range-slider.x-slider(
-        @change="onXAxisSliderChange",
-        v-model="dataset.chartDataCollection.lineChartRange.xAxisRange",
-        :min="dataset.chartDataCollection.lineChartRange.xAxisMin",
-        :max="dataset.chartDataCollection.lineChartRange.xAxisMax",
-        ticks="always",
-        tick-size="4"
-      )
-        template(v-slot:thumb-label="props") {{ getXAxisLabel(props.value) }}
-        template(v-slot:prepend)
+  v-row#x-slider-head-row
+    v-col#x-header-label-col(cols="1")
+      div
+        label x
+    v-col(cols="11") 
+      v-row#x-slider-row(v-if="gotData")
+        v-col(cols="0", sm="1", md="1")
+        v-col.bottom-slider(cols="12", sm="11", md="11")
+          v-range-slider.x-slider(
+            @change="onXAxisSliderChange",
+            v-model="dataset.chartDataCollection.lineChartRange.xAxisRange",
+            :min="dataset.chartDataCollection.lineChartRange.xAxisMin",
+            :max="dataset.chartDataCollection.lineChartRange.xAxisMax",
+            ticks="always",
+            tick-size="4"
+          )
+            template(v-slot:thumb-label="props") {{ getXAxisLabel(props.value) }}
+      v-row#x-label-row
+        v-col(cols="0", sm="1", md="1")
+        v-col#x-label-right(cols="6", sm="5", md="5")
           div
-            span(
-              v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels"
-            ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[0]] }}
-        template(v-slot:append)
+          span(
+            v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels"
+          ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[0]] }}
+        v-col#x-label-left(cols="6", sm="6", md="6")
           div
-            span(
-              v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels"
-            ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[1]] }}
-      v-col.right-slider-mobile-bottom(sm="1")
-        v-range-slider.y-slider-mobile-bottom(
-          @change="onYAxisSliderChange",
-          v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
-          :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
-          :max="dataset.chartDataCollection.lineChartRange.yAxisMax"
-        )
-          template(v-slot:prepend)
-            input(
+          span(
+            v-if="dataset.chartDataCollection.lineChartRange.xAxisRange && dataset.chartDataCollection.labels"
+          ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.lineChartRange.xAxisRange[1]] }}
+
+  v-row#y-slider-head-row
+    v-col(cols="1")
+      div
+        label y
+    v-col(cols="11")
+      v-row#y-slider-row
+        v-col(cols="01", sm="1", md="1")
+        v-col.y-bottom-slider(cols="12", sm="11", md="11")
+          v-range-slider.y-slider-mobile-bottom(
+            @change="onYAxisSliderChange",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
+            :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.lineChartRange.yAxisMax"
+          )
+      v-row#y-label-row
+        v-col(cols="01", sm="1", md="1")
+        v-col#y-label-right(cols="6", sm="5", md="5")
+          div
+            input#y-input-right(
               type="number",
               v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
-              style="width: 60px",
               @change="onYAxisTextChange"
             )
-          template(v-slot:append)
-            input(
-              type="number",
-              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
-              style="width: 60px",
-              @change="onYAxisTextChange"
-            )
+        v-col#y-label-left(cols="6", sm="6", md="6")
+          div
+          input#y-input-left(
+            type="number",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
+            @change="onYAxisTextChange"
+          )
 </template>
 
 <script>

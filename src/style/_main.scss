@@ -108,4 +108,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 #datatable_row {
   margin-top: 2rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -2rem;
+  }
+}
+
+#datatable_div {
+  height: 672px;
+  overflow-y: auto;
+  overflow-x: auto;
 }

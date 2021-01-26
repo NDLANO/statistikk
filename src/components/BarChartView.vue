@@ -1,16 +1,16 @@
 <template lang="pug">
 div
   v-row
-    v-col.right-slider(sm="1")
-      v-range-slider(
+    v-col.y-left-slider-barchart(sm="1")
+      v-range-slider.y-slider(
         @change="onYAxisSliderChange",
         v-model="dataset.chartDataCollection.barChartRange.yAxisRange",
-        vertical,
         :min="dataset.chartDataCollection.barChartRange.yAxisMin",
-        :max="dataset.chartDataCollection.barChartRange.yAxisMax"
+        :max="dataset.chartDataCollection.barChartRange.yAxisMax",
+        vertical
       )
         template(v-slot:prepend)
-          v-text-field.mt-0.pt-0(
+          v-text-field(
             v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
             hide-details,
             single-line,
@@ -19,7 +19,7 @@ div
             @change="onYAxisTextChange"
           ) 
         template(v-slot:append)
-          v-text-field.mt-0.pt-0(
+          v-text-field(
             v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
             hide-details,
             single-line,
@@ -30,30 +30,75 @@ div
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",
-        :height="300",
         :chart-data="dataset.chartDataCollection",
         :options="barChartOptions"
       )
-  v-row
-    v-col(sm="1")
-    v-col.bottom-slider(sm="11")
-      v-range-slider(
-        @change="onXAxisSliderChange",
-        v-model="dataset.chartDataCollection.barChartRange.xAxisRange",
-        :min="dataset.chartDataCollection.barChartRange.xAxisMin",
-        :max="dataset.chartDataCollection.barChartRange.xAxisMax"
-      )
-        template(v-slot:thumb-label="props") {{ getXAxisLabel(props.value) }}
-        template(v-slot:prepend)
+  v-row#x-slider-head-row-barchart
+    v-col#x-header-label-col-barchart(cols="1")
+      div
+        label x
+    v-col(cols="11") 
+      v-row#x-slider-row-barchart(v-if="gotData")
+        v-col(cols="0", sm="1", md="1")
+        v-col.bottom-slider(cols="12", sm="11", md="11")
+          v-range-slider.x-slider(
+            @change="onXAxisSliderChange",
+            v-model="dataset.chartDataCollection.barChartRange.xAxisRange",
+            :min="dataset.chartDataCollection.barChartRange.xAxisMin",
+            :max="dataset.chartDataCollection.barChartRange.xAxisMax",
+            ticks="always",
+            tick-size="4"
+          )
+            template(v-slot:thumb-label="props") {{ getXAxisLabel(props.value) }}
+      v-row#x-label-row-barchart
+        v-col(cols="0", sm="1", md="1")
+        v-col#x-label-right-barchart(cols="6", sm="5", md="5")
           div
-            span(
-              v-if="dataset.chartDataCollection.barChartRange.xAxisRange && dataset.chartDataCollection.labels"
-            ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.barChartRange.xAxisRange[0]] }}
-        template(v-slot:append)
+          span(
+            v-if="dataset.chartDataCollection.barChartRange.xAxisRange && dataset.chartDataCollection.labels"
+          ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.barChartRange.xAxisRange[0]] }}
+        v-col#x-label-left-barchart(cols="6", sm="6", md="6")
           div
-            span(
-              v-if="dataset.chartDataCollection.barChartRange.xAxisRange && dataset.chartDataCollection.labels"
-            ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.barChartRange.xAxisRange[1]] }}
+          span(
+            v-if="dataset.chartDataCollection.barChartRange.xAxisRange && dataset.chartDataCollection.labels"
+          ) {{ dataset.chartDataCollection.labels[dataset.chartDataCollection.barChartRange.xAxisRange[1]] }}
+
+  v-row#y-slider-head-row-barchart
+    v-col(cols="1")
+      div
+        label y
+    v-col(cols="11")
+      v-row#y-slider-row-barchart
+        v-col(cols="01", sm="1", md="1")
+        v-col.y-bottom-slider(cols="12", sm="11", md="11")
+          v-range-slider.y-slider-mobile-bottom(
+            @change="onYAxisSliderChange",
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange",
+            :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.barChartRange.yAxisMax"
+          )
+      v-row#y-label-row-barchart
+        v-col(cols="01", sm="1", md="1")
+        v-col#y-label-right-barchart(cols="6", sm="5", md="5")
+          div
+            v-text-field#y-input-right-barchart(
+              v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
+              hide-details,
+              single-line,
+              type="number",
+              style="width: 60px",
+              @change="onYAxisTextChange"
+            ) 
+        v-col#y-label-left-barchart(cols="6", sm="6", md="6")
+          div
+            v-text-field#y-input-left(
+              v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
+              hide-details,
+              single-line,
+              type="number",
+              style="width: 60px",
+              @change="onYAxisTextChange"
+            ) 
 </template>
 
 <script>

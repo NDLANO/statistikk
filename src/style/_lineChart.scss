@@ -1,15 +1,8 @@
 .y-slider ::v-deep .v-slider {
   height: 35rem;
 }
-.x-slider ::v-deep .v-slider {
-  @media only screen and (max-width: 600px) {
-    width: 13rem;
-    display: flex;
-    align-items: center;
-  }
-}
 
-.right-slider {
+.y-left-slider {
   visibility: visible;
   /* mobile */
   @media only screen and (max-width: 600px) {
@@ -17,10 +10,86 @@
     display: none;
   }
 }
-.right-slider-mobile-bottom {
+
+/*----- X-Axis------*/
+
+#x-slider-head-row {
+  justify-content: center;
+}
+
+#x-slider-row {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    margin-top: -3rem;
+  }
+}
+#x-header-label-col {
   visibility: hidden;
+  display: none;
   /* mobile */
   @media only screen and (max-width: 600px) {
     visibility: visible;
+    display: flex;
+  }
+}
+#x-label-row {
+  margin-top: -3rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -5rem;
+  }
+}
+#x-label-right {
+  display: flex;
+  justify-content: flex-start;
+}
+#x-label-left {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/*---- Y-axis Mobile alignment-----*/
+#y-slider-head-row {
+  visibility: hidden;
+  display: none;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -2rem;
+  }
+}
+#y-slider-row {
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -3rem;
+  }
+}
+#y-label-row {
+  visibility: hidden;
+  display: none;
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -5rem;
+  }
+}
+#y-label-right {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+#y-label-left {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+#y-input-left {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+    width: 60px;
   }
 }

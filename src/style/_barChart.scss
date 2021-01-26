@@ -1,0 +1,95 @@
+.y-slider ::v-deep .v-slider {
+  height: 35rem;
+}
+
+.y-left-slider-barchart {
+  visibility: visible;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+/*----- X-Axis------*/
+
+#x-slider-head-row-barchart {
+  justify-content: center;
+}
+
+#x-slider-row-barchart {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    margin-top: -3rem;
+  }
+}
+#x-header-label-col-barchart {
+  visibility: hidden;
+  display: none;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+  }
+}
+#x-label-row-barchart {
+  margin-top: -3rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -5rem;
+  }
+}
+#x-label-right-barchart {
+  display: flex;
+  justify-content: flex-start;
+}
+#x-label-left-barchart {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/*---- Y-axis Mobile alignment-----*/
+#y-slider-head-row-barchart {
+  visibility: hidden;
+  display: none;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -2rem;
+  }
+}
+#y-slider-row-barchart {
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -3rem;
+  }
+}
+#y-label-row-barchart {
+  visibility: hidden;
+  display: none;
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -5rem;
+  }
+}
+#y-label-right-barchart {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+#y-input-right-barchart {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+#y-label-left-barchart {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+    width: 60px;
+  }
+}
