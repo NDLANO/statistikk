@@ -30,6 +30,7 @@ div
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",
+        :height="700",
         :chart-data="dataset.chartDataCollection",
         :options="barChartOptions"
       )
