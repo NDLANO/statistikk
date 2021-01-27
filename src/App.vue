@@ -344,7 +344,7 @@ export default {
         chartDataset.push({
           label: keyArray[key],
           fill: false,
-          pointRadius: 0,
+          pointRadius: 1,
           borderWidth: 3,
           borderColor: tmpColor,
           backgroundColor: tmpColor,
