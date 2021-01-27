@@ -128,7 +128,7 @@ export default {
           duration: 0,
         },
         responsive: true,
-        // maintainAspectRatio: false,
+        maintainAspectRatio: false,
         borderWidth: "30px",
         legend: {
           position: "top",
