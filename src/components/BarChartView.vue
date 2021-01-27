@@ -30,6 +30,7 @@ div
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",
+        :height="700",
         :chart-data="dataset.chartDataCollection",
         :options="barChartOptions"
       )
@@ -128,7 +129,7 @@ export default {
           duration: 0,
         },
         responsive: true,
-        // maintainAspectRatio: false,
+        maintainAspectRatio: false,
         borderWidth: "30px",
         legend: {
           position: "top",
