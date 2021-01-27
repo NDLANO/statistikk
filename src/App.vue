@@ -306,7 +306,11 @@ export default {
     cleanData(jsonArray) {
       for (const item in jsonArray) {
         for (const [key] of Object.entries(jsonArray[item])) {
-          if (key == "") delete jsonArray[item][key];
+          // * Since space is added to headers we need to check for
+          // * both " " and ""
+          if (key == " " || key == "") {
+            delete jsonArray[item][key];
+          }
         }
       }
     },
