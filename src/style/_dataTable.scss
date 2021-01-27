@@ -17,6 +17,21 @@
   > th {
   border-bottom: 0.2rem solid #a5bcd3;
 }
+#datatable_div {
+  height: 672px;
+  overflow: auto;
+}
+
+.v-data-table ::v-deep .v-data-table__wrapper {
+  overflow: unset;
+}
+
+table thead tr th {
+  background: white;
+  position: sticky !important;
+  position: -webkit-sticky !important;
+  top: 0;
+}
 
 table,
 th,
