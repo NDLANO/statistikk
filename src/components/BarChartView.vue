@@ -2,14 +2,27 @@
 div
   v-row
     v-col.y-left-slider-barchart(sm="1")
-      v-range-slider.y-slider(
-        @change="onYAxisSliderChange",
-        v-model="dataset.chartDataCollection.barChartRange.yAxisRange",
-        :min="dataset.chartDataCollection.barChartRange.yAxisMin",
-        :max="dataset.chartDataCollection.barChartRange.yAxisMax",
-        vertical
-      )
-        template(v-slot:prepend)
+      v-row
+        v-col
+          v-text-field(
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
+            hide-details,
+            single-line,
+            type="number",
+            style="width: 60px",
+            @change="onYAxisTextChange"
+          )
+      v-row
+        v-col
+          v-range-slider.y-slider(
+            @change="onYAxisSliderChange",
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange",
+            :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.barChartRange.yAxisMax",
+            vertical
+          )
+      v-row
+        v-col
           v-text-field(
             v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
             hide-details,
@@ -18,15 +31,7 @@ div
             style="width: 60px",
             @change="onYAxisTextChange"
           ) 
-        template(v-slot:append)
-          v-text-field(
-            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
-            hide-details,
-            single-line,
-            type="number",
-            style="width: 60px",
-            @change="onYAxisTextChange"
-          ) 
+
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",

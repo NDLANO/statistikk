@@ -2,24 +2,28 @@
 div
   v-row(v-if="gotData")
     v-col.y-left-slider(sm="1")
-      v-range-slider.y-slider(
-        @change="onYAxisSliderChange",
-        v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
-        :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
-        :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
-        vertical
-      )
-        template(v-slot:prepend)
-          input(
+      v-row 
+        v-col
+          v-text-field(
             type="number",
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
             style="width: 60px",
             @change="onYAxisTextChange"
           )
-        template(v-slot:append)
-          input(
+      v-row 
+        v-col
+          v-range-slider.y-slider(
+            @change="onYAxisSliderChange",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange",
+            :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
+            vertical
+          )
+      v-row 
+        v-col
+          v-text-field(
             type="number",
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
             style="width: 60px",
             @change="onYAxisTextChange"
           )
