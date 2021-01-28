@@ -321,15 +321,15 @@ export default {
       );
     },
     init() {
-      this.$nextTick(() => {
-        this.resizeChart(window.innerWidth);
-      });
       this.resetYSlider();
     },
   },
   mounted() {
     console.log("BarChartView.mounted: dataset = ", this.dataset);
     this.init();
+  },
+  created() {
+    this.resizeChart(window.innerWidth);
   },
 };
 </script>

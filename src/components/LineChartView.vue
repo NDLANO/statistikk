@@ -303,9 +303,6 @@ export default {
     },
     init() {
       console.log("--init--");
-      this.$nextTick(() => {
-        this.resizeChart(window.innerWidth);
-      });
       this.resetYSlider();
     },
   },
@@ -313,7 +310,7 @@ export default {
     this.init();
   },
   created() {
-    this.chartHeight = 500;
+    this.resizeChart(window.innerWidth);
   },
 };
 </script>
