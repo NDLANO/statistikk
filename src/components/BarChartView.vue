@@ -321,6 +321,9 @@ export default {
       );
     },
     init() {
+      this.$nextTick(() => {
+        this.resizeChart(window.innerWidth);
+      });
       this.resetYSlider();
     },
   },
