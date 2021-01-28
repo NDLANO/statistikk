@@ -139,21 +139,22 @@ export default {
         legend: {
           position: "top",
           labels: {
-            fontSize: 20,
+            fontStyle: "bold",
+            fontSize: 16,
           },
         },
         scales: {
           yAxes: [
             {
               ticks: {
-                fontSize: 20,
+                fontSize: 16,
               },
             },
           ],
           xAxes: [
             {
               ticks: {
-                fontSize: 20,
+                fontSize: 16,
               },
             },
           ],
