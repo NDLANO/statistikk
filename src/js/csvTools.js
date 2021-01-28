@@ -3,7 +3,7 @@ export function cleanCsvString(csvString) {
   let fileLines = convertToLines(csvString);
   console.log("csvTools.cleanCsvString: First line = ", fileLines[0]);
 
-  fileLines = removeEmptyLastElement(fileLines);
+  fileLines = removeEmptyLastLine(fileLines);
 
   let delimiter = detectDelimiter(fileLines[0]);
   let headerLine = fileLines.shift(); // * return and remove first element
@@ -35,7 +35,7 @@ export function detectDelimiter(singleLineArray) {
 }
 
 // ** Remove last line if empty
-export function removeEmptyLastElement(linesArray) {
+export function removeEmptyLastLine(linesArray) {
   let tmpArray = [...linesArray];
   if (tmpArray[tmpArray.length - 1] == "") {
     console.log("csvTools.removeEmptyLastLine: Last line is empty: Removing");
