@@ -30,7 +30,7 @@
     v-col.chart-container(sm="11", ref="lineChartWrapper")
       LineChart(
         ref="lineChart",
-        :height="700",
+        :style="chartStyle",
         :chart-data="dataset.chartDataCollection",
         :options="lineChartOptions"
       )
@@ -114,6 +114,11 @@ export default {
   },
   data() {
     return {
+      chartStyle: {
+        height: "300px",
+        width: "100%",
+        position: "relative",
+      },
       currentDataset: "",
       lineChartOptions: {
         animation: {
@@ -121,6 +126,7 @@ export default {
         },
         responsive: true,
         maintainAspectRatio: false,
+        onResize: this.onResize,
         borderWidth: "30px",
         legend: {
           position: "top",
@@ -178,6 +184,14 @@ export default {
   },
   methods: {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
+    resizeChart(newWidth) {
+      if (newWidth < 600) this.chartStyle.height = "350px";
+      else if (newWidth < 960) this.chartStyle.height = "500px";
+      else this.chartStyle.height = "750px";
+    },
+    onResize(chart, newSize) {
+      this.resizeChart(newSize.width);
+    },
     onTestEvent() {
       console.log("LineChartview.onTestEvent");
     },
@@ -289,11 +303,17 @@ export default {
     },
     init() {
       console.log("--init--");
+      this.$nextTick(() => {
+        this.resizeChart(window.innerWidth);
+      });
       this.resetYSlider();
     },
   },
   mounted() {
     this.init();
+  },
+  created() {
+    this.chartHeight = 500;
   },
 };
 </script>
