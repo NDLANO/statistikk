@@ -3,6 +3,9 @@ export function cleanCsvString(csvString) {
   let fileLines = convertToLines(csvString);
   console.log("csvTools.cleanCsvString: First line = ", fileLines[0]);
 
+  let delimiter = detectDelimiter(fileLines[0]);
+  let headerLine = convertHeaderValuesToString(fileLines[0], delimiter);
+
   fileLines[0] = convertHeaderValuesToString(fileLines[0]);
   console.log("csvTools.cleanCsvString First line = ", fileLines[0]);
 
@@ -11,6 +14,24 @@ export function cleanCsvString(csvString) {
   csvString = fileLines.join("\r\n");
 
   return csvString;
+}
+
+// ** Tries to detect if delimiter is semicolon or comma
+export function detectDelimiter(singleLineArray) {
+  let firstLineCommaArray = singleLineArray.split(",");
+  let firstLineSemiArray = singleLineArray.split(";");
+
+  let delimiter = undefined;
+
+  // * Split first line with both ; and ,
+  // * The longest one is most likely the delimiter
+  if (firstLineSemiArray.length > firstLineCommaArray.length) {
+    delimiter = ";";
+  } else {
+    delimiter = ",";
+  }
+
+  return delimiter;
 }
 
 // ** Remove last line if empty
@@ -34,20 +55,8 @@ export function removeEmptyLastElement(linesArray) {
 // *
 // * resources https://dirask.com/posts/JavaScript-how-to-split-string-by-newline-k1wEQp
 // * https://wsvincent.com/javascript-convert-array-to-string/
-export function convertHeaderValuesToString(singleLineArray) {
-  // * Split first line with both ; and ,
-  // * The longest one is most likely the delimiter
-  let firstLineCommaArray = singleLineArray.split(",");
-  let firstLineSemiArray = singleLineArray.split(";");
-  let firstLineArray = undefined;
-  let delimiter = undefined;
-  if (firstLineSemiArray.length > firstLineCommaArray.length) {
-    firstLineArray = firstLineSemiArray;
-    delimiter = ";";
-  } else {
-    firstLineArray = firstLineCommaArray;
-    delimiter = ",";
-  }
+export function convertHeaderValuesToString(singleLineArray, delimiter) {
+  let firstLineArray = singleLineArray.split(delimiter);
 
   firstLineArray = firstLineArray.map((el) => {
     return el + " ";
