@@ -115,7 +115,7 @@ export default {
   data() {
     return {
       chartStyle: {
-        height: "300px",
+        height: "350px",
         width: "100%",
         position: "relative",
       },
