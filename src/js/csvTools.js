@@ -9,6 +9,8 @@ export function cleanCsvString(csvString) {
   let headerLine = fileLines.shift(); // * return and remove first element
   headerLine = convertHeaderValuesToString(headerLine, delimiter);
 
+  if (delimiter === ";") fileLines = convertCommaDecimalToDot(fileLines);
+
   fileLines.unshift(headerLine); // * add headerLine to the beginning of the array
 
   csvString = fileLines.join("\r\n");
@@ -47,6 +49,11 @@ export function removeEmptyLastLine(linesArray) {
   }
 
   return tmpArray;
+}
+
+// * Replaces , with . in numbers
+export function convertCommaDecimalToDot(linesArray) {
+  return linesArray.map((line) => line.replace(",", "."));
 }
 
 // ** Header number fix/hack
