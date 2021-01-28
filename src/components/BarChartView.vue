@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+#bargraph-div
   v-row
     v-col.y-left-slider-barchart(sm="1")
       v-row

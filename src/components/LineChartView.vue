@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+#linegraph-div
   v-row(v-if="gotData")
     v-col.y-left-slider(sm="1")
       v-row 

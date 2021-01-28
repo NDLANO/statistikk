@@ -1,10 +1,9 @@
 <template lang="pug">
-#datatable_div
+#datatable-div
   v-simple-table
     template(v-slot:default)
       thead
         tr
-          th.text-center(v-for="item in rowHeadings", :key="item") {{ item }}
           th.text-center.checkbox-container
             v-checkbox(
               color="#20588F",
@@ -12,16 +11,17 @@
               @click="onToggleAll",
               label="Aktiv"
             )
+          th.text-center(v-for="item in rowHeadings", :key="item") {{ item }}
 
       tbody
         tr(v-for="(item, index) in data", :key="index")
-          td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
           td.checkbox-container
             v-checkbox(
               v-model="localValue[index]",
               @change="onCheckboxChanged",
               color="#20588F"
             )
+          td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
 </template>
 <script>
 export default {

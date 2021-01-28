@@ -7,106 +7,117 @@
   color: #2c3e50;
   padding-top: 60px;
 }
-.table {
-  margin: 10px;
-}
-button {
-  margin: 10px;
-}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
 }
+
+/**----all buttons----**/
 #btn {
   text-transform: none !important;
   font-size: 0.8rem;
+  display: inline-block;
 }
-#heading_row {
+/**----Heading----**/
+#heading-row {
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     margin-top: -2rem;
   }
 }
-#filter_col {
+/**----Filters----**/
+#sub-head-row {
+  margin-top: -1rem;
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    margin-top: 0rem;
+  }
+}
+
+#filters-top-col {
   align-items: center;
   justify-content: center;
 }
-#filter_row {
+#filters-row {
   align-items: center;
   font-size: 0.8rem;
   @media only screen and (max-width: 600px) {
     margin-top: -1rem;
   }
 }
-#dataset_lbl {
+/*------Dataset dropdowm-----*/
+#dataset-lbl {
   display: flex;
   font-size: 0.8rem;
 }
-#diagramtype_col {
-  /* mobiles */
+
+/*-----diagramtype radio button------*/
+#diagramtype-label-col {
+  display: flex;
+  justify-content: flex-end;
   @media only screen and (max-width: 600px) {
-    margin-top: -2rem;
+    margin-top: -4rem;
     display: flex;
     justify-content: center;
   }
-
-  /* iPads */
-  @media only screen and (max-device-width: 1024px) {
-    margin-left: -3rem;
-  }
 }
-#diagram-toolbar {
-  margin-left: 7rem;
-
-  /* mobiles */
+#diagramtype-lbl {
+  font-size: 0.8rem;
   @media only screen and (max-width: 600px) {
-    margin-right: -5rem;
-  }
-
-  /* iPads */
-  @media only screen and (max-device-width: 1024px) {
-    margin-left: 3rem;
+    margin-left: 3.5rem;
   }
 }
-#resetchart_col {
-  flex-shrink: 1;
+#diagramtype-col {
+  display: flex;
+  justify-content: flex-start;
+
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    margin-top: -4rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/*------Resetchart button------*/
+#resetchart-col {
   display: flex;
   justify-content: flex-end;
 
-  /* mobiles */
+  /* mobile */
   @media only screen and (max-width: 600px) {
     margin-top: -1rem;
     display: flex;
-    justify-content: flex-start;
-  }
-  /* iPads */
-  @media only screen and (max-device-width: 1024px) {
-    margin-left: 2rem;
+    justify-content: center;
   }
 }
 
-#download_btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: -1rem;
+/*---- download diagram button----*/
+#download-btn {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  //margin-left: -1rem;
 
-  /* mobiles */
+  /* mobile */
   @media only screen and (max-width: 600px) {
     margin-top: -4rem;
   }
 }
-#import_btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+/*-----Importer Data button--------*/
+#import-btn {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: flex-end;
 
-  /* mobiles */
+  /* mobile */
   @media only screen and (max-width: 600px) {
     margin-top: -3rem;
     justify-content: center;
   }
 }
-#datatable_row {
+
+/*-----Datatable row---------*/
+#datatable-row {
   margin-top: 2rem;
   @media only screen and (max-width: 600px) {
     margin-top: -2rem;
