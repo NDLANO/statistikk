@@ -22,14 +22,14 @@ v-app#app
               label Diagramtype:
           v-col#diagramtype-col(cols="8", sm="3", md="3")
             v-radio-group(v-model="selectedChart", row)
-              v-radio.ml-n1(
+              v-radio(
                 name="selectedChart",
                 :value="1",
                 key="1",
                 label="Linje",
                 color="#20588F"
               )
-              v-radio.ml-n3(
+              v-radio(
                 name="selectedChart",
                 :value="2",
                 key="2",
