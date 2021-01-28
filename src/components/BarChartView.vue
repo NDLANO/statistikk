@@ -35,7 +35,7 @@
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
         ref="barChart",
-        :height="700",
+        :style="chartStyle",
         :chart-data="dataset.chartDataCollection",
         :options="barChartOptions"
       )
@@ -125,6 +125,11 @@ export default {
   },
   data() {
     return {
+      chartStyle: {
+        height: "350px",
+        width: "100%",
+        position: "relative",
+      },
       chartjsMaxY: 1,
       yAxisValues: [0, 100000],
       xAxisValues: [0, 20],
@@ -135,6 +140,7 @@ export default {
         },
         responsive: true,
         maintainAspectRatio: false,
+        onResize: this.onResize,
         borderWidth: "30px",
         legend: {
           position: "top",
@@ -194,6 +200,14 @@ export default {
   },
   methods: {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
+    resizeChart(newWidth) {
+      if (newWidth < 600) this.chartStyle.height = "350px";
+      else if (newWidth < 960) this.chartStyle.height = "500px";
+      else this.chartStyle.height = "750px";
+    },
+    onResize(chart, newSize) {
+      this.resizeChart(newSize.width);
+    },
     getXAxisLabel(val) {
       return this.dataset.chartDataCollection.labels[val];
     },
@@ -313,6 +327,9 @@ export default {
   mounted() {
     console.log("BarChartView.mounted: dataset = ", this.dataset);
     this.init();
+  },
+  created() {
+    this.resizeChart(window.innerWidth);
   },
 };
 </script>
