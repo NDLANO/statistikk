@@ -125,6 +125,7 @@ export default {
         legend: {
           position: "top",
           labels: {
+            fontStyle: "bold",
             fontSize: 16,
           },
         },
