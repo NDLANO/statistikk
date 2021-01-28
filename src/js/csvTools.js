@@ -3,13 +3,13 @@ export function cleanCsvString(csvString) {
   let fileLines = convertToLines(csvString);
   console.log("csvTools.cleanCsvString: First line = ", fileLines[0]);
 
-  let delimiter = detectDelimiter(fileLines[0]);
-  let headerLine = convertHeaderValuesToString(fileLines[0], delimiter);
-
-  fileLines[0] = convertHeaderValuesToString(fileLines[0]);
-  console.log("csvTools.cleanCsvString First line = ", fileLines[0]);
-
   fileLines = removeEmptyLastElement(fileLines);
+
+  let delimiter = detectDelimiter(fileLines[0]);
+  let headerLine = fileLines.shift(); // * return and remove first element
+  headerLine = convertHeaderValuesToString(headerLine, delimiter);
+
+  fileLines.unshift(headerLine); // * add headerLine to the beginning of the array
 
   csvString = fileLines.join("\r\n");
 
