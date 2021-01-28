@@ -1,14 +1,14 @@
 <template lang="pug">
 v-app#app
-  v-container(fluid, v-if="selectedDataset")
-    v-row#heading_row 
+  v-container.my-n6(fluid, v-if="selectedDataset")
+    v-row#heading-row 
       v-col
         h2 {{ $t('general.heading') }}
-    v-row
-      v-col#filter_col(cols="12", sm="12", md="7")
-        v-row#filter_row
+    v-row#sub-head-row
+      v-col#filters-top-col(cols="12", sm="12", md="7")
+        v-row#filters-row
           v-col(cols="12", sm="4", md="4")
-            #dataset_lbl.font-weight-bold
+            #dataset-lbl.font-weight-bold
               label Dataset
             v-select(
               v-model="selectedDatasetName",
@@ -17,51 +17,51 @@ v-app#app
               item-text="name",
               outlined
             )
-          v-col#diagramtype_col(cols="12", sm="4", md="4")
-            v-toolbar#diagram-toolbar(flat)
-              v-radio-group(v-model="selectedChart")
-                v-flex.flex-nowrap.flex-shrink-1(row)
-                  label.font-weight-bold.mr-1 DiagramType
-                  v-radio.mr-1(
-                    name="selectedChart",
-                    :value="1",
-                    key="1",
-                    label="Linje",
-                    color="#20588F"
-                  ) 
-                  v-radio.mb-2(
-                    name="selectedChart",
-                    :value="2",
-                    key="2",
-                    label="Stolpe",
-                    color="#20588F"
-                  )
+          v-col#diagramtype-label-col(cols="4", sm="2", md="2")
+            #diagramtype-lbl.font-weight-bold
+              label Diagramtype:
+          v-col#diagramtype-col(cols="8", sm="3", md="3")
+            v-radio-group(v-model="selectedChart", row)
+              v-radio(
+                name="selectedChart",
+                :value="1",
+                key="1",
+                label="Linje",
+                color="#20588F"
+              )
+              v-radio(
+                name="selectedChart",
+                :value="2",
+                key="2",
+                label="Stolpe",
+                color="#20588F"
+              )
 
-          v-col#resetchart_col(cols="12", sm="4", md="4")
-            v-btn#btn.mt-n4.primary--text.text--darken-3.font-weight-bold(
+          v-col#resetchart-col(cols="12", sm="3", md="3")
+            v-btn#btn.mt-n4.primary--text.text--darken-3.font-weight-bold.reset_btn(
               @click="resetCharts",
               color="#DEEBF6",
               rounded
             )
               div {{ $t('general.reset') }}
-        v-row.justify-center(cols="12", sm="12", md="6")
-          v-col(v-show="selectedChart == 1")
+        v-row.justify-center(cols="12", sm="12", md="7")
+          v-col#linegraph-col(v-show="selectedChart == 1")
             LineChartView(
               ref="lineChart",
               :dataset="selectedDataset",
               :lineChartOptions="lineChartOptions",
               @minMaxChanged="onLineChartMinMaxChanged"
             )
-          v-col(v-show="selectedChart == 2")
+          v-col#bargraph-col(v-show="selectedChart == 2")
             BarChartView(
               ref="barChart",
               :dataset="selectedDataset",
               :lineChartOptions="lineChartOptions"
             ) 
 
-      v-col#datatable_column(cols="12", sm="12", md="5")
+      v-col(cols="12", sm="12", md="5")
         v-row
-          v-col#download_btn(cols="12", sm="6", md="6")
+          v-col#download-btn(cols="12", sm="6", md="6")
             v-btn#btn.font-weight-bold(
               @click="saveScreenshot",
               icon,
@@ -69,7 +69,7 @@ v-app#app
             )
               v-icon.mr-2(color="#20588F") mdi-cloud-download
               div {{ $t('general.saveGraph') }}
-          v-col#import_btn(cols="12", sm="6", md="6")
+          v-col#import-btn(cols="12", sm="6", md="6")
             input(
               type="file",
               ref="csvFile",
@@ -84,7 +84,7 @@ v-app#app
               dark
             )
               div {{ $t('general.importData') }}
-        v-row#datatable_row(cols="12", sm="12", md="6")
+        v-row#datatable-row(cols="12", sm="12", md="6")
           v-col
             DataTable.small.table(
               v-if="selectedDataset",

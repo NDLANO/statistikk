@@ -1,3 +1,6 @@
+#linegraph-div {
+  width: 100%;
+}
 .y-slider ::v-deep .v-slider {
   height: 35rem;
 }
@@ -15,6 +18,10 @@
 
 #x-slider-head-row {
   justify-content: center;
+  margin-top: -6rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: 0rem;
+  }
 }
 
 #x-slider-row {
