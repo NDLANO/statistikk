@@ -4,7 +4,7 @@ const sftp = require("node-sftp-deploy-i");
 
 /**
  * * login_prefs should be an object with props user and password. Remember to not include file in repo!
- * * { user: "myUser", password: "mypassword123"}
+ * * exports.login_prefs = { user: "myUser", password: "mypassword123"}
  */
 let login_prefs = require("./login_prefs");
 login_prefs = login_prefs.login_prefs;
