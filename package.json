@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build_dep_nb": "npm run build && node deploy_dev_nb"
+    "build_dep_nb": "npm run build && node deploy_dev_nb",
+    "deploy": "node deploy_dev_nb"
   },
   "dependencies": {
     "chart.js": "^2.9.4",
