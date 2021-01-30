@@ -70,15 +70,15 @@ v-app#app
               v-icon.mr-2(color="#20588F") mdi-cloud-download
               div {{ $t('general.saveGraph') }}
           v-col#import-btn(cols="12", sm="6", md="6")
-            input(
-              type="file",
-              ref="csvFile",
-              accept=".csv",
-              style="display: none",
-              @change="onFileSelected"
-            ) 
-            v-btn#btn.font-weight-bold(
+            ModalImportFile(ref="importModal", @fileSelected="onFileSelected")
+            //v-btn#btn.font-weight-bold(
               @click="$refs.csvFile.click()",
+              color="#20588F",
+              rounded,
+              dark
+              )
+            v-btn#btn.font-weight-bold(
+              @click="$refs.importModal.openDialog()",
               color="#20588F",
               rounded,
               dark
@@ -103,6 +103,7 @@ import { cleanCsvString } from "@/js/csvTools";
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
 import DataTable from "@/components/DataTable";
+import ModalImportFile from "@/components/ModalImportFile";
 
 export default {
   name: "App",
@@ -110,6 +111,7 @@ export default {
     LineChartView,
     BarChartView,
     DataTable,
+    ModalImportFile,
   },
   data() {
     return {
@@ -239,18 +241,18 @@ export default {
       alink.download = filename + ".png";
       alink.click();
     },
-    async onFileSelected() {
-      console.log(
-        "App.onFileSelected: File selected = ",
-        this.$refs.csvFile.files[0]
-      );
-      let file = this.$refs.csvFile.files[0];
+    async onFileSelected(fileObject) {
+      console.log("App.onFileSelected: fileObject = ", fileObject);
+      // console.log(
+      //   "App.onFileSelected: File selected = ",
+      //   this.$refs.csvFile.files[0]
+      // );
+      // let file = this.$refs.csvFile.files[0];
       let fileContents = "";
-
       try {
-        fileContents = await readFileObject(file);
+        fileContents = await readFileObject(fileObject);
         // console.log("App.onFileSelected: fileContents =", fileContents);
-        this.addCsvData(fileContents, file.name);
+        this.addCsvData(fileContents, fileObject.name);
         this.onSelectChange();
       } catch (err) {
         console.error(err);
