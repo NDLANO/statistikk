@@ -29,6 +29,7 @@
           )
     v-col.chart-container(sm="11", ref="lineChartWrapper")
       LineChart(
+        v-show="chartHeightSet",
         ref="lineChart",
         :style="chartStyle",
         :chart-data="dataset.chartDataCollection",
@@ -114,6 +115,7 @@ export default {
   },
   data() {
     return {
+      chartHeightSet: false,
       chartStyle: {
         height: "350px",
         width: "100%",
@@ -185,9 +187,11 @@ export default {
   methods: {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
     resizeChart(newWidth) {
+      console.log("LineChartview.resizeChart: newWidth = ", newWidth);
       if (newWidth < 600) this.chartStyle.height = "350px";
       else if (newWidth < 960) this.chartStyle.height = "500px";
       else this.chartStyle.height = "750px";
+      this.chartHeightSet = true;
     },
     onResize(chart, newSize) {
       this.resizeChart(newSize.width);
@@ -208,6 +212,7 @@ export default {
       this.lineChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.xAxisRange[0];
       this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.xAxisRange[1];
       this.$refs.lineChart.renderLineChart();
+      this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
@@ -307,11 +312,14 @@ export default {
     },
   },
   mounted() {
+    console.log(
+      "LineChartView.mounted: ref linechart = ",
+      this.$refs.lineChart.$el.clientWidth
+    );
+    this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     this.init();
   },
-  created() {
-    this.resizeChart(window.innerWidth);
-  },
+  created() {},
 };
 </script>
 

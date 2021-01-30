@@ -34,6 +34,7 @@
 
     v-col.chart-container(sm="11", ref="barChartWrapper")
       BarChart(
+        v-show="chartHeightSet",
         ref="barChart",
         :style="chartStyle",
         :chart-data="dataset.chartDataCollection",
@@ -125,6 +126,7 @@ export default {
   },
   data() {
     return {
+      chartHeightSet: false,
       chartStyle: {
         height: "350px",
         width: "100%",
@@ -204,8 +206,10 @@ export default {
       if (newWidth < 600) this.chartStyle.height = "350px";
       else if (newWidth < 960) this.chartStyle.height = "500px";
       else this.chartStyle.height = "750px";
+      this.chartHeightSet = true;
     },
     onResize(chart, newSize) {
+      console.log("BarChartview.onResize: newSize = ", newSize);
       this.resizeChart(newSize.width);
     },
     getXAxisLabel(val) {
@@ -216,11 +220,13 @@ export default {
     },
     redraw() {
       console.log("BarChartView.redraw");
+
       this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisRange[0];
       this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisRange[1];
       this.barChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.xAxisRange[0];
       this.barChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.xAxisRange[1];
       this.$refs.barChart.renderBarChart();
+      this.resizeChart(this.$refs.barChart.$el.clientWidth);
     },
     onYAxisSliderChange(event) {
       const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
@@ -269,6 +275,7 @@ export default {
     },
     resetChart() {
       console.log("BarChartView.resetChart");
+
       this.dataset.chartDataCollection.barChartRange.yAxisOrgMin = undefined;
       this.deleteChartScales();
       this.resetYSlider();
@@ -326,11 +333,15 @@ export default {
   },
   mounted() {
     console.log("BarChartView.mounted: dataset = ", this.dataset);
+    console.log(
+      "BarChartView.mounted: ref barChart = ",
+      this.$refs.barChart.$el.clientWidth
+    );
+
+    this.resizeChart(this.$refs.barChart.$el.clientWidth);
     this.init();
   },
-  created() {
-    this.resizeChart(window.innerWidth);
-  },
+  created() {},
 };
 </script>
 
