@@ -280,6 +280,9 @@ export default {
       );
       this.setActiveRows(this.selectedDataset.activeRows);
     },
+    onActiveColsChanged(newActiveCols) {
+      this.setActiveCols(newActiveCols);
+    },
     onLineChartMinMaxChanged(newMin, newMax) {
       console.log(
         "App.onLineChartMinMaxChanged: newMin = ",
