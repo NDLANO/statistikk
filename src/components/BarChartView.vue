@@ -37,7 +37,7 @@
         v-show="chartHeightSet",
         ref="barChart",
         :style="chartStyle",
-        :chart-data="dataset.chartDataCollection",
+        :chart-data="activeChartDataCollection",
         :options="barChartOptions"
       )
   v-row#x-slider-head-row-barchart
@@ -110,6 +110,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { parse, stringify } from "flatted";
 
 import BarChart from "@/components/charts/BarChart";
 
@@ -183,6 +184,21 @@ export default {
   },
   computed: {
     ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
+    activeChartDataCollection() {
+      console.log("BarChartView.activeChartDataCollection");
+      let activeCollection = parse(stringify(this.dataset.chartDataCollection));
+
+      let activeDatasets = [];
+      for (var i = 0; i < activeCollection.datasets.length; i++) {
+        if (this.dataset.activeCols[i]) {
+          activeDatasets.push(activeCollection.datasets[i]);
+        }
+      }
+
+      activeCollection.datasets = activeDatasets;
+
+      return activeCollection;
+    },
     gotData() {
       if (this.dataset) {
         console.log(
@@ -224,8 +240,17 @@ export default {
 
       this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisRange[0];
       this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisRange[1];
-      this.barChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.xAxisRange[0];
-      this.barChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.xAxisRange[1];
+
+      let minIndex = this.dataset.chartDataCollection.barChartRange
+        .xAxisRange[0];
+      let maxIndex = this.dataset.chartDataCollection.barChartRange
+        .xAxisRange[1];
+      this.barChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[
+        minIndex
+      ];
+      this.barChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
+        maxIndex
+      ];
       this.$refs.barChart.renderBarChart();
       this.resizeChart(this.$refs.barChart.$el.clientWidth);
     },
