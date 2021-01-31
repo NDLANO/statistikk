@@ -91,7 +91,9 @@ v-app#app
               :rowHeadings="keyNames",
               :data="selectedDataset.data",
               v-model="selectedDataset.activeRows",
-              @dataChanged="onActiveRowsChanged"
+              :activeCols="selectedDataset.activeCols",
+              @dataChanged="onActiveRowsChanged",
+              @colsChanged="onActiveColsChanged"
             )
 </template>
 

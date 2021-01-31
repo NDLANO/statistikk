@@ -11,7 +11,13 @@
               @click="onToggleAll",
               label="Aktiv"
             )
-          th.text-center(v-for="item in rowHeadings", :key="item") {{ item }}
+          th.text-center(v-for="(item, index) in rowHeadings", :key="item") 
+            v-checkbox(
+              v-if="index > 0",
+              v-model="localActiveCols[index - 1]",
+              @change="onColCheckboxChanged"
+            )
+            span {{ item }}
 
       tbody
         tr(v-for="(item, index) in data", :key="index")
@@ -38,11 +44,16 @@ export default {
       type: Array,
       required: true,
     },
+    activeCols: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
       allSelected: false,
       localValue: [],
+      localActiveCols: [],
     };
   },
   computed: {
@@ -64,6 +75,9 @@ export default {
       console.log("DataTable.value watcher: newValue = ", newValue);
       this.localValue = [...newValue];
     },
+    activeCols(newValue) {
+      this.localActiveCols = [...newValue];
+    },
   },
   methods: {
     onToggleAll() {
@@ -81,10 +95,19 @@ export default {
       this.$emit("input", [...this.localValue]);
       this.$emit("dataChanged");
     },
+    onColCheckboxChanged() {
+      console.log(
+        "DataTable.onColCheckboxChanged: cols ",
+        this.localActiveCols
+      );
+      this.$emit("colsChanged", [...this.localActiveCols]);
+    },
   },
   mounted() {
     this.allSelected = this.allSelectedCheck;
     this.localValue = [...this.value];
+    this.localActiveCols = [...this.activeCols];
+    console.log("DataTable.mounted: localActiveCols = ", this.localActiveCols);
   },
 };
 </script>
