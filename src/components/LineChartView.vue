@@ -90,7 +90,7 @@
             )
         v-col#y-label-left(cols="6", sm="6", md="6")
           div
-          input#y-input-left(
+          input.y-input-left(
             type="number",
             v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
             @change="onYAxisTextChange"
