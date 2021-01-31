@@ -43,23 +43,23 @@ table tbody tr td:nth-child(1),
 table thead tr th:nth-child(1) {
   position: sticky !important;
   position: -webkit-sticky !important;
-  z-index: 9998;
+  z-index: 198;
   background: white;
   left: 0px;
 }
 table thead tr th:nth-child(1) {
-  z-index: 9999;
+  z-index: 199;
 }
 
 table tbody tr td:nth-child(2),
 table thead tr th:nth-child(2) {
   position: sticky !important;
   position: -webkit-sticky !important;
-  z-index: 9998;
+  z-index: 198;
   background: white;
   padding: 0;
   left: 99px;
 }
 table thead tr th:nth-child(2) {
-  z-index: 9999;
+  z-index: 199;
 }
