@@ -1,6 +1,10 @@
 <template lang="pug">
 div
-  v-dialog(v-model="dialogOpen", width="50%")
+  v-dialog(
+    v-model="dialogOpen",
+    width="auto ",
+    :fullscreen="$vuetify.breakpoint.xsOnly"
+  )
     v-card.modal
       v-card-title.title
         .close-button
