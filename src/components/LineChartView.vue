@@ -222,11 +222,23 @@ export default {
       return this.$refs.lineChartWrapper;
     },
     redraw() {
-      console.log("LineChartView.redraw");
+      console.log("LineChartView.redraw: dataset = ", this.dataset);
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
-      this.lineChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.xAxisRange[0];
-      this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.xAxisRange[1];
+      let minIndex = this.dataset.chartDataCollection.lineChartRange
+        .xAxisRange[0];
+      let maxIndex = this.dataset.chartDataCollection.lineChartRange
+        .xAxisRange[1];
+      this.lineChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[
+        minIndex
+      ];
+      this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
+        maxIndex
+      ];
+      console.log(
+        "LineChartView.redraw: options x min = ",
+        this.lineChartOptions.scales.xAxes[0].ticks.min
+      );
       this.$refs.lineChart.renderLineChart();
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     },
