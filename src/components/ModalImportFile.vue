@@ -10,9 +10,10 @@ div
         .close-button
           a(@click="dialogOpen = false") Lukk
         .title-text Last opp data
-      .example 
-        v-icon.icon mdi-cloud-download
-        span Eksempelfil for data import (Excel)
+      .example
+        a(href="mal.xlsx")
+          v-icon.icon mdi-cloud-download
+          span Eksempelfil for data import (Excel)
       .description
         div Slik gjør du det på beste måte...
       .file-selector
@@ -120,6 +121,10 @@ $darkBlue: #20588f;
     font-size: 16px;
     font-weight: 900;
 
+    a {
+      color: black;
+      text-decoration: none;
+    }
     .icon {
       color: black;
       transform: translateY(-3px);
@@ -173,7 +178,7 @@ $darkBlue: #20588f;
     padding-right: 18px;
   }
 
-  a {
+  .close-button a {
     color: $darkBlue !important;
     border-bottom: 1px solid $darkBlue;
     padding-bottom: 3px;
