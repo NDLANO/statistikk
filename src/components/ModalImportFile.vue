@@ -8,14 +8,14 @@ div
     v-card.modal
       v-card-title.title
         .close-button
-          a(@click="dialogOpen = false") Lukk
-        .title-text Last opp data
+          a(@click="dialogOpen = false") {{ $t('general.closeButton') }}
+        .title-text {{ $t('import.title') }}
       .example
         a(href="mal.xlsx")
           v-icon.icon mdi-cloud-download
-          span Eksempelfil for data import (Excel)
+          span {{ $t('import.fileTemplate') }}
       .description
-        div Slik gjør du det på beste måte...
+        div {{ $t('import.description') }}
       .file-selector
         input(
           type="file",
@@ -24,7 +24,7 @@ div
           style="display: none",
           @change="onFileSelected"
         )
-        div Last opp datafil
+        div {{ $t('import.instruction') }}
         .file-box
           v-btn.ndla-btn(
             @click="$refs.csvFile.click()",
@@ -32,7 +32,7 @@ div
             rounded,
             dark
           ) Velg fil
-          label(v-if="fileName == ''") Ingen fil er valgt
+          label(v-if="fileName == ''") {{ $t('import.noFileChosen') }}
           label.file-selected(v-else) {{ fileName }}
 
       v-card-actions.actions
@@ -43,8 +43,8 @@ div
           dark,
           :disabled="!file"
         ) 
-          div Last inn
-        v-btn.ndla-btn.close-btn(@click="dialogOpen = false", rounded) Lukk vindu
+          div {{ $t('import.importButton') }}
+        v-btn.ndla-btn.close-btn(@click="dialogOpen = false", rounded) {{ $t('import.closeWindowButton') }}
       .end-tag
 </template>
 
