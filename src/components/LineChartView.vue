@@ -136,6 +136,7 @@ export default {
             fontStyle: "bold",
             fontSize: 16,
           },
+          onClick: (e) => e.stopPropagation(),
         },
         scales: {
           yAxes: [
