@@ -57,18 +57,15 @@ export default {
   methods: {
     openDialog() {
       this.dialogOpen = true;
+      this.fileName = "";
+      this.file = null;
+      this.$refs.csvFile.value = "";
     },
     onImportClicked() {
       this.$emit("fileSelected", this.file);
       this.dialogOpen = false;
-      this.fileName = "";
-      this.file = null;
     },
     async onFileSelected() {
-      console.log(
-        "App.onFileSelected: File selected = ",
-        this.$refs.csvFile.files[0]
-      );
       this.file = this.$refs.csvFile.files[0];
       this.fileName = this.file.name;
     },
