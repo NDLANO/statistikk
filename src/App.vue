@@ -191,7 +191,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    ...mapActions([
+      "addDataset",
+      "selectDataset",
+      "setActiveRows",
+      "setActiveCols",
+    ]),
     addCsvData(csvData, datasetName) {
       csvData = cleanCsvString(csvData);
 
@@ -205,13 +210,21 @@ export default {
       console.log("App.addCsvData: jsonData = ", jsonData);
       this.cleanData(jsonData);
       console.log("App.addCsvData: cleaned jsonData = ", jsonData);
+      console.log(
+        "App.addCsvData: jsonData- first object = ",
+        Object.keys(jsonData[0])
+      );
+
       // console.table(jsonData);
       var activeRows = Array(jsonData.length).fill(true);
+      var activeCols = Array(Object.keys(jsonData[0]).length - 1).fill(true);
+      console.log("App.addCsvData: activeCols = ", activeCols);
 
       var newDataset = {
         name: datasetName,
         data: jsonData,
         activeRows: activeRows,
+        activeCols: activeCols,
       };
 
       this.generateChartDataset(newDataset);
