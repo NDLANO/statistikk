@@ -165,7 +165,11 @@ export default {
     }
 
     this.selectedDatasetName = this.selectedDataset.name;
-    console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
+    console.log(
+      "App.mounted: selectedDataset.name = ",
+      this.selectedDataset.name
+    );
+    console.log("App.mounted: selectedDataset = ", this.selectedDataset);
   },
   computed: {
     ...mapGetters(["selectedDataset", "datasetNames"]),
