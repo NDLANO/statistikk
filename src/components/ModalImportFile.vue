@@ -54,7 +54,7 @@ import { readFile, readFileObject } from "@/js/fileTools";
 export default {
   data() {
     return {
-      dialogOpen: true,
+      dialogOpen: false,
       fileName: "",
       file: null,
     };
