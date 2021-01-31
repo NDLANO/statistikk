@@ -6,8 +6,9 @@ div
         .close-button
           a(@click="dialogOpen = false") Lukk
         .title-text Last opp data
-      .example
-        div Eksempelfil for data import (Excel)
+      .example 
+        v-icon.icon mdi-cloud-download
+        span Eksempelfil for data import (Excel)
       .description
         div Slik gjør du det på beste måte...
       .file-selector
@@ -20,13 +21,26 @@ div
         )
         div Last opp datafil
         .file-box
-          v-btn(@click="$refs.csvFile.click()") Velg fil
-          v-label(v-if="fileName == ''") Ingen fil er valgt
-          v-label(v-else) {{ fileName }}
+          v-btn.ndla-btn(
+            @click="$refs.csvFile.click()",
+            color="#20588F",
+            rounded,
+            dark
+          ) Velg fil
+          label(v-if="fileName == ''") Ingen fil er valgt
+          label.file-selected(v-else) {{ fileName }}
 
-      v-card-actions
-        v-btn(@click="onImportClicked", :disabled="!file") Last inn
-        v-btn(@click="dialogOpen = false") Lukk vindu
+      v-card-actions.actions
+        v-btn.ndla-btn(
+          @click="onImportClicked",
+          color="#20588F",
+          rounded,
+          dark,
+          :disabled="!file"
+        ) 
+          div Last inn
+        v-btn.ndla-btn.close-btn(@click="dialogOpen = false", rounded) Lukk vindu
+      .end-tag
 </template>
 
 <script>
@@ -64,6 +78,8 @@ export default {
 
 <style lang="scss" scoped>
 $sideMargin: 24px;
+$darkBlue: #20588f;
+
 .modal.v-card ::v-deep {
   font-size: 18px;
   text-align: left;
@@ -86,6 +102,8 @@ $sideMargin: 24px;
   .title-text {
     align-self: flex-start;
     margin-top: -10px;
+    font-weight: 900;
+    color: $darkBlue;
   }
   .close-button {
     align-self: flex-end;
@@ -100,6 +118,14 @@ $sideMargin: 24px;
     background: #eff0f2;
     font-size: 16px;
     font-weight: 900;
+
+    .icon {
+      color: black;
+      transform: translateY(-3px);
+    }
+    span {
+      margin-left: 15px;
+    }
   }
 
   .description {
@@ -109,9 +135,48 @@ $sideMargin: 24px;
 
   .file-selector {
     .file-box {
-      border: 1px solid #20588f;
+      border: 1px solid $darkBlue;
       padding: 11px 16px;
     }
+
+    label {
+      padding-left: 15px;
+    }
+    label.file-selected {
+      color: black !important;
+    }
+  }
+
+  .actions {
+    margin-top: 40px;
+    padding-left: 0;
+
+    .close-btn {
+      margin-left: 30px !important;
+      background: white !important;
+      color: $darkBlue !important;
+      border: 2px solid $darkBlue;
+    }
+
+    .theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+      background: rgba(32, 88, 143, 0.5) !important;
+      color: white !important;
+    }
+  }
+  .end-tag {
+    height: 15px;
+  }
+
+  .ndla-btn {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  a {
+    color: $darkBlue !important;
+    border-bottom: 1px solid $darkBlue;
+    padding-bottom: 3px;
+    text-decoration: none;
   }
 }
 </style>
