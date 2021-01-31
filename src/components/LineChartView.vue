@@ -32,7 +32,7 @@
         v-show="chartHeightSet",
         ref="lineChart",
         :style="chartStyle",
-        :chart-data="dataset.chartDataCollection",
+        :chart-data="activeChartDataCollection",
         :options="lineChartOptions"
       )
   v-row#x-slider-head-row
@@ -99,6 +99,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { parse, stringify } from "flatted";
 
 import LineChart from "@/components/charts/LineChart";
 
@@ -167,6 +168,20 @@ export default {
   },
   computed: {
     ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
+    activeChartDataCollection() {
+      let activeCollection = parse(stringify(this.dataset.chartDataCollection));
+
+      let activeDatasets = [];
+      for (var i = 0; i < activeCollection.datasets.length; i++) {
+        if (this.dataset.activeCols[i]) {
+          activeDatasets.push(activeCollection.datasets[i]);
+        }
+      }
+
+      activeCollection.datasets = activeDatasets;
+
+      return activeCollection;
+    },
     gotData() {
       if (this.dataset) {
         console.log(
@@ -317,6 +332,7 @@ export default {
       "LineChartView.mounted: ref linechart = ",
       this.$refs.lineChart.$el.clientWidth
     );
+    console.log("LineChart.mounted: dataset = ", this.dataset);
     this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     this.init();
   },
