@@ -91,7 +91,9 @@ v-app#app
               :rowHeadings="keyNames",
               :data="selectedDataset.data",
               v-model="selectedDataset.activeRows",
-              @dataChanged="onActiveRowsChanged"
+              :activeCols="selectedDataset.activeCols",
+              @dataChanged="onActiveRowsChanged",
+              @colsChanged="onActiveColsChanged"
             )
 </template>
 
@@ -163,7 +165,11 @@ export default {
     }
 
     this.selectedDatasetName = this.selectedDataset.name;
-    console.log("App.mounted: selectedDataset = ", this.selectedDataset.name);
+    console.log(
+      "App.mounted: selectedDataset.name = ",
+      this.selectedDataset.name
+    );
+    console.log("App.mounted: selectedDataset = ", this.selectedDataset);
   },
   computed: {
     ...mapGetters(["selectedDataset", "datasetNames"]),
@@ -189,7 +195,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["addDataset", "selectDataset", "setActiveRows"]),
+    ...mapActions([
+      "addDataset",
+      "selectDataset",
+      "setActiveRows",
+      "setActiveCols",
+    ]),
     addCsvData(csvData, datasetName) {
       csvData = cleanCsvString(csvData);
 
@@ -203,13 +214,21 @@ export default {
       console.log("App.addCsvData: jsonData = ", jsonData);
       this.cleanData(jsonData);
       console.log("App.addCsvData: cleaned jsonData = ", jsonData);
+      console.log(
+        "App.addCsvData: jsonData- first object = ",
+        Object.keys(jsonData[0])
+      );
+
       // console.table(jsonData);
       var activeRows = Array(jsonData.length).fill(true);
+      var activeCols = Array(Object.keys(jsonData[0]).length - 1).fill(true);
+      console.log("App.addCsvData: activeCols = ", activeCols);
 
       var newDataset = {
         name: datasetName,
         data: jsonData,
         activeRows: activeRows,
+        activeCols: activeCols,
       };
 
       this.generateChartDataset(newDataset);
@@ -264,6 +283,9 @@ export default {
         this.selectedDataset.activeRows
       );
       this.setActiveRows(this.selectedDataset.activeRows);
+    },
+    onActiveColsChanged(newActiveCols) {
+      this.setActiveCols(newActiveCols);
     },
     onLineChartMinMaxChanged(newMin, newMax) {
       console.log(

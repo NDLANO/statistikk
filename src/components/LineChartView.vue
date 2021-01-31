@@ -32,7 +32,7 @@
         v-show="chartHeightSet",
         ref="lineChart",
         :style="chartStyle",
-        :chart-data="dataset.chartDataCollection",
+        :chart-data="activeChartDataCollection",
         :options="lineChartOptions"
       )
   v-row#x-slider-head-row
@@ -99,6 +99,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { parse, stringify } from "flatted";
 
 import LineChart from "@/components/charts/LineChart";
 
@@ -136,6 +137,7 @@ export default {
             fontStyle: "bold",
             fontSize: 16,
           },
+          onClick: (e) => e.stopPropagation(),
         },
         scales: {
           yAxes: [
@@ -166,6 +168,20 @@ export default {
   },
   computed: {
     ...mapGetters(["selectedDataset", "activeDataCollection", "updated"]),
+    activeChartDataCollection() {
+      let activeCollection = parse(stringify(this.dataset.chartDataCollection));
+
+      let activeDatasets = [];
+      for (var i = 0; i < activeCollection.datasets.length; i++) {
+        if (this.dataset.activeCols[i]) {
+          activeDatasets.push(activeCollection.datasets[i]);
+        }
+      }
+
+      activeCollection.datasets = activeDatasets;
+
+      return activeCollection;
+    },
     gotData() {
       if (this.dataset) {
         console.log(
@@ -206,11 +222,23 @@ export default {
       return this.$refs.lineChartWrapper;
     },
     redraw() {
-      console.log("LineChartView.redraw");
+      console.log("LineChartView.redraw: dataset = ", this.dataset);
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
-      this.lineChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.xAxisRange[0];
-      this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.xAxisRange[1];
+      let minIndex = this.dataset.chartDataCollection.lineChartRange
+        .xAxisRange[0];
+      let maxIndex = this.dataset.chartDataCollection.lineChartRange
+        .xAxisRange[1];
+      this.lineChartOptions.scales.xAxes[0].ticks.min = this.dataset.chartDataCollection.labels[
+        minIndex
+      ];
+      this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
+        maxIndex
+      ];
+      console.log(
+        "LineChartView.redraw: options x min = ",
+        this.lineChartOptions.scales.xAxes[0].ticks.min
+      );
       this.$refs.lineChart.renderLineChart();
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     },
@@ -316,6 +344,7 @@ export default {
       "LineChartView.mounted: ref linechart = ",
       this.$refs.lineChart.$el.clientWidth
     );
+    console.log("LineChart.mounted: dataset = ", this.dataset);
     this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     this.init();
   },

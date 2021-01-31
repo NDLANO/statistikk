@@ -173,6 +173,10 @@ export default new Vuex.Store({
         state.datasets[state.selectedDatasetIndex]
       );
     },
+    mSetActiveCols(state, newActiveCols) {
+      console.log("store.mSetActiveCols: newActiveCols = ", newActiveCols);
+      state.datasets[state.selectedDatasetIndex].activeCols = newActiveCols;
+    },
     mResetXSlider(state) {
       console.log(
         "store.mResetXSlider: state.selectedDataset = ",
@@ -200,6 +204,10 @@ export default new Vuex.Store({
     },
     setActiveRows({ commit, dispatch }, newActiveRows) {
       this.commit("mSetActiveRows", newActiveRows);
+      this.dispatch("recalculateDataCollection");
+    },
+    setActiveCols({ commit, dispatch }, newActiveCols) {
+      this.commit("mSetActiveCols", newActiveCols);
       this.dispatch("recalculateDataCollection");
     },
     recalculateDataCollection({ commit, state, getters }) {
