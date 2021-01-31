@@ -98,7 +98,7 @@
             ) 
         v-col#y-label-left-barchart(cols="6", sm="6", md="6")
           div
-            v-text-field#y-input-left(
+            v-text-field.y-input-left(
               v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
               hide-details,
               single-line,

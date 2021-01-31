@@ -38,7 +38,7 @@ v-app#app
               )
 
           v-col#resetchart-col(cols="12", sm="3", md="3")
-            v-btn#btn.mt-n4.primary--text.text--darken-3.font-weight-bold.reset_btn(
+            v-btn.ndla-btn.mt-n4.primary--text.text--darken-3.font-weight-bold.reset_btn(
               @click="resetCharts",
               color="#DEEBF6",
               rounded
@@ -62,7 +62,7 @@ v-app#app
       v-col(cols="12", sm="12", md="5")
         v-row
           v-col#download-btn(cols="12", sm="6", md="6")
-            v-btn#btn.font-weight-bold(
+            v-btn.ndla-btn.font-weight-bold(
               @click="saveScreenshot",
               icon,
               color="#20588F"
