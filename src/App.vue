@@ -71,13 +71,13 @@ v-app#app
               div {{ $t('general.saveGraph') }}
           v-col#import-btn(cols="12", sm="6", md="6")
             ModalImportFile(ref="importModal", @fileSelected="onFileSelected")
-            //v-btn#btn.font-weight-bold(
+            //v-btn.ndla-btn.font-weight-bold(
               @click="$refs.csvFile.click()",
               color="#20588F",
               rounded,
               dark
               )
-            v-btn#btn.font-weight-bold(
+            v-btn.ndla-btn.font-weight-bold(
               @click="$refs.importModal.openDialog()",
               color="#20588F",
               rounded,
