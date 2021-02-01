@@ -1,7 +1,7 @@
 export function processCsvString(csvString) {
   // * Split string into lines
   let fileLines = convertToLines(csvString);
-  console.log("csvTools.processCsvStringString: First line = ", fileLines[0]);
+  console.log("csvTools.processCsvString: First line = ", fileLines[0]);
 
   let xAxisLabelString = fileLines.splice(0, 1);
   let yAxisLabelString = fileLines.splice(0, 1);
@@ -15,6 +15,7 @@ export function processCsvString(csvString) {
 
   let xAxisLabel = xAxisLabelString[0].split(delimiter)[1];
   let yAxisLabel = yAxisLabelString[0].split(delimiter)[1];
+
   let headerLine = fileLines.shift(); // * return and remove first element
   headerLine = convertHeaderValuesToString(headerLine, delimiter);
 
