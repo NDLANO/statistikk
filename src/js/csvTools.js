@@ -3,8 +3,8 @@ export function processCsvString(csvString) {
   let fileLines = convertToLines(csvString);
   console.log("csvTools.processCsvStringString: First line = ", fileLines[0]);
 
-  let xAxisLabel = fileLines.splice(0, 1)[1];
-  let yAxisLabel = fileLines.splice(0, 1)[1];
+  let xAxisLabelString = fileLines.splice(0, 1);
+  let yAxisLabelString = fileLines.splice(0, 1);
 
   // Remove empty line
   fileLines.splice(0, 1);
@@ -12,6 +12,9 @@ export function processCsvString(csvString) {
   fileLines = removeEmptyLastLine(fileLines);
 
   let delimiter = detectDelimiter(fileLines[0]);
+
+  let xAxisLabel = xAxisLabelString[0].split(delimiter)[1];
+  let yAxisLabel = yAxisLabelString[0].split(delimiter)[1];
   let headerLine = fileLines.shift(); // * return and remove first element
   headerLine = convertHeaderValuesToString(headerLine, delimiter);
 
