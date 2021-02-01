@@ -100,7 +100,7 @@ v-app#app
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import { readFile, readFileObject } from "./js/fileTools";
-import { cleanCsvString } from "@/js/csvTools";
+import { processCsvStringString } from "@/js/csvTools";
 
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
@@ -202,7 +202,7 @@ export default {
       "setActiveCols",
     ]),
     addCsvData(csvData, datasetName) {
-      csvData = cleanCsvString(csvData);
+      csvData = processCsvStringString(csvData);
 
       var jsonData = this.$papa.parse(csvData, {
         header: true,

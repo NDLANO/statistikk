@@ -1,4 +1,4 @@
-export function cleanCsvString(csvString) {
+export function processCsvStringString(csvString) {
   // * Split string into lines
   let fileLines = convertToLines(csvString);
   console.log("csvTools.cleanCsvString: First line = ", fileLines[0]);
