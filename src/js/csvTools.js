@@ -1,7 +1,13 @@
 export function processCsvStringString(csvString) {
   // * Split string into lines
   let fileLines = convertToLines(csvString);
-  console.log("csvTools.cleanCsvString: First line = ", fileLines[0]);
+  console.log("csvTools.processCsvStringString: First line = ", fileLines[0]);
+
+  let xAxisLabel = fileLines.splice(0, 1)[1];
+  let yAxisLabel = fileLines.splice(0, 1)[1];
+
+  // Remove empty line
+  fileLines.splice(0, 1);
 
   fileLines = removeEmptyLastLine(fileLines);
 
