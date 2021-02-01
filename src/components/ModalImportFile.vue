@@ -64,7 +64,7 @@ export default {
       this.dialogOpen = true;
       this.fileName = "";
       this.file = null;
-      this.$refs.csvFile.value = "";
+      if (this.$refs.csvFile) this.$refs.csvFile.value = "";
     },
     onImportClicked() {
       this.$emit("fileSelected", this.file);
