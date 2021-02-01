@@ -229,6 +229,8 @@ export default {
 
       var newDataset = {
         name: datasetName,
+        xAxisLabel,
+        yAxisLabel,
         data: jsonData,
         activeRows: activeRows,
         activeCols: activeCols,
