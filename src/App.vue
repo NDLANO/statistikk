@@ -202,7 +202,10 @@ export default {
       "setActiveCols",
     ]),
     addCsvData(csvData, datasetName) {
-      csvData = processCsvStringString(csvData);
+      let { xAxisLabel, yAxisLabel, processedCsvData } = processCsvString(
+        csvData
+      );
+      csvData = processedCsvData;
 
       var jsonData = this.$papa.parse(csvData, {
         header: true,

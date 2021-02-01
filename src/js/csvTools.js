@@ -22,9 +22,9 @@ export function processCsvString(csvString) {
 
   fileLines.unshift(headerLine); // * add headerLine to the beginning of the array
 
-  csvString = fileLines.join("\r\n");
+  let processedCsvData = fileLines.join("\r\n");
 
-  return csvString;
+  return { xAxisLabel, yAxisLabel, processedCsvData };
 }
 
 // ** Tries to detect if delimiter is semicolon or comma
