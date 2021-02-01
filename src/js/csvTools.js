@@ -1,4 +1,4 @@
-export function processCsvStringString(csvString) {
+export function processCsvString(csvString) {
   // * Split string into lines
   let fileLines = convertToLines(csvString);
   console.log("csvTools.processCsvStringString: First line = ", fileLines[0]);

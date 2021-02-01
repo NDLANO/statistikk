@@ -100,7 +100,7 @@ v-app#app
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import { readFile, readFileObject } from "./js/fileTools";
-import { processCsvStringString } from "@/js/csvTools";
+import { processCsvString } from "@/js/csvTools";
 
 import LineChartView from "@/components/LineChartView";
 import BarChartView from "@/components/BarChartView";
