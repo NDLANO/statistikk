@@ -159,11 +159,21 @@ export default {
               ticks: {
                 fontSize: 16,
               },
+              scaleLabel: {
+                display: true,
+                labelString: this.dataset.yAxisLabel,
+                fontSize: 16,
+              },
             },
           ],
           xAxes: [
             {
               ticks: {
+                fontSize: 16,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: this.dataset.xAxisLabel,
                 fontSize: 16,
               },
             },
@@ -179,6 +189,10 @@ export default {
         this.dataset
       );
       // this.onXAxisSliderChange();
+      this.redraw();
+    },
+    dataset(newValue, oldValue) {
+      console.log("BarChartView: dataset watcher");
       this.redraw();
     },
   },
@@ -240,6 +254,7 @@ export default {
 
       this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisRange[0];
       this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisRange[1];
+      this.barChartOptions.scales.yAxes[0].scaleLabel.labelString = this.dataset.yAxisLabel;
 
       let minIndex = this.dataset.chartDataCollection.barChartRange
         .xAxisRange[0];
@@ -251,6 +266,8 @@ export default {
       this.barChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
         maxIndex
       ];
+      this.lineChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
+
       this.$refs.barChart.renderBarChart();
       this.resizeChart(this.$refs.barChart.$el.clientWidth);
     },

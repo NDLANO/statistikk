@@ -145,11 +145,21 @@ export default {
               ticks: {
                 fontSize: 16,
               },
+              scaleLabel: {
+                display: true,
+                labelString: this.dataset.yAxisLabel,
+                fontSize: 16,
+              },
             },
           ],
           xAxes: [
             {
               ticks: {
+                fontSize: 16,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: this.dataset.xAxisLabel,
                 fontSize: 16,
               },
             },
@@ -163,6 +173,10 @@ export default {
       //   console.log("LineChartView.activeDataCollection watcher");
       console.log("LineChartView: updated watcher");
       // this.onXAxisSliderChange();
+      this.redraw();
+    },
+    dataset(newValue, oldValue) {
+      console.log("LineChartView: dataset watcher");
       this.redraw();
     },
   },
@@ -225,6 +239,7 @@ export default {
       console.log("LineChartView.redraw: dataset = ", this.dataset);
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+      this.lineChartOptions.scales.yAxes[0].scaleLabel.labelString = this.dataset.yAxisLabel;
       let minIndex = this.dataset.chartDataCollection.lineChartRange
         .xAxisRange[0];
       let maxIndex = this.dataset.chartDataCollection.lineChartRange
@@ -235,6 +250,8 @@ export default {
       this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
         maxIndex
       ];
+      this.lineChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
+
       console.log(
         "LineChartView.redraw: options x min = ",
         this.lineChartOptions.scales.xAxes[0].ticks.min
@@ -347,6 +364,7 @@ export default {
     console.log("LineChart.mounted: dataset = ", this.dataset);
     this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     this.init();
+    this.$nextTick(() => this.resetChart());
   },
   created() {},
 };
