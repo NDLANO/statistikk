@@ -64,6 +64,7 @@ export default {
   data() {
     return {
       allRowsSelected: false,
+      allColsSelected: false,
       localValue: [],
       localActiveCols: [],
       items: [{ title: "Veksle Kolonne" }, { title: "Veksle Rekke" }],
@@ -81,6 +82,17 @@ export default {
       );
       return true;
     },
+    allColsSelectedCheck() {
+      console.log("DataTable.allColsSelectedCheck: value = ", this.activeCols);
+      for (let i = 0; i < this.activeCols.length; i++) {
+        if (!this.activeCols[i]) return false;
+      }
+      console.log(
+        "DataTable.allColsSelectedCheck: no false: value = ",
+        this.activeCols
+      );
+      return true;
+    },
   },
   watch: {
     allRowsSelectedCheck(newValue, oldValue) {
@@ -90,11 +102,19 @@ export default {
       );
       this.allRowsSelected = newValue;
     },
+    allColsSelectedCheck(newValue, oldValue) {
+      console.log(
+        "DataTable.allColsSelectedCheck watcher: newValue = ",
+        newValue
+      );
+      this.allColsSelected = newValue;
+    },
     value(newValue, oldValue) {
       console.log("DataTable.value watcher: newValue = ", newValue);
       this.localValue = [...newValue];
     },
     activeCols(newValue) {
+      console.log("DataTable.activeCols watcher: newValue = ", newValue);
       this.localActiveCols = [...newValue];
     },
   },
@@ -102,6 +122,7 @@ export default {
     onToggleItemClicked(item) {
       console.log("DataTable.onToggleItemClicked: event = ", item);
       if (item.title === this.items[1].title) this.toggleAllRows();
+      else this.toggleAllCols();
     },
     toggleAllRows() {
       console.log(
@@ -115,23 +136,34 @@ export default {
       this.$emit("input", [...newValue]);
       this.$emit("dataChanged");
     },
+    toggleAllCols() {
+      console.log(
+        "DataTable.toggleAllCols: allColsSelected = ",
+        this.allColsSelected
+      );
+      let newValue = [...this.localActiveCols];
+      for (let i = 0; i < newValue.length; i++) {
+        newValue[i] = !this.allColsSelected;
+      }
+      this.$emit("colsChanged", [...newValue]);
+      this.$emit("dataChanged");
+    },
     onCheckboxChanged() {
       // let checked = [].concat(this.value);
       // this.$emit("input", checked);
-      console.log("DataTable.onCheckboxChanges");
+      console.log("DataTable.onCheckboxChanged");
       this.$emit("input", [...this.localValue]);
       this.$emit("dataChanged");
     },
     onColCheckboxChanged() {
-      console.log(
-        "DataTable.onColCheckboxChanged: cols ",
-        this.localActiveCols
-      );
+      console.log("DataTable.onColCheckboxChanged");
       this.$emit("colsChanged", [...this.localActiveCols]);
+      this.$emit("dataChanged");
     },
   },
   mounted() {
     this.allRowsSelected = this.allRowsSelectedCheck;
+    this.allColsSelected = this.allColsSelectedChec;
     this.localValue = [...this.value];
     this.localActiveCols = [...this.activeCols];
     console.log("DataTable.mounted: localActiveCols = ", this.localActiveCols);
