@@ -4,13 +4,17 @@
     template(v-slot:default)
       thead
         tr
-          th.text-center.checkbox-container
-            v-checkbox(
-              color="#20588F",
-              v-model="allSelected",
-              @click="onToggleAll",
-              label="Aktiv"
-            )
+          th.text-center.checkbox-container 
+            v-row
+              v-col
+                v-menu#menu-card
+                  template(v-slot:activator="{ on, attrs }")
+                    v-btn--flat#menu-button(v-bind="attrs", v-on="on")
+                      v-icon mdi-dots-horizontal
+                  v-list
+                    v-list-item(v-for="(item, i) in items", :key="i")
+                      v-list-item-title {{ item.title }}
+
           th.text-center(v-for="(item, index) in rowHeadings", :key="item")
             v-row#rowHeadings-row 
               v-col#checkbox-col(:cols="index === 0 ? 0 : 2")
@@ -57,6 +61,7 @@ export default {
       allSelected: false,
       localValue: [],
       localActiveCols: [],
+      items: [{ title: "Veksle Kolonne" }, { title: "Veksle Rekke" }],
     };
   },
   computed: {
