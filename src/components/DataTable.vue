@@ -11,13 +11,16 @@
               @click="onToggleAll",
               label="Aktiv"
             )
-          th.text-center(v-for="(item, index) in rowHeadings", :key="item") 
-            v-checkbox(
-              v-if="index > 0",
-              v-model="localActiveCols[index - 1]",
-              @change="onColCheckboxChanged"
-            )
-            span {{ item }}
+          th.text-center(v-for="(item, index) in rowHeadings", :key="item")
+            v-row#rowHeadings-row 
+              v-col#checkbox-col(:cols="index === 0 ? 0 : 2")
+                v-checkbox#rowheadings-checkbox(
+                  v-if="index > 0",
+                  v-model="localActiveCols[index - 1]",
+                  @change="onColCheckboxChanged"
+                )
+              v-col#checkbox-span-col(:cols="index === 0 ? 0 : 7")
+                span#rowheadings-span {{ item }}
 
       tbody
         tr(v-for="(item, index) in data", :key="index")
