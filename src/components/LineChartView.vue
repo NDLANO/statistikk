@@ -212,10 +212,16 @@ export default {
       return false;
     },
     yMinValue() {
-      return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+      if (typeof this.$refs.lineChart !== "undefined") {
+        return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+      }
+      return null;
     },
     yMaxValue() {
-      return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+      if (this.$refs.lineChart) {
+        return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+      }
+      return null;
     },
   },
   methods: {
