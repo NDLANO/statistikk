@@ -177,7 +177,11 @@ export default {
     },
     dataset(newValue, oldValue) {
       console.log("LineChartView: dataset watcher");
-      this.redraw();
+      console.log(
+        "LineChartView: dataset watcher: ref linechart = ",
+        this.$refs.lineChart
+      );
+      this.initDataset();
     },
   },
   computed: {
