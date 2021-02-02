@@ -328,7 +328,7 @@ export default {
       if (this.selectedChart === 1) {
         this.$refs.lineChart.resetChart(true);
       } else if (this.selectedChart === 2) {
-        this.$refs.barChart.resetChart();
+        this.$refs.barChart.resetChart(true);
       }
     },
     // * Removes empty object keys
