@@ -326,7 +326,7 @@ export default {
     },
     resetCharts() {
       if (this.selectedChart === 1) {
-        this.$refs.lineChart.resetChart();
+        this.$refs.lineChart.resetChart(true);
       } else if (this.selectedChart === 2) {
         this.$refs.barChart.resetChart();
       }
