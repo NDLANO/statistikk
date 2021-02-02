@@ -339,26 +339,38 @@ export default {
         this.yMinValue,
         this.yMaxValue,
       ];
-      this.$refs.barChart.renderbarChart();
+      this.$refs.barChart.renderBarChart();
     },
-    resetChart() {
+    resetChart(resetToOrgAxisLimits = false) {
       console.log("BarChartView.resetChart");
 
-      this.dataset.chartDataCollection.barChartRange.yAxisOrgMin = undefined;
-      this.deleteChartScales();
-      this.resetYSlider();
+      if (!resetToOrgAxisLimits)
+        this.dataset.chartDataCollection.barChartRange.yAxisOrgMin = undefined;
+      // this.deleteChartScales();
+      this.resetYSlider(resetToOrgAxisLimits);
       this.resetXSlider();
       this.redraw();
     },
-    resetYSlider() {
-      // * If dataset switched
+    resetYSlider(resetToOrgAxisLimits = false) {
+      console.log(
+        "barChartView.resetYSlider: resetToOrgAxisLimits = ",
+        resetToOrgAxisLimits
+      );
+      // * If dataset switched, yAxisOrgMin not defined or resetToOrgAxisLimits
       if (
         this.currentDataset !== this.dataset.name ||
-        this.dataset.chartDataCollection.barChartRange.yAxisOrgMin == undefined
+        this.dataset.chartDataCollection.barChartRange.yAxisOrgMin ==
+          undefined ||
+        resetToOrgAxisLimits
       ) {
         // * Delete scales to get a "clean" chart
         // * which can be used to extract min/max scales values
-        this.deleteChartScales();
+        console.log("barChartView.resetYSlider: Dataset changed or new");
+        if (this.currentDataset !== this.dataset.name) {
+          this.deleteChartScales();
+        } else {
+          this.setChartScalesToOriginal();
+        }
 
         console.log(
           "BarChartView.resetYSlider: range = ",
@@ -368,13 +380,23 @@ export default {
           this.dataset.chartDataCollection.barChartRange.yAxisOrgMin ==
           undefined
         ) {
-          // * If dataset not used before
-          console.warn("BarChartview.resetYSlider: unitiated dataset");
+          // * If dataset not used before create new org min/max and min/max variables
+          console.warn(
+            "BarChartview.resetYSlider: unitiated dataset - yMin = ",
+            this.yMinValue,
+            ", yMaxValue = ",
+            this.yMaxValue
+          );
           this.initYAxisValues({
             rangeType: "barChartRange",
             newMin: this.yMinValue,
             newMax: this.yMaxValue,
           });
+        } else if (resetToOrgAxisLimits) {
+          console.log(
+            "barChartView.resetYSlider: resetToOrgAxisLimits true, setting to original"
+          );
+          this.setChartScalesToOriginal();
         } else {
           // * If dataset have been used before, reset scales with
           // * selected y range
@@ -387,6 +409,9 @@ export default {
         }
 
         this.currentDataset = this.dataset.name;
+      } else {
+        console.log("barChartView.resetYSlider: Doing redraw");
+        this.redraw();
       }
 
       let chartjsMaxY = this.yMaxValue;
