@@ -351,9 +351,15 @@ export default {
         chartjsMaxY
       );
     },
-    init() {
-      console.log("--init--");
-      this.resetYSlider();
+    initDataset() {
+      console.log("LineChartView.initDataset");
+
+      // * set chart height based on width
+      this.resizeChart(this.$refs.lineChart.$el.clientWidth);
+
+      this.$nextTick(() => {
+        this.resetYSlider();
+      });
     },
   },
   mounted() {
@@ -362,9 +368,7 @@ export default {
       this.$refs.lineChart.$el.clientWidth
     );
     console.log("LineChart.mounted: dataset = ", this.dataset);
-    this.resizeChart(this.$refs.lineChart.$el.clientWidth);
-    this.init();
-    this.$nextTick(() => this.resetChart());
+    this.initDataset();
   },
   created() {},
 };
