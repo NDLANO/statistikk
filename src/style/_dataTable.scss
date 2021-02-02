@@ -39,6 +39,13 @@ td {
   border: thin solid rgba(0, 0, 0, 0.12);
 }
 
+table thead tr:last-child th:nth-child(2) {
+  border-right: 0.2rem solid #a5bcd3;
+}
+table tbody tr td:nth-child(2) {
+  border-right: 0.2rem solid #a5bcd3;
+}
+
 table tbody tr td:nth-child(1),
 table thead tr th:nth-child(1) {
   position: sticky !important;
@@ -62,4 +69,25 @@ table thead tr th:nth-child(2) {
 }
 table thead tr th:nth-child(2) {
   z-index: 199;
+}
+
+table thead tr th:nth-child(2) {
+  #checkbox-span-col {
+    margin-right: 2rem;
+  }
+}
+
+#rowHeadings-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  max-height: -webkit-fill-available;
+}
+
+#checkbox-span-col {
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
 }
