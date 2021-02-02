@@ -327,6 +327,20 @@ export default {
       delete this.barChartOptions.scales.yAxes[0].ticks.max;
       this.$refs.barChart.renderBarChart();
     },
+    setChartScalesToOriginal() {
+      console.log("barChartView.setChartScalesToOriginal");
+
+      // * set chart min/max
+      this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisOrgMin;
+      this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisOrgMax;
+
+      // * set yAxisRange to new chart min/max
+      this.dataset.chartDataCollection.barChartRange.yAxisRange = [
+        this.yMinValue,
+        this.yMaxValue,
+      ];
+      this.$refs.barChart.renderbarChart();
+    },
     resetChart() {
       console.log("BarChartView.resetChart");
 
