@@ -173,7 +173,7 @@ export default {
       //   console.log("LineChartView.activeDataCollection watcher");
       console.log("LineChartView: updated watcher");
       // this.onXAxisSliderChange();
-      this.redraw();
+      this.initDataset();
     },
     dataset(newValue, oldValue) {
       console.log("LineChartView: dataset watcher");
