@@ -6,7 +6,7 @@
         tr
           th.text-center.checkbox-container 
             v-row
-              v-col
+              v-col.menu-wrapper
                 v-menu#menu-card
                   template(v-slot:activator="{ on, attrs }")
                     v-btn#menu-button(icon, v-bind="attrs", v-on="on")

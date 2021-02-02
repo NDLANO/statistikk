@@ -92,6 +92,12 @@ table thead tr th:nth-child(2) {
   align-items: flex-start;
 }
 
+.menu-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 9px;
+}
 #menu-card {
   height: "20px";
   width: "20px";
