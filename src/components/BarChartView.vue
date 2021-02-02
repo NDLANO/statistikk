@@ -370,8 +370,15 @@ export default {
         chartjsMaxY
       );
     },
-    init() {
-      this.resetYSlider();
+    initDataset() {
+      console.log("BarChartView.initDataset");
+
+      // * set chart height based on width
+      this.resizeChart(this.$refs.barChart.$el.clientWidth);
+
+      this.$nextTick(() => {
+        this.resetYSlider();
+      });
     },
   },
   mounted() {
@@ -381,8 +388,7 @@ export default {
       this.$refs.barChart.$el.clientWidth
     );
 
-    this.resizeChart(this.$refs.barChart.$el.clientWidth);
-    this.init();
+    this.initDataset();
   },
   created() {},
 };
