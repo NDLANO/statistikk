@@ -70,18 +70,24 @@ export default {
     };
   },
   computed: {
-    allSelectedCheck() {
-      console.log("DataTable.allSelectedCheck: value = ", this.value);
+    allRowsSelectedCheck() {
+      console.log("DataTable.allRowsSelectedCheck: value = ", this.value);
       for (let i = 0; i < this.data.length; i++) {
         if (!this.value[i]) return false;
       }
-      console.log("DataTable.allSelectedCheck: no false: value = ", this.value);
+      console.log(
+        "DataTable.allRowsSelectedCheck: no false: value = ",
+        this.value
+      );
       return true;
     },
   },
   watch: {
-    allSelectedCheck(newValue, oldValue) {
-      console.log("DataTable.allSelectedCheck watcher: newValue = ", newValue);
+    allRowsSelectedCheck(newValue, oldValue) {
+      console.log(
+        "DataTable.allRowsSelectedCheck watcher: newValue = ",
+        newValue
+      );
       this.allSelected = newValue;
     },
     value(newValue, oldValue) {
@@ -117,7 +123,7 @@ export default {
     },
   },
   mounted() {
-    this.allSelected = this.allSelectedCheck;
+    this.allSelected = this.allRowsSelectedCheck;
     this.localValue = [...this.value];
     this.localActiveCols = [...this.activeCols];
     console.log("DataTable.mounted: localActiveCols = ", this.localActiveCols);
