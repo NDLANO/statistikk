@@ -206,6 +206,10 @@ export default {
           "LineChartview.gotData: dataset = ",
           Object.freeze(this.dataset)
         );
+        console.log(
+          "LineChartView.gotData: ref linechart = ",
+          this.$refs.lineChart
+        );
         return true;
       }
 
@@ -246,10 +250,18 @@ export default {
       return this.$refs.lineChartWrapper;
     },
     redraw() {
-      console.log("LineChartView.redraw: dataset = ", this.dataset);
+      console.log(
+        "LineChartView.redraw: dataset = ",
+        parse(stringify(this.dataset))
+      );
+
+      // * Y axis
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+
       this.lineChartOptions.scales.yAxes[0].scaleLabel.labelString = this.dataset.yAxisLabel;
+
+      // * X axis
       let minIndex = this.dataset.chartDataCollection.lineChartRange
         .xAxisRange[0];
       let maxIndex = this.dataset.chartDataCollection.lineChartRange
@@ -264,7 +276,9 @@ export default {
 
       console.log(
         "LineChartView.redraw: options x min = ",
-        this.lineChartOptions.scales.xAxes[0].ticks.min
+        this.lineChartOptions.scales.xAxes[0].ticks.min,
+        ", x max = ",
+        this.lineChartOptions.scales.xAxes[0].ticks.max
       );
       this.$refs.lineChart.renderLineChart();
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
@@ -300,6 +314,7 @@ export default {
       this.$refs.lineChart.renderLineChart();
     },
     deleteChartScales() {
+      console.log("LineChartView.deleteChartScales");
       delete this.lineChartOptions.scales.yAxes[0].ticks.min;
       delete this.lineChartOptions.scales.yAxes[0].ticks.max;
       this.$refs.lineChart.renderLineChart();
@@ -385,12 +400,6 @@ export default {
         console.log("LineChartView.resetYSlider: Doing redraw");
         this.redraw();
       }
-
-      let chartjsMaxY = this.yMaxValue;
-      console.log(
-        "LinechartView.resetYSlider: this.chartjsMaxY = ",
-        chartjsMaxY
-      );
     },
     initDataset() {
       console.log("LineChartView.initDataset");
