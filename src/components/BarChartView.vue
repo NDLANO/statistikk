@@ -193,7 +193,7 @@ export default {
     },
     dataset(newValue, oldValue) {
       console.log(
-        "BarChartView: dataset watcher: ref linechart = ",
+        "BarChartView: dataset watcher: ref barChart = ",
         this.$refs.barChart
       );
       this.initDataset();
@@ -277,7 +277,7 @@ export default {
       this.barChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
         maxIndex
       ];
-      this.lineChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
+      this.barChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
 
       this.$refs.barChart.renderBarChart();
       this.resizeChart(this.$refs.barChart.$el.clientWidth);
