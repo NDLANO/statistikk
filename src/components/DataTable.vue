@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      allSelected: false,
+      allRowsSelected: false,
       localValue: [],
       localActiveCols: [],
       items: [{ title: "Veksle Kolonne" }, { title: "Veksle Rekke" }],
@@ -88,7 +88,7 @@ export default {
         "DataTable.allRowsSelectedCheck watcher: newValue = ",
         newValue
       );
-      this.allSelected = newValue;
+      this.allRowsSelected = newValue;
     },
     value(newValue, oldValue) {
       console.log("DataTable.value watcher: newValue = ", newValue);
@@ -123,7 +123,7 @@ export default {
     },
   },
   mounted() {
-    this.allSelected = this.allRowsSelectedCheck;
+    this.allRowsSelected = this.allRowsSelectedCheck;
     this.localValue = [...this.value];
     this.localActiveCols = [...this.activeCols];
     console.log("DataTable.mounted: localActiveCols = ", this.localActiveCols);
