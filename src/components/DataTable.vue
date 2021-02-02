@@ -9,7 +9,7 @@
               v-col
                 v-menu#menu-card
                   template(v-slot:activator="{ on, attrs }")
-                    v-btn--flat#menu-button(v-bind="attrs", v-on="on")
+                    v-btn#menu-button(icon, v-bind="attrs", v-on="on")
                       v-icon mdi-dots-horizontal
                   v-list
                     v-list-item(
