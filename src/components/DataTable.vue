@@ -12,7 +12,11 @@
                     v-btn--flat#menu-button(v-bind="attrs", v-on="on")
                       v-icon mdi-dots-horizontal
                   v-list
-                    v-list-item(v-for="(item, i) in items", :key="i")
+                    v-list-item(
+                      @click="",
+                      v-for="(item, i) in items",
+                      :key="i"
+                    )
                       v-list-item-title {{ item.title }}
 
           th.text-center(v-for="(item, index) in rowHeadings", :key="item")
