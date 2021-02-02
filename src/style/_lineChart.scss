@@ -2,7 +2,19 @@
   width: 100%;
 }
 .y-slider ::v-deep .v-slider {
-  height: 35rem;
+  height: 29rem;
+  @media only screen and (min-width: 200px) and (max-width: 600px) {
+    height: 3.1rem;
+  }
+  @media only screen and (min-width: 600px) and (max-width: 960px) {
+    height: 4.3rem;
+  }
+  @media only screen and (min-width: 960px) and (max-width: 1200px) {
+    height: 6rem;
+  }
+  @media only screen and (min-width: 1200px) and (max-width: 1800px) {
+    height: 15rem;
+  }
 }
 
 .y-left-slider {
@@ -18,7 +30,7 @@
 
 #x-slider-head-row {
   justify-content: center;
-  margin-top: -6rem;
+  //margin-top: -2rem;
   @media only screen and (max-width: 600px) {
     margin-top: 0rem;
   }
