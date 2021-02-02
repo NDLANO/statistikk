@@ -13,7 +13,7 @@
                       v-icon mdi-dots-horizontal
                   v-list
                     v-list-item(
-                      @click="",
+                      @click="onToggleItemClicked(item)",
                       v-for="(item, i) in items",
                       :key="i"
                     )
@@ -99,10 +99,18 @@ export default {
     },
   },
   methods: {
-    onToggleAll() {
+    onToggleItemClicked(item) {
+      console.log("DataTable.onToggleItemClicked: event = ", item);
+      if (item.title === this.items[1].title) this.toggleAllRows();
+    },
+    toggleAllRows() {
+      console.log(
+        "DataTable.toggleAllRows: allRowsSelected = ",
+        this.allRowsSelected
+      );
       let newValue = [...this.localValue];
       for (let i = 0; i < newValue.length; i++) {
-        newValue[i] = this.allSelected;
+        newValue[i] = !this.allRowsSelected;
       }
       this.$emit("input", [...newValue]);
       this.$emit("dataChanged");
