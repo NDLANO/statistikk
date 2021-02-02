@@ -45,14 +45,14 @@ v-app#app
             )
               div {{ $t('general.reset') }}
         v-row.justify-center(cols="12", sm="12", md="7")
-          v-col#linegraph-col(v-show="selectedChart == 1")
+          v-col#linegraph-col(v-if="selectedChart == 1")
             LineChartView(
               ref="lineChart",
               :dataset="selectedDataset",
               :lineChartOptions="lineChartOptions",
               @minMaxChanged="onLineChartMinMaxChanged"
             )
-          v-col#bargraph-col(v-show="selectedChart == 2")
+          v-col#bargraph-col(v-if="selectedChart == 2")
             BarChartView(
               ref="barChart",
               :dataset="selectedDataset",
@@ -120,7 +120,7 @@ export default {
       configData: null,
       selectedDatasetName: undefined,
       // selectedDataset: null,
-      selectedChart: 1,
+      selectedChart: 2,
       // datasets: [],
       // colorArray: ["#f07822", "#137a6b", "#a00"],
       colorArray: [
@@ -316,8 +316,8 @@ export default {
       this.selectDataset(this.selectedDatasetName);
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
       this.$nextTick(() => {
-        this.$refs.lineChart.resetYSlider();
-        this.$refs.barChart.resetYSlider();
+        if (this.$refs.lineChart) this.$refs.lineChart.resetYSlider();
+        if (this.$refs.barChart) this.$refs.barChart.resetYSlider();
       });
     },
     onChartSelected(selected) {
@@ -326,9 +326,9 @@ export default {
     },
     resetCharts() {
       if (this.selectedChart === 1) {
-        this.$refs.lineChart.resetChart();
+        this.$refs.lineChart.resetChart(true);
       } else if (this.selectedChart === 2) {
-        this.$refs.barChart.resetChart();
+        this.$refs.barChart.resetChart(true);
       }
     },
     // * Removes empty object keys
