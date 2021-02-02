@@ -42,6 +42,7 @@
 </template>
 <script>
 export default {
+  name: "DataTable",
   props: {
     value: {
       type: Array,
