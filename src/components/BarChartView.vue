@@ -192,8 +192,11 @@ export default {
       this.redraw();
     },
     dataset(newValue, oldValue) {
-      console.log("BarChartView: dataset watcher");
-      this.redraw();
+      console.log(
+        "BarChartView: dataset watcher: ref linechart = ",
+        this.$refs.barChart
+      );
+      this.initDataset();
     },
   },
   computed: {
