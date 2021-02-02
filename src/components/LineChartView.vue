@@ -145,11 +145,21 @@ export default {
               ticks: {
                 fontSize: 16,
               },
+              scaleLabel: {
+                display: true,
+                labelString: this.dataset.yAxisLabel,
+                fontSize: 16,
+              },
             },
           ],
           xAxes: [
             {
               ticks: {
+                fontSize: 16,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: this.dataset.xAxisLabel,
                 fontSize: 16,
               },
             },
@@ -163,7 +173,15 @@ export default {
       //   console.log("LineChartView.activeDataCollection watcher");
       console.log("LineChartView: updated watcher");
       // this.onXAxisSliderChange();
-      this.redraw();
+      this.initDataset();
+    },
+    dataset(newValue, oldValue) {
+      console.log("LineChartView: dataset watcher");
+      console.log(
+        "LineChartView: dataset watcher: ref linechart = ",
+        this.$refs.lineChart
+      );
+      this.initDataset();
     },
   },
   computed: {
@@ -188,16 +206,26 @@ export default {
           "LineChartview.gotData: dataset = ",
           Object.freeze(this.dataset)
         );
+        console.log(
+          "LineChartView.gotData: ref linechart = ",
+          this.$refs.lineChart
+        );
         return true;
       }
 
       return false;
     },
     yMinValue() {
-      return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+      if (typeof this.$refs.lineChart !== "undefined") {
+        return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+      }
+      return null;
     },
     yMaxValue() {
-      return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+      if (typeof this.$refs.lineChart !== "undefined") {
+        return this.$refs.lineChart._data._chart.scales["y-axis-0"].end;
+      }
+      return null;
     },
   },
   methods: {
@@ -222,9 +250,18 @@ export default {
       return this.$refs.lineChartWrapper;
     },
     redraw() {
-      console.log("LineChartView.redraw: dataset = ", this.dataset);
+      console.log(
+        "LineChartView.redraw: dataset = ",
+        parse(stringify(this.dataset))
+      );
+
+      // * Y axis
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisRange[0];
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisRange[1];
+
+      this.lineChartOptions.scales.yAxes[0].scaleLabel.labelString = this.dataset.yAxisLabel;
+
+      // * X axis
       let minIndex = this.dataset.chartDataCollection.lineChartRange
         .xAxisRange[0];
       let maxIndex = this.dataset.chartDataCollection.lineChartRange
@@ -235,9 +272,13 @@ export default {
       this.lineChartOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
         maxIndex
       ];
+      this.lineChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
+
       console.log(
         "LineChartView.redraw: options x min = ",
-        this.lineChartOptions.scales.xAxes[0].ticks.min
+        this.lineChartOptions.scales.xAxes[0].ticks.min,
+        ", x max = ",
+        this.lineChartOptions.scales.xAxes[0].ticks.max
       );
       this.$refs.lineChart.renderLineChart();
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
@@ -273,47 +314,76 @@ export default {
       this.$refs.lineChart.renderLineChart();
     },
     deleteChartScales() {
+      console.log("LineChartView.deleteChartScales");
       delete this.lineChartOptions.scales.yAxes[0].ticks.min;
       delete this.lineChartOptions.scales.yAxes[0].ticks.max;
       this.$refs.lineChart.renderLineChart();
     },
-    resetChart() {
+    setChartScalesToOriginal() {
+      console.log("LineChartView.setChartScalesToOriginal");
+
+      // * set chart min/max
+      this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin;
+      this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax;
+
+      // * set yAxisRange to new chart min/max
+      this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
+        this.yMinValue,
+        this.yMaxValue,
+      ];
+      this.$refs.lineChart.renderLineChart();
+    },
+    resetChart(resetToOrgAxisLimits = false) {
       console.log("LineChartView.resetChart");
-      this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = undefined;
-      this.deleteChartScales();
-      this.resetYSlider();
+      if (!resetToOrgAxisLimits)
+        this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = undefined;
+      // this.deleteChartScales();
+      this.resetYSlider(resetToOrgAxisLimits);
       this.resetXSlider();
       this.redraw();
     },
-    resetYSlider() {
-      // * If dataset switched
+    resetYSlider(resetToOrgAxisLimits = false) {
+      console.log(
+        "LineChartView.resetYSlider: resetToOrgAxisLimits = ",
+        resetToOrgAxisLimits
+      );
+      // * If dataset switched, yAxisOrgMin not defined or resetToOrgAxisLimits
       if (
         this.currentDataset !== this.dataset.name ||
-        this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin == undefined
+        this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin ==
+          undefined ||
+        resetToOrgAxisLimits
       ) {
         // * Delete scales to get a "clean" chart
         // * which can be used to extract min/max scales values
-        this.deleteChartScales();
+        console.log("LineChartView.resetYSlider: Dataset changed or new");
+        if (this.currentDataset !== this.dataset.name) {
+          this.deleteChartScales();
+        } else {
+          this.setChartScalesToOriginal();
+        }
 
         if (
           this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin ==
           undefined
         ) {
-          // * If dataset not used before
-          console.warn("LineChartview.resetYSlider: unitiated dataset");
-          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = this.yMinValue;
-          // this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax = this.yMaxValue;
+          // * If dataset not used before create new org min/max and min/max variables
+          console.warn(
+            "LineChartview.resetYSlider: unitiated dataset - yMin = ",
+            this.yMinValue,
+            ", yMaxValue = ",
+            this.yMaxValue
+          );
           this.initYAxisValues({
             rangeType: "lineChartRange",
             newMin: this.yMinValue,
             newMax: this.yMaxValue,
           });
-          // this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.yMinValue;
-          // this.dataset.chartDataCollection.lineChartRange.yAxisMax = this.yMaxValue;
-          // this.dataset.chartDataCollection.lineChartRange.yAxisRange = [
-          //   this.yMinValue,
-          //   this.yMaxValue,
-          // ];
+        } else if (resetToOrgAxisLimits) {
+          console.log(
+            "LineChartView.resetYSlider: resetToOrgAxisLimits true, setting to original"
+          );
+          this.setChartScalesToOriginal();
         } else {
           // * If dataset have been used before, reset scales with
           // * selected y range
@@ -326,17 +396,20 @@ export default {
         }
 
         this.currentDataset = this.dataset.name;
+      } else {
+        console.log("LineChartView.resetYSlider: Doing redraw");
+        this.redraw();
       }
-
-      let chartjsMaxY = this.yMaxValue;
-      console.log(
-        "LinechartView.resetYSlider: this.chartjsMaxY = ",
-        chartjsMaxY
-      );
     },
-    init() {
-      console.log("--init--");
-      this.resetYSlider();
+    initDataset() {
+      console.log("LineChartView.initDataset");
+
+      // * set chart height based on width
+      this.resizeChart(this.$refs.lineChart.$el.clientWidth);
+
+      this.$nextTick(() => {
+        this.resetYSlider();
+      });
     },
   },
   mounted() {
@@ -345,8 +418,7 @@ export default {
       this.$refs.lineChart.$el.clientWidth
     );
     console.log("LineChart.mounted: dataset = ", this.dataset);
-    this.resizeChart(this.$refs.lineChart.$el.clientWidth);
-    this.init();
+    this.initDataset();
   },
   created() {},
 };
