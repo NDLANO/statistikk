@@ -1,11 +1,21 @@
-export function cleanCsvString(csvString) {
+export function processCsvString(csvString) {
   // * Split string into lines
   let fileLines = convertToLines(csvString);
-  console.log("csvTools.cleanCsvString: First line = ", fileLines[0]);
+  console.log("csvTools.processCsvString: First line = ", fileLines[0]);
+
+  let xAxisLabelString = fileLines.splice(0, 1);
+  let yAxisLabelString = fileLines.splice(0, 1);
+
+  // Remove empty line
+  fileLines.splice(0, 1);
 
   fileLines = removeEmptyLastLine(fileLines);
 
   let delimiter = detectDelimiter(fileLines[0]);
+
+  let xAxisLabel = xAxisLabelString[0].split(delimiter)[1];
+  let yAxisLabel = yAxisLabelString[0].split(delimiter)[1];
+
   let headerLine = fileLines.shift(); // * return and remove first element
   headerLine = convertHeaderValuesToString(headerLine, delimiter);
 
@@ -13,9 +23,9 @@ export function cleanCsvString(csvString) {
 
   fileLines.unshift(headerLine); // * add headerLine to the beginning of the array
 
-  csvString = fileLines.join("\r\n");
+  let processedCsvData = fileLines.join("\r\n");
 
-  return csvString;
+  return { xAxisLabel, yAxisLabel, processedCsvData };
 }
 
 // ** Tries to detect if delimiter is semicolon or comma
