@@ -228,10 +228,18 @@ export default {
       return false;
     },
     yMinValue() {
-      return this.$refs.barChart._data._chart.scales["y-axis-0"].start;
+      if (typeof this.$refs.barChart !== "undefined") {
+        return this.$refs.barChart._data._chart.scales["y-axis-0"].start;
+      }
+
+      return null;
     },
     yMaxValue() {
-      return this.$refs.barChart._data._chart.scales["y-axis-0"].end;
+      if (typeof this.$refs.barChart !== "undefined") {
+        return this.$refs.barChart._data._chart.scales["y-axis-0"].end;
+      }
+
+      return null;
     },
   },
   methods: {
