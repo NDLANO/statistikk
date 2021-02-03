@@ -13,10 +13,10 @@
                       v-icon mdi-dots-horizontal
                   v-list.menu-list
                     v-list-item(@click="onToggleItemClicked('col')")
-                      v-list-item-title Veksle kolonner
+                      v-list-item-title {{ $t('table.toggleColumns') }}
                       v-icon mdi-chevron-right
                     v-list-item(@click="onToggleItemClicked('row')")
-                      v-list-item-title Veksle rader
+                      v-list-item-title {{ $t('table.toggleRows') }}
                       v-icon mdi-chevron-down
 
           th.text-center(v-for="(item, index) in rowHeadings", :key="item")

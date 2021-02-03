@@ -24,4 +24,8 @@ window.statistikkDictionary = {
     importButton: "Last inn",
     closeWindowButton: "Avbryt",
   },
+  table: {
+    toggleRows: "Rader av/på",
+    toggleColumns: "Kolonner av/på",
+  },
 };
