@@ -162,7 +162,7 @@ export default {
   },
   mounted() {
     this.allRowsSelected = this.allRowsSelectedCheck;
-    this.allColsSelected = this.allColsSelectedChec;
+    this.allColsSelected = this.allColsSelectedCheck;
     this.localValue = [...this.value];
     this.localActiveCols = [...this.activeCols];
     console.log("DataTable.mounted: localActiveCols = ", this.localActiveCols);
