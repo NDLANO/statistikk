@@ -11,13 +11,13 @@
                   template(v-slot:activator="{ on, attrs }")
                     v-btn#menu-button(icon, v-bind="attrs", v-on="on")
                       v-icon mdi-dots-horizontal
-                  v-list
-                    v-list-item(
-                      @click="onToggleItemClicked(item)",
-                      v-for="(item, i) in items",
-                      :key="i"
-                    )
-                      v-list-item-title {{ item.title }}
+                  v-list.menu-list
+                    v-list-item(@click="onToggleItemClicked('col')")
+                      v-list-item-title Veksle kolonner
+                      v-icon mdi-chevron-right
+                    v-list-item(@click="onToggleItemClicked('row')")
+                      v-list-item-title Veksle rader
+                      v-icon mdi-chevron-down
 
           th.text-center(v-for="(item, index) in rowHeadings", :key="item")
             v-row#rowHeadings-row 
@@ -67,7 +67,6 @@ export default {
       allColsSelected: false,
       localValue: [],
       localActiveCols: [],
-      items: [{ title: "Veksle Kolonne" }, { title: "Veksle Rekke" }],
     };
   },
   computed: {
@@ -119,9 +118,9 @@ export default {
     },
   },
   methods: {
-    onToggleItemClicked(item) {
-      console.log("DataTable.onToggleItemClicked: event = ", item);
-      if (item.title === this.items[1].title) this.toggleAllRows();
+    onToggleItemClicked(type) {
+      console.log("DataTable.onToggleItemClicked: type = ", type);
+      if (type === "row") this.toggleAllRows();
       else this.toggleAllCols();
     },
     toggleAllRows() {
@@ -163,7 +162,7 @@ export default {
   },
   mounted() {
     this.allRowsSelected = this.allRowsSelectedCheck;
-    this.allColsSelected = this.allColsSelectedChec;
+    this.allColsSelected = this.allColsSelectedCheck;
     this.localValue = [...this.value];
     this.localActiveCols = [...this.activeCols];
     console.log("DataTable.mounted: localActiveCols = ", this.localActiveCols);
