@@ -284,9 +284,18 @@ export default {
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     },
     onYAxisSliderChange(event) {
+      console.log(
+        "LineChartView.onYAxisSliderChange: lineChartOptions = ",
+        this.lineChartOptions
+      );
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
+      console.log(
+        "LineChartView.onYAxisSliderChange: tmpOptions = ",
+        tmpOptions
+      );
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
+      tmpOptions.legend.onClick = (e) => e.stopPropagation();
       this.dataset.chartDataCollection.lineChartRange.yAxisRange = event;
       this.lineChartOptions = tmpOptions;
     },
@@ -304,6 +313,8 @@ export default {
       tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
         event[1]
       ];
+      tmpOptions.legend.onClick = (e) => e.stopPropagation();
+
       console.log("tmpOptions = ", tmpOptions);
       this.lineChartOptions = tmpOptions;
     },

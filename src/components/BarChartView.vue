@@ -286,6 +286,8 @@ export default {
       const tmpOptions = JSON.parse(JSON.stringify(this.barChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
+      tmpOptions.legend.onClick = (e) => e.stopPropagation();
+
       this.barChartOptions = tmpOptions;
     },
     onYAxisTextChange() {
@@ -302,6 +304,8 @@ export default {
       tmpOptions.scales.xAxes[0].ticks.max = this.dataset.chartDataCollection.labels[
         event[1]
       ];
+      tmpOptions.legend.onClick = (e) => e.stopPropagation();
+
       this.barChartOptions = tmpOptions;
     },
 
