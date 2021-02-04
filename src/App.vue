@@ -6,7 +6,7 @@ v-app#app
         v-row#filters-row
           v-col(cols="12", sm="4", md="4")
             #dataset-lbl.font-weight-bold
-              label Dataset
+              label {{ $t('general.dataset') }}
             v-select(
               v-model="selectedDatasetName",
               @change="onSelectChange()",
@@ -16,7 +16,7 @@ v-app#app
             )
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
             #diagramtype-lbl.font-weight-bold
-              label Diagramtype:
+              label {{ $t('general.chartType') }}:
           v-col#diagramtype-col(cols="8", sm="3", md="3")
             v-radio-group(v-model="selectedChart", row)
               v-radio(

@@ -1,6 +1,7 @@
 window.statistikkDictionary = {
   general: {
-    heading: "Statistikk (bokmål)",
+    dataset: "Datasett",
+    chartType: "Diagramtype",
     correctAnswer: "Du svarte rett!",
     wrongAnswer: "Du svarte ikkje rett...",
     startButton: "Start",
