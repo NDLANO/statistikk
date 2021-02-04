@@ -138,6 +138,14 @@ export default {
         },
         responsive: true,
         borderWidth: "30px",
+        legend: {
+          position: "top",
+          labels: {
+            fontStyle: "bold",
+            fontSize: 16,
+          },
+          onClick: (e) => e.stopPropagation(),
+        },
         scales: {
           yAxes: [
             {
