@@ -1,9 +1,6 @@
 <template lang="pug">
 v-app#app
   v-container.my-n6(fluid, v-if="selectedDataset")
-    v-row#heading-row 
-      v-col
-        h2 {{ $t('general.heading') }}
     v-row#sub-head-row
       v-col#filters-top-col(cols="12", sm="12", md="7")
         v-row#filters-row
