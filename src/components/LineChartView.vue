@@ -231,7 +231,7 @@ export default {
   methods: {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
     resizeChart(newWidth) {
-      console.log("LineChartview.resizeChart: newWidth = ", newWidth);
+      // console.log("LineChartview.resizeChart: newWidth = ", newWidth);
       if (newWidth < 600) this.chartStyle.height = "350px";
       else if (newWidth < 960) this.chartStyle.height = "500px";
       else this.chartStyle.height = "750px";
