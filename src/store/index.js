@@ -33,15 +33,21 @@ function generateNewXAxisData(dataCollection) {
 
   console.log("store.generateNewXAxisData: dataCollection = ", dataCollection);
   console.log("store.generateNewXAxisData: oldXRangeMin = ", oldXRangeMin);
+  console.log(
+    "store.generateNewXAxisData: before if min = ",
+    oldXRangeMin,
+    ", max = ",
+    oldXRangeMax
+  );
 
   var newXRangeMinIndex;
   var newXRangeMaxIndex;
 
   // * If there are only two labels/rows,
   // * min must be the first, max the last
-  if (dataCollection.labels.length == 2) {
+  if (dataCollection.labels.length == 2 || oldXRangeMin == oldXRangeMax) {
     newXRangeMinIndex = 0;
-    newXRangeMaxIndex = 1;
+    newXRangeMaxIndex = dataCollection.labels.length - 1;
   } else {
     newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
     if (newXRangeMinIndex === -1) {
