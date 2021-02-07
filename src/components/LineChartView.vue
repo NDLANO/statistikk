@@ -231,7 +231,8 @@ export default {
   methods: {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
     resizeChart(newWidth) {
-      // console.log("LineChartview.resizeChart: newWidth = ", newWidth);
+      console.log("LineChartview.resizeChart: newWidth = ", newWidth);
+      // this.$nextTick(() => this.resizeChart());
       if (newWidth < 600) this.chartStyle.height = "350px";
       else if (newWidth < 960) this.chartStyle.height = "500px";
       else this.chartStyle.height = "750px";
@@ -416,10 +417,9 @@ export default {
     initDataset() {
       console.log("LineChartView.initDataset");
 
-      // * set chart height based on width
-      this.resizeChart(this.$refs.lineChart.$el.clientWidth);
-
       this.$nextTick(() => {
+        // * set chart height based on width
+        this.resizeChart(this.$refs.lineChart.$el.clientWidth);
         this.resetYSlider();
       });
     },
