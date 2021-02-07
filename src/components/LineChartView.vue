@@ -417,6 +417,8 @@ export default {
     initDataset() {
       console.log("LineChartView.initDataset");
 
+      this.resizeChart(this.$refs.lineChart.$el.clientWidth);
+
       this.$nextTick(() => {
         // * set chart height based on width
         this.resizeChart(this.$refs.lineChart.$el.clientWidth);
