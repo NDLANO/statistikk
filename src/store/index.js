@@ -1,3 +1,4 @@
+import { parse, stringify } from "flatted";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 
@@ -31,10 +32,22 @@ function generateNewXAxisData(dataCollection) {
   var oldXRangeMax =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
 
+  console.log(
+    "store.generateNewXAxisData: dataCollection = ",
+    parse(stringify(dataCollection))
+  );
+  console.log(
+    "store.generateNewXAxisData: xAxisRange = ",
+    dataCollection.lineChartRange.xAxisRange
+  );
+  console.log(
+    "store.generateNewXAxisData: oldLabels = ",
+    dataCollection.oldLabels
+  );
   console.log("store.generateNewXAxisData: dataCollection = ", dataCollection);
   console.log("store.generateNewXAxisData: oldXRangeMin = ", oldXRangeMin);
   console.log(
-    "store.generateNewXAxisData: before if min = ",
+    "store.generateNewXAxisData: old before if min = ",
     oldXRangeMin,
     ", max = ",
     oldXRangeMax
@@ -48,6 +61,12 @@ function generateNewXAxisData(dataCollection) {
   if (dataCollection.labels.length == 2 || oldXRangeMin == oldXRangeMax) {
     newXRangeMinIndex = 0;
     newXRangeMaxIndex = dataCollection.labels.length - 1;
+    console.log(
+      "store.generateNewXAxisData: two labels or min/max - new min = ",
+      newXRangeMinIndex,
+      ", new max = ",
+      newXRangeMaxIndex
+    );
   } else {
     newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
     if (newXRangeMinIndex === -1) {
@@ -61,6 +80,10 @@ function generateNewXAxisData(dataCollection) {
     // debugger;
     console.log("store.generateNewXAxisData: oldXRangeMax = ", oldXRangeMax);
     newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
+    console.log(
+      "store.generateNewXAxisData: newRangeMinIndex = ",
+      newXRangeMinIndex
+    );
     console.log(
       "store.generateNewXAxisData: newRangeMaxIndex = ",
       newXRangeMaxIndex
@@ -78,6 +101,11 @@ function generateNewXAxisData(dataCollection) {
     newXRangeMinIndex,
     newXRangeMaxIndex,
   ];
+  console.log(
+    "store.generateNewXAxisData: new range = ",
+    dataCollection.lineChartRange.xAxisRange
+  );
+  dataCollection.oldLabels = [...dataCollection.labels];
 }
 
 export default new Vuex.Store({
@@ -180,7 +208,7 @@ export default new Vuex.Store({
       ].yAxisRange = [newMin, newMax];
     },
     mSetActiveRows(state, newActiveRows) {
-      console.log("store.mSetActiveRows: newActiveRows = ", newActiveRows);
+      console.log("---store.mSetActiveRows: newActiveRows = ", newActiveRows);
       state.datasets[state.selectedDatasetIndex].activeRows = newActiveRows;
       state.datasets[
         state.selectedDatasetIndex
