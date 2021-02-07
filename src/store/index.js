@@ -28,30 +28,45 @@ function generateNewXAxisData(dataCollection) {
   // debugger;
   var oldXRangeMin =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
-
-  console.log("store.generateNewXAxisData: oldXRangeMin = ", oldXRangeMin);
-  var newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
-  if (newXRangeMinIndex === -1) {
-    newXRangeMinIndex = 0;
-  }
-  console.log(
-    "store.generateNewXAxisData: newXRangeMin = ",
-    dataCollection.labels[newXRangeMinIndex]
-  );
-
   var oldXRangeMax =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
-  // debugger;
-  console.log("store.generateNewXAxisData: oldXRangeMax = ", oldXRangeMax);
-  var newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
-  if (newXRangeMaxIndex === -1) {
-    newXRangeMaxIndex = dataCollection.labels.length - 1;
-  }
-  console.log(
-    "store.generateNewXAxisData: newXRangeMax = ",
-    dataCollection.labels[newXRangeMaxIndex]
-  );
 
+  console.log("store.generateNewXAxisData: dataCollection = ", dataCollection);
+  console.log("store.generateNewXAxisData: oldXRangeMin = ", oldXRangeMin);
+
+  var newXRangeMinIndex;
+  var newXRangeMaxIndex;
+
+  // * If there are only two labels/rows,
+  // * min must be the first, max the last
+  if (dataCollection.labels.length == 2) {
+    newXRangeMinIndex = 0;
+    newXRangeMaxIndex = 1;
+  } else {
+    newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
+    if (newXRangeMinIndex === -1) {
+      newXRangeMinIndex = 0;
+    }
+    console.log(
+      "store.generateNewXAxisData: newXRangeMin = ",
+      dataCollection.labels[newXRangeMinIndex]
+    );
+
+    // debugger;
+    console.log("store.generateNewXAxisData: oldXRangeMax = ", oldXRangeMax);
+    newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
+    console.log(
+      "store.generateNewXAxisData: newRangeMaxIndex = ",
+      newXRangeMaxIndex
+    );
+    if (newXRangeMaxIndex === -1) {
+      newXRangeMaxIndex = dataCollection.labels.length - 1;
+    }
+    console.log(
+      "store.generateNewXAxisData: newXRangeMax = ",
+      dataCollection.labels[newXRangeMaxIndex]
+    );
+  }
   dataCollection.lineChartRange.xAxisMax = dataCollection.labels.length - 1;
   dataCollection.lineChartRange.xAxisRange = [
     newXRangeMinIndex,
