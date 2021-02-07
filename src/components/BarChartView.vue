@@ -261,12 +261,18 @@ export default {
       return this.$refs.barChartWrapper;
     },
     redraw() {
-      console.log("BarChartView.redraw");
+      console.log(
+        "BarChartView.redraw: dataset = ",
+        parse(stringify(this.dataset))
+      );
 
+      // * Y axis
       this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisRange[0];
       this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisRange[1];
+
       this.barChartOptions.scales.yAxes[0].scaleLabel.labelString = this.dataset.yAxisLabel;
 
+      // * X axis
       let minIndex = this.dataset.chartDataCollection.barChartRange
         .xAxisRange[0];
       let maxIndex = this.dataset.chartDataCollection.barChartRange
@@ -309,16 +315,6 @@ export default {
       this.barChartOptions = tmpOptions;
     },
 
-    // resetYMax() {
-    //   this.$nextTick(() => {
-    //     this.chartjsMaxY = this.$refs.barChart._data._chart.scales[
-    //       "y-axis-0"
-    //     ].end;
-    //     console.log("this.chartjsMaxY = ", this.chartjsMaxY);
-    //     this.yAxisValues[0] = 0;
-    //     this.yAxisValues[1] = this.chartjsMaxY;
-    //   });
-    // },
     setChartScales(arrayIn) {
       console.log("BarChartView.setChartScales: arrayIn = ", arrayIn);
       this.barChartOptions.scales.yAxes[0].ticks.min = arrayIn[0];
