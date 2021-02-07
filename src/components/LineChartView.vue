@@ -274,6 +274,7 @@ export default {
       ];
       this.lineChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
 
+      this.lineChartOptions.onResize = this.onResize;
       console.log(
         "LineChartView.redraw: options x min = ",
         this.lineChartOptions.scales.xAxes[0].ticks.min,

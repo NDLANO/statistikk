@@ -278,7 +278,7 @@ export default {
         maxIndex
       ];
       this.barChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
-
+      this.barChartOptions.onResize = this.onResize;
       this.$refs.barChart.renderBarChart();
       this.resizeChart(this.$refs.barChart.$el.clientWidth);
     },
