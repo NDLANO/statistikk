@@ -189,7 +189,7 @@ export default {
         this.dataset
       );
       // this.onXAxisSliderChange();
-      this.redraw();
+      this.initDataset();
     },
     dataset(newValue, oldValue) {
       console.log(
@@ -431,6 +431,7 @@ export default {
       this.resizeChart(this.$refs.barChart.$el.clientWidth);
 
       this.$nextTick(() => {
+        this.resizeChart(this.$refs.barChart.$el.clientWidth);
         this.resetYSlider();
       });
     },
