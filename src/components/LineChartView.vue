@@ -5,8 +5,10 @@
       v-row 
         v-col
           v-text-field(
-            type="number",
             v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
+            hide-details,
+            single-line,
+            type="number",
             style="width: 60px",
             @change="onYAxisTextChange"
           )
@@ -22,8 +24,10 @@
       v-row 
         v-col
           v-text-field(
-            type="number",
             v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
+            hide-details,
+            single-line,
+            type="number",
             style="width: 60px",
             @change="onYAxisTextChange"
           )
@@ -241,9 +245,6 @@ export default {
     onResize(chart, newSize) {
       this.resizeChart(newSize.width);
     },
-    onTestEvent() {
-      console.log("LineChartview.onTestEvent");
-    },
     getXAxisLabel(val) {
       return this.dataset.chartDataCollection.labels[val];
     },
@@ -276,25 +277,11 @@ export default {
       this.lineChartOptions.scales.xAxes[0].scaleLabel.labelString = this.dataset.xAxisLabel;
 
       this.lineChartOptions.onResize = this.onResize;
-      console.log(
-        "LineChartView.redraw: options x min = ",
-        this.lineChartOptions.scales.xAxes[0].ticks.min,
-        ", x max = ",
-        this.lineChartOptions.scales.xAxes[0].ticks.max
-      );
       this.$refs.lineChart.renderLineChart();
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     },
     onYAxisSliderChange(event) {
-      console.log(
-        "LineChartView.onYAxisSliderChange: lineChartOptions = ",
-        this.lineChartOptions
-      );
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
-      console.log(
-        "LineChartView.onYAxisSliderChange: tmpOptions = ",
-        tmpOptions
-      );
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
       tmpOptions.legend.onClick = (e) => e.stopPropagation();
