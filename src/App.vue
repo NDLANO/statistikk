@@ -292,10 +292,16 @@ export default {
         "App.onActiveRowsChanged: active rows = ",
         this.selectedDataset.activeRows
       );
-      this.setActiveRows(this.selectedDataset.activeRows);
+      this.setActiveRows({
+        newActiveRows: this.selectedDataset.activeRows,
+        selectedChartIndex: this.selectedChart,
+      });
     },
     onActiveColsChanged(newActiveCols) {
-      this.setActiveCols(newActiveCols);
+      this.setActiveCols({
+        newActiveCols,
+        selectedChartIndex: this.selectedChart,
+      });
     },
     onLineChartMinMaxChanged(newMin, newMax) {
       console.log(
