@@ -45,8 +45,8 @@
 /*----- X-Axis------*/
 
 #x-slider-head-row-barchart {
-  justify-content: center;
-  margin-top: -4rem;
+  justify-content: flex-end;
+  margin-top: -1.5rem;
   @media only screen and (max-width: 600px) {
     margin-top: 0rem;
   }
