@@ -25,13 +25,19 @@ function generateActiveData(activeRows, key, data) {
   return newData;
 }
 
-function generateNewXAxisData(dataCollection) {
+function generateNewXAxisData(dataCollection, selectedChartIndex) {
   // debugger;
   var oldXRangeMin =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
   var oldXRangeMax =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
 
+  if (selectedChartIndex == 1) {
+    oldXRangeMin =
+      dataCollection.oldLabels[dataCollection.barChartRange.xAxisRange[0]];
+    oldXRangeMax =
+      dataCollection.oldLabels[dataCollection.barChartRange.xAxisRange[1]];
+  }
   var newXRangeMinIndex;
   var newXRangeMaxIndex;
 
@@ -52,11 +58,20 @@ function generateNewXAxisData(dataCollection) {
       newXRangeMaxIndex = dataCollection.labels.length - 1;
     }
   }
-  dataCollection.lineChartRange.xAxisMax = dataCollection.labels.length - 1;
-  dataCollection.lineChartRange.xAxisRange = [
-    newXRangeMinIndex,
-    newXRangeMaxIndex,
-  ];
+
+  if (selectedChartIndex == 0) {
+    dataCollection.lineChartRange.xAxisMax = dataCollection.labels.length - 1;
+    dataCollection.lineChartRange.xAxisRange = [
+      newXRangeMinIndex,
+      newXRangeMaxIndex,
+    ];
+  } else {
+    dataCollection.barChartRange.xAxisMax = dataCollection.labels.length - 1;
+    dataCollection.barChartRange.xAxisRange = [
+      newXRangeMinIndex,
+      newXRangeMaxIndex,
+    ];
+  }
 
   dataCollection.oldLabels = [...dataCollection.labels];
 }
@@ -141,6 +156,7 @@ export default new Vuex.Store({
       state.selectedDatasetIndex = newSelectedIndex;
     },
     mInitYAxisValues(state, { rangeType, newMin, newMax }) {
+      newMin = Math.floor(newMin);
       console.log("store.mInitYMinMax: min = ", newMin, ", max = ", newMax);
       state.datasets[state.selectedDatasetIndex].chartDataCollection[
         rangeType
@@ -241,7 +257,10 @@ export default new Vuex.Store({
           );
         }
 
-        generateNewXAxisData(getters.selectedDataset.chartDataCollection);
+        generateNewXAxisData(
+          getters.selectedDataset.chartDataCollection,
+          state.selectedChartIndex
+        );
 
         console.log(
           "store.recalculateDataCollection: selectedDataset = ",

@@ -1,8 +1,36 @@
 #bargraph-div {
   width: 100%;
 }
-.y-slider ::v-deep .v-slider {
-  height: 35rem;
+
+// * Vertical Y axis slider height
+.row.y-slider-wrapper {
+  height: calc(100% - 144px);
+}
+
+.v-input.y-slider {
+  height: 100%;
+}
+
+.row.y-slider-wrapper ::v-deep {
+  .v-input__slot {
+    height: 100%;
+  }
+  .v-input__control {
+    height: 100%;
+  }
+
+  .v-slider.v-slider--vertical {
+    height: 100%;
+  }
+}
+
+.y-left-slider {
+  visibility: visible;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+    display: none;
+  }
 }
 
 .y-left-slider-barchart {
@@ -17,8 +45,8 @@
 /*----- X-Axis------*/
 
 #x-slider-head-row-barchart {
-  justify-content: center;
-  margin-top: -4rem;
+  justify-content: flex-end;
+  margin-top: -1.5rem;
   @media only screen and (max-width: 600px) {
     margin-top: 0rem;
   }
@@ -48,10 +76,12 @@
 #x-label-right-barchart {
   display: flex;
   justify-content: flex-start;
+  font-size: 12.8px;
 }
 #x-label-left-barchart {
   display: flex;
   justify-content: flex-end;
+  font-size: 12.8px;
 }
 
 /*---- Y-axis Mobile alignment-----*/
