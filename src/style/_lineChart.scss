@@ -1,19 +1,22 @@
 #linegraph-div {
   width: 100%;
 }
-.y-slider ::v-deep .v-slider {
-  height: 29rem;
-  @media only screen and (min-width: 200px) and (max-width: 600px) {
-    height: 3.1rem;
+
+// * Vertical Y axis slider height
+.row.y-slider-wrapper {
+  height: calc(100% - 144px);
+}
+
+.v-input.y-slider {
+  height: 100%;
+}
+
+.row.y-slider-wrapper ::v-deep {
+  .v-input__slot {
+    height: 100%;
   }
-  @media only screen and (min-width: 600px) and (max-width: 960px) {
-    height: 4.3rem;
-  }
-  @media only screen and (min-width: 960px) and (max-width: 1200px) {
-    height: 6rem;
-  }
-  @media only screen and (min-width: 1200px) and (max-width: 1800px) {
-    height: 15rem;
+  .v-slider.v-slider--vertical {
+    height: 100%;
   }
 }
 

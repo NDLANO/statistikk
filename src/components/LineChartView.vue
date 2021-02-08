@@ -12,7 +12,7 @@
             style="width: 60px",
             @change="onYAxisTextChange"
           )
-      v-row 
+      v-row.y-slider-wrapper
         v-col
           v-range-slider.y-slider(
             @change="onYAxisSliderChange",
