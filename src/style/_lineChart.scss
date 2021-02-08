@@ -35,8 +35,8 @@
 /*----- X-Axis------*/
 
 #x-slider-head-row {
-  justify-content: center;
-  //margin-top: -2rem;
+  justify-content: flex-end;
+  margin-top: -1.5rem;
   @media only screen and (max-width: 600px) {
     margin-top: 0rem;
   }
