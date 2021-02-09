@@ -33,6 +33,7 @@
           ) 
 
     v-col.chart-container(sm="10", ref="barChartWrapper")
+      .credits © {{ dataset.creditsText }}
       BarChart(
         v-show="chartHeightSet",
         ref="barChart",

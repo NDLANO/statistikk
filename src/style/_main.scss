@@ -129,7 +129,13 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 12.8px;
 }
 
+// * Center vertical Y slider text field
 .col.y-slider-text {
   flex-grow: 0;
   margin: 0 auto;
+}
+
+// * Chart credits
+.credits {
+  text-align: left;
 }

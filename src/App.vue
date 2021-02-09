@@ -207,9 +207,12 @@ export default {
       "setActiveCols",
     ]),
     addCsvData(csvData, datasetName) {
-      let { xAxisLabel, yAxisLabel, processedCsvData } = processCsvString(
-        csvData
-      );
+      let {
+        xAxisLabel,
+        yAxisLabel,
+        creditsText,
+        processedCsvData,
+      } = processCsvString(csvData);
       csvData = processedCsvData;
 
       var jsonData = this.$papa.parse(csvData, {
@@ -231,11 +234,11 @@ export default {
       var activeRows = Array(jsonData.length).fill(true);
       var activeCols = Array(Object.keys(jsonData[0]).length - 1).fill(true);
       console.log("App.addCsvData: activeCols = ", activeCols);
-
       var newDataset = {
         name: datasetName,
         xAxisLabel,
         yAxisLabel,
+        creditsText,
         data: jsonData,
         activeRows: activeRows,
         activeCols: activeCols,
