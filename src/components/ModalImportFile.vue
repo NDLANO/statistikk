@@ -2,7 +2,7 @@
 div
   v-dialog(
     v-model="dialogOpen",
-    width="auto ",
+    width="500 ",
     :fullscreen="$vuetify.breakpoint.xsOnly"
   )
     v-card.modal
