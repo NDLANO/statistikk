@@ -359,7 +359,12 @@ export default {
 
       let counter = 0;
       for (const key in keyArray) {
-        const tmpColor = this.colorArray[counter];
+        let tmpColor;
+        if (counter < this.colorArray.length) {
+          tmpColor = this.colorArray[counter];
+        } else {
+          tmpColor = this.getRandomColor();
+        }
         counter++;
         chartDataset.push({
           label: keyArray[key],
@@ -471,14 +476,14 @@ export default {
       }
       return labelArray;
     },
-    // getRandomColor() {
-    //   var letters = "0123456789ABCDEF";
-    //   var color = "#";
-    //   for (var i = 0; i < 6; i++) {
-    //     color += letters[Math.floor(Math.random() * 16)];
-    //   }
-    //   return color;
-    // },
+    getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    },
   },
 };
 </script>
