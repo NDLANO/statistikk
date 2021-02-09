@@ -6,6 +6,7 @@
   text-align: center;
   color: #2c3e50;
   padding-top: 60px;
+  touch-action: pan-y;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
