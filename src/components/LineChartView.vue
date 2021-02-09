@@ -1,7 +1,7 @@
 <template lang="pug">
 #linegraph-div
   v-row(v-if="gotData")
-    v-col.y-left-slider(sm="1")
+    v-col.y-left-slider(sm="2")
       v-row 
         v-col
           v-text-field(
@@ -31,7 +31,7 @@
             style="width: 60px",
             @change="onYAxisTextChange"
           )
-    v-col.chart-container(sm="11", ref="lineChartWrapper")
+    v-col.chart-container(sm="10", ref="lineChartWrapper")
       LineChart(
         v-show="chartHeightSet",
         ref="lineChart",

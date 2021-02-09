@@ -1,7 +1,7 @@
 <template lang="pug">
 #bargraph-div
   v-row
-    v-col.y-left-slider-barchart(sm="1")
+    v-col.y-left-slider-barchart(sm="2")
       v-row
         v-col
           v-text-field(
@@ -32,7 +32,7 @@
             @change="onYAxisTextChange"
           ) 
 
-    v-col.chart-container(sm="11", ref="barChartWrapper")
+    v-col.chart-container(sm="10", ref="barChartWrapper")
       BarChart(
         v-show="chartHeightSet",
         ref="barChart",
