@@ -48,7 +48,7 @@
   justify-content: flex-end;
   margin-top: -1.5rem;
   @media only screen and (max-width: 600px) {
-    margin-top: 0rem;
+    margin-top: 0.5rem;
   }
 }
 
@@ -92,7 +92,7 @@
   @media only screen and (max-width: 600px) {
     visibility: visible;
     display: flex;
-    margin-top: -2rem;
+    // margin-top: -2rem;
   }
 }
 #y-slider-row-barchart {

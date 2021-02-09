@@ -99,7 +99,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* mobile */
   @media only screen and (max-width: 600px) {
-    margin-top: -4rem;
+    margin-top: 0;
   }
 }
 /*-----Importer Data button--------*/
@@ -111,7 +111,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
   /* mobile */
   @media only screen and (max-width: 600px) {
-    margin-top: -3rem;
+    margin-top: -2rem;
+    margin-bottom: 3rem;
     justify-content: center;
   }
 }
