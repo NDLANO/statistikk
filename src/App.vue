@@ -234,11 +234,11 @@ export default {
       var activeRows = Array(jsonData.length).fill(true);
       var activeCols = Array(Object.keys(jsonData[0]).length - 1).fill(true);
       console.log("App.addCsvData: activeCols = ", activeCols);
-
       var newDataset = {
         name: datasetName,
         xAxisLabel,
         yAxisLabel,
+        creditsText,
         data: jsonData,
         activeRows: activeRows,
         activeCols: activeCols,
