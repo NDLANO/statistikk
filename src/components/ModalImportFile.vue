@@ -2,7 +2,7 @@
 div
   v-dialog(
     v-model="dialogOpen",
-    width="auto ",
+    width="500 ",
     :fullscreen="$vuetify.breakpoint.xsOnly"
   )
     v-card.modal
@@ -10,12 +10,17 @@ div
         .close-button
           a(@click="dialogOpen = false") {{ $t('general.closeButton') }}
         .title-text {{ $t('import.title') }}
-      .example
+      .description
+        div {{ $t('import.description') }}
+        br
+        a(href="instruksjoner.pdf", target="_blank")
+          v-icon.icon mdi-cloud-download
+          span {{ $t('import.descriptionFile') }}
+        br
+        br
         a(href="mal.xlsx")
           v-icon.icon mdi-cloud-download
           span {{ $t('import.fileTemplate') }}
-      .description
-        div {{ $t('import.description') }}
       .file-selector
         input(
           type="file",
@@ -113,15 +118,19 @@ $darkBlue: #20588f;
     font-weight: normal;
   }
 
+  .description,
   .example {
     margin: 0 $sideMargin;
+    margin-bottom: 30px;
     text-align: left;
     padding: 20px;
     background: #eff0f2;
     font-size: 16px;
     font-weight: 900;
 
-    a {
+    a,
+    div,
+    div.file-selector {
       color: black;
       text-decoration: none;
     }
@@ -135,8 +144,7 @@ $darkBlue: #20588f;
   }
 
   .description {
-    margin-top: 25px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .file-selector {
