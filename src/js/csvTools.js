@@ -5,6 +5,7 @@ export function processCsvString(csvString) {
 
   let xAxisLabelString = fileLines.splice(0, 1);
   let yAxisLabelString = fileLines.splice(0, 1);
+  let creditsTextString = fileLines.splice(0, 1);
 
   // Remove empty line
   fileLines.splice(0, 1);
@@ -15,6 +16,7 @@ export function processCsvString(csvString) {
 
   let xAxisLabel = xAxisLabelString[0].split(delimiter)[1];
   let yAxisLabel = yAxisLabelString[0].split(delimiter)[1];
+  let creditsText = creditsTextString[0].split(delimiter)[1];
 
   let headerLine = fileLines.shift(); // * return and remove first element
   headerLine = convertHeaderValuesToString(headerLine, delimiter);
@@ -25,7 +27,7 @@ export function processCsvString(csvString) {
 
   let processedCsvData = fileLines.join("\r\n");
 
-  return { xAxisLabel, yAxisLabel, processedCsvData };
+  return { xAxisLabel, yAxisLabel, creditsText, processedCsvData };
 }
 
 // ** Tries to detect if delimiter is semicolon or comma
