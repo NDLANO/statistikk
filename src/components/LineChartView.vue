@@ -32,6 +32,7 @@
             @change="onYAxisTextChange"
           )
     v-col.chart-container(sm="10", ref="lineChartWrapper")
+      .credits © {{ dataset.creditsText }}
       LineChart(
         v-show="chartHeightSet",
         ref="lineChart",
