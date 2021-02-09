@@ -116,10 +116,7 @@ export default {
     return {
       configData: null,
       selectedDatasetName: undefined,
-      // selectedDataset: null,
       selectedChart: 1,
-      // datasets: [],
-      // colorArray: ["#f07822", "#137a6b", "#a00"],
       colorArray: [
         "#2E7D32",
         "#00898E",
@@ -276,15 +273,10 @@ export default {
     },
     async onFileSelected(fileObject) {
       console.log("App.onFileSelected: fileObject = ", fileObject);
-      // console.log(
-      //   "App.onFileSelected: File selected = ",
-      //   this.$refs.csvFile.files[0]
-      // );
-      // let file = this.$refs.csvFile.files[0];
+
       let fileContents = "";
       try {
         fileContents = await readFileObject(fileObject);
-        // console.log("App.onFileSelected: fileContents =", fileContents);
         this.addCsvData(fileContents, fileObject.name);
         this.onSelectChange();
       } catch (err) {
@@ -322,11 +314,6 @@ export default {
       );
 
       console.log("this.datasets = ", this.datasets);
-      // eslint-disable-next-line prettier/prettier
-      // debugger;
-      // this.selectedDataset = this.datasets.find((dataset) => {
-      //   return dataset.name === this.selectedDatasetName;
-      // });
 
       this.selectDataset(this.selectedDatasetName);
       // * nextTick is needed to make sure selectedDataset is refreshed in chart
@@ -369,20 +356,9 @@ export default {
       let keyArray = Object.keys(datasetIn.data[0]);
       keyArray = this.removeStringFromArray(keyArray, keyArray[0]); // remove first item/x axis
       datasetIn.keys = keyArray;
-      // console.log("App.generateChartDataset: keys = ", keyArray);
 
       let counter = 0;
       for (const key in keyArray) {
-        // console.log("App.generateChartDataset: key = ", keyArray[key]);
-        // console.log(
-        //   "App.generateChartDataset: for loop datasetIn.data = ",
-        //   datasetIn.data
-        // );
-        // console.log(
-        //   "App.generateChartDataset: key values array = ",
-        //   this.newGetKeyValuesByKey(keyArray[key], datasetIn)
-        // );
-
         const tmpColor = this.colorArray[counter];
         counter++;
         chartDataset.push({
@@ -490,7 +466,6 @@ export default {
     newGetKeyValuesByIndex(index, dataset) {
       let labelArray = [];
       for (var i = 0; i < dataset.data.length; i++) {
-        // console.log("item = ", Object.values(this.loadedData[item])[index]);
         if (dataset.activeRows[i])
           labelArray.push(Object.values(dataset.data[i])[index]);
       }
@@ -503,9 +478,6 @@ export default {
     //     color += letters[Math.floor(Math.random() * 16)];
     //   }
     //   return color;
-    // },
-    // getRandomInt() {
-    //   return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     // },
   },
 };
