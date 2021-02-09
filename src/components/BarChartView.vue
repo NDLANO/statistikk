@@ -3,7 +3,7 @@
   v-row
     v-col.y-left-slider-barchart(sm="2")
       v-row
-        v-col
+        v-col.y-slider-text
           v-text-field(
             v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
             hide-details,
@@ -22,7 +22,7 @@
             vertical
           )
       v-row
-        v-col
+        v-col.y-slider-text
           v-text-field(
             v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
             hide-details,
