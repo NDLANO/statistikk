@@ -14,6 +14,7 @@ v-app#app
               item-text="name",
               outlined
             )
+            .credits Kilde: {{ selectedDataset.creditsText }}
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
             #diagramtype-lbl.font-weight-bold
               label {{ $t('general.chartType') }}:
