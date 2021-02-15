@@ -105,6 +105,8 @@
 import { mapActions, mapGetters } from "vuex";
 import { parse, stringify } from "flatted";
 
+import { findMinYValue } from "@/js/helpers";
+
 import LineChart from "@/components/charts/LineChart";
 
 export default {
@@ -221,8 +223,7 @@ export default {
     },
     yMinValue() {
       if (typeof this.$refs.lineChart !== "undefined") {
-        // return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
-        return 0;
+        return findMinYValue(this.dataset);
       }
       return null;
     },
@@ -334,6 +335,10 @@ export default {
         this.yMinValue,
         this.yMaxValue,
       ];
+      console.log(
+        "LineChartView.setChartScalesToOriginal: y range = ",
+        this.dataset.chartDataCollection.lineChartRange.yAxisRange
+      );
       this.$refs.lineChart.renderLineChart();
     },
     resetChart(resetToOrgAxisLimits = false) {
