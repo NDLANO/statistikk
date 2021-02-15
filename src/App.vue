@@ -14,7 +14,12 @@ v-app#app
               item-text="name",
               outlined
             )
-            .credits Kilde: {{ selectedDataset.creditsText }}
+            a.credits(
+              v-if="selectedDataset.creditsLink",
+              :href="selectedDataset.creditsLink",
+              target="_blank"
+            ) Kilde: {{ selectedDataset.creditsText }}
+            .credits(v-else) Kilde: {{ selectedDataset.creditsText }}
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
             #diagramtype-lbl.font-weight-bold
               label {{ $t('general.chartType') }}:
@@ -165,7 +170,7 @@ export default {
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
       // console.log("csvData = ", csvData);
-      this.addCsvData(csvData, this.configData.datasets[dataset].name);
+      this.addCsvData(csvData, this.configData.datasets[dataset]);
     }
 
     this.selectedDatasetName = this.selectedDataset.name;
@@ -205,7 +210,7 @@ export default {
       "setActiveRows",
       "setActiveCols",
     ]),
-    addCsvData(csvData, datasetName) {
+    addCsvData(csvData, dataset) {
       let {
         xAxisLabel,
         yAxisLabel,
@@ -234,7 +239,7 @@ export default {
       var activeCols = Array(Object.keys(jsonData[0]).length - 1).fill(true);
       console.log("App.addCsvData: activeCols = ", activeCols);
       var newDataset = {
-        name: datasetName,
+        name: dataset.name,
         xAxisLabel,
         yAxisLabel,
         creditsText,
@@ -242,10 +247,11 @@ export default {
         activeRows: activeRows,
         activeCols: activeCols,
       };
-
+      console.log("App.addCsvData: dataset = ", dataset);
+      if (dataset.creditsLink) newDataset.creditsLink = dataset.creditsLink;
       this.generateChartDataset(newDataset);
       this.addDataset(newDataset);
-      this.selectedDatasetName = datasetName;
+      this.selectedDatasetName = dataset.name;
     },
     async saveScreenshot() {
       const options = {
