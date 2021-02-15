@@ -221,7 +221,8 @@ export default {
     },
     yMinValue() {
       if (typeof this.$refs.lineChart !== "undefined") {
-        return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+        // return this.$refs.lineChart._data._chart.scales["y-axis-0"].start;
+        return 0;
       }
       return null;
     },
