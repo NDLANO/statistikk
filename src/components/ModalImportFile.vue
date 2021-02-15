@@ -126,13 +126,15 @@ $darkBlue: #20588f;
     padding: 20px;
     background: #eff0f2;
     font-size: 16px;
-    font-weight: 900;
 
     a,
     div,
     div.file-selector {
       color: black;
       text-decoration: none;
+    }
+    a {
+      font-weight: 600;
     }
     .icon {
       color: black;
