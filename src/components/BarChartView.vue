@@ -4,14 +4,13 @@
     v-col.y-left-slider-barchart(sm="2")
       v-row
         v-col.y-slider-text
-          v-text-field(
-            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
-            hide-details,
-            single-line,
+          input.mt20(
             type="number",
-            style="width: 60px",
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
+            :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.barChartRange.yAxisMax",
             @change="onYAxisTextChange"
-          )
+          ) 
       v-row.y-slider-wrapper
         v-col
           v-range-slider.y-slider(
@@ -23,12 +22,11 @@
           )
       v-row
         v-col.y-slider-text
-          v-text-field(
-            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
-            hide-details,
-            single-line,
+          input.mt20(
             type="number",
-            style="width: 60px",
+            v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
+            :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.barChartRange.yAxisMax",
             @change="onYAxisTextChange"
           ) 
 
@@ -76,7 +74,6 @@
         label y
     v-col(cols="11")
       v-row#y-slider-row-barchart
-        v-col(cols="01", sm="1", md="1")
         v-col.y-bottom-slider(cols="12", sm="11", md="11")
           v-range-slider.y-slider-mobile-bottom(
             @change="onYAxisSliderChange",
@@ -85,27 +82,24 @@
             :max="dataset.chartDataCollection.barChartRange.yAxisMax"
           )
       v-row#y-label-row-barchart
-        v-col(cols="01", sm="1", md="1")
         v-col#y-label-right-barchart(cols="6", sm="5", md="5")
           div
-            v-text-field#y-input-right-barchart(
-              v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
-              hide-details,
-              single-line,
+            input#y-input-right-barchart(
               type="number",
-              style="width: 60px",
+              v-model="dataset.chartDataCollection.barChartRange.yAxisRange[0]",
+              :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+              :max="dataset.chartDataCollection.barChartRange.yAxisMax",
               @change="onYAxisTextChange"
-            ) 
+            )
         v-col#y-label-left-barchart(cols="6", sm="6", md="6")
           div
-            v-text-field.y-input-left(
-              v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
-              hide-details,
-              single-line,
+            input.y-input-left(
               type="number",
-              style="width: 60px",
+              v-model="dataset.chartDataCollection.barChartRange.yAxisRange[1]",
+              :min="dataset.chartDataCollection.barChartRange.yAxisMin",
+              :max="dataset.chartDataCollection.barChartRange.yAxisMax",
               @change="onYAxisTextChange"
-            ) 
+            )
 </template>
 
 <script>
@@ -299,8 +293,7 @@ export default {
       this.barChartOptions = tmpOptions;
     },
     onYAxisTextChange() {
-      // * Adjust chart axis and redraw chart
-      this.setChartScales(
+      this.onYAxisSliderChange(
         this.dataset.chartDataCollection.barChartRange.yAxisRange
       );
     },

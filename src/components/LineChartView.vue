@@ -4,14 +4,13 @@
     v-col.y-left-slider(sm="2")
       v-row 
         v-col.y-slider-text
-          v-text-field(
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
-            hide-details,
-            single-line,
+          input.mt20(
             type="number",
-            style="width: 60px",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
+            :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
             @change="onYAxisTextChange"
-          )
+          ) 
       v-row.y-slider-wrapper
         v-col
           v-range-slider.y-slider(
@@ -23,12 +22,11 @@
           )
       v-row 
         v-col.y-slider-text
-          v-text-field(
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
-            hide-details,
-            single-line,
+          input(
             type="number",
-            style="width: 60px",
+            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
+            :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+            :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
             @change="onYAxisTextChange"
           )
     v-col.chart-container(sm="10", ref="lineChartWrapper")
@@ -75,7 +73,6 @@
         label y
     v-col(cols="11")
       v-row#y-slider-row
-        v-col(cols="01", sm="1", md="1")
         v-col.y-bottom-slider(cols="12", sm="11", md="11")
           v-range-slider.y-slider-mobile-bottom(
             @change="onYAxisSliderChange",
@@ -84,21 +81,24 @@
             :max="dataset.chartDataCollection.lineChartRange.yAxisMax"
           )
       v-row#y-label-row
-        v-col(cols="01", sm="1", md="1")
         v-col#y-label-right(cols="6", sm="5", md="5")
           div
             input#y-input-right(
               type="number",
               v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[0]",
+              :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+              :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
               @change="onYAxisTextChange"
             )
         v-col#y-label-left(cols="6", sm="6", md="6")
           div
-          input.y-input-left(
-            type="number",
-            v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
-            @change="onYAxisTextChange"
-          )
+            input.y-input-left(
+              type="number",
+              v-model="dataset.chartDataCollection.lineChartRange.yAxisRange[1]",
+              :min="dataset.chartDataCollection.lineChartRange.yAxisMin",
+              :max="dataset.chartDataCollection.lineChartRange.yAxisMax",
+              @change="onYAxisTextChange"
+            )
 </template>
 
 <script>
@@ -283,6 +283,7 @@ export default {
       this.resizeChart(this.$refs.lineChart.$el.clientWidth);
     },
     onYAxisSliderChange(event) {
+      console.log("LineChartView.onYAxisSliderChange: event = ", event);
       const tmpOptions = JSON.parse(JSON.stringify(this.lineChartOptions));
       tmpOptions.scales.yAxes[0].ticks.min = event[0];
       tmpOptions.scales.yAxes[0].ticks.max = event[1];
@@ -291,8 +292,7 @@ export default {
       this.lineChartOptions = tmpOptions;
     },
     onYAxisTextChange() {
-      // * Adjust chart axis and redraw chart
-      this.setChartScales(
+      this.onYAxisSliderChange(
         this.dataset.chartDataCollection.lineChartRange.yAxisRange
       );
     },
