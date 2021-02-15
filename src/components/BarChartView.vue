@@ -114,6 +114,8 @@ import { parse, stringify } from "flatted";
 
 import BarChart from "@/components/charts/BarChart";
 
+import { findMinYValue } from "@/js/helpers";
+
 export default {
   name: "BarChartView",
   props: {
@@ -229,7 +231,7 @@ export default {
     },
     yMinValue() {
       if (typeof this.$refs.barChart !== "undefined") {
-        return this.$refs.barChart._data._chart.scales["y-axis-0"].start;
+        return findMinYValue(this.dataset);
       }
 
       return null;
@@ -332,6 +334,7 @@ export default {
 
       // * set chart min/max
       this.barChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.barChartRange.yAxisOrgMin;
+      this.dataset.chartDataCollection.barChartRange.yAxisMin = this.dataset.chartDataCollection.barChartRange.yAxisOrgMin;
       this.barChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.barChartRange.yAxisOrgMax;
 
       // * set yAxisRange to new chart min/max
@@ -409,6 +412,7 @@ export default {
         }
 
         this.currentDataset = this.dataset.name;
+        this.redraw();
       } else {
         console.log("barChartView.resetYSlider: Doing redraw");
         this.redraw();
