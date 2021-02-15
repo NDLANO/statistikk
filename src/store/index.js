@@ -181,7 +181,9 @@ export default new Vuex.Store({
       state.selectedDatasetIndex = newSelectedIndex;
     },
     mInitYAxisValues(state, { rangeType, newMin, newMax }) {
+      // *  Floors min value to make sure it is .5
       newMin = Math.floor(newMin);
+
       console.log("store.mInitYMinMax: min = ", newMin, ", max = ", newMax);
       state.datasets[state.selectedDatasetIndex].chartDataCollection[
         rangeType
