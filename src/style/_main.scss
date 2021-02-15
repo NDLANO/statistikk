@@ -7,6 +7,8 @@
   color: #2c3e50;
   padding-top: 25px;
   touch-action: pan-y;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
