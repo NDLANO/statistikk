@@ -8,10 +8,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  padding-top: 25px;
   touch-action: pan-y;
   height: 100vh;
   overflow-y: auto;
+
+  .v-application--wrap {
+    padding-top: 25px;
+  }
 }
 
 input[type="number"]::-webkit-inner-spin-button,
