@@ -325,6 +325,8 @@ export default {
 
       // * set chart min/max
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin;
+      // this.lineChartOptions.scales.yAxes[0].ticks.min = 0;
+      this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin;
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax;
 
       // * set yAxisRange to new chart min/max
@@ -397,6 +399,7 @@ export default {
         }
 
         this.currentDataset = this.dataset.name;
+        this.redraw();
       } else {
         console.log("LineChartView.resetYSlider: Doing redraw");
         this.redraw();
