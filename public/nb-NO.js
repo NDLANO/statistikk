@@ -1,9 +1,7 @@
-window.statistikkDictionary = {
+window.statistikkDictionaryNb = {
   general: {
     dataset: "Datasett",
     chartType: "Diagramtype",
-    correctAnswer: "Du svarte rett!",
-    wrongAnswer: "Du svarte ikkje rett...",
     startButton: "Start",
     nextButton: "Neste",
     closeButton: "Lukk",
