@@ -18,6 +18,7 @@ v-app#app
               v-if="selectedDataset.creditsLink",
               :href="selectedDataset.creditsLink",
               target="_blank"
+              class="dblock"
             ) Kilde: {{ selectedDataset.creditsText }}
             .credits(v-else) Kilde: {{ selectedDataset.creditsText }}
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
@@ -193,11 +194,11 @@ export default {
   watch: {
     selectedChart(newValue, oldValue) {
       if (newValue === 1) {
-        this.$nextTick(function () {
+        this.$nextTick(function() {
           this.$refs.lineChart.redraw();
         });
       } else if (newValue === 2) {
-        this.$nextTick(function () {
+        this.$nextTick(function() {
           this.$refs.barChart.redraw();
         });
       }
@@ -222,7 +223,7 @@ export default {
       var jsonData = this.$papa.parse(csvData, {
         header: true,
         dynamicTyping: false,
-        transformHeader: function (h) {
+        transformHeader: function(h) {
           return h.toString();
         },
       }).data;
