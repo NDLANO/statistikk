@@ -12,9 +12,20 @@ Vue.use(VueI18n);
 Vue.use(VuePapaParse);
 Vue.use(VueHtml2Canvas);
 
-const messages = {
-  no: window.statistikkDictionary,
-};
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const langCode = urlParams.get("lang");
+console.log("main: lang = ", langCode);
+
+let messages = {};
+if (langCode == "nn") {
+  messages.no = window.statistikkDictionaryNn;
+} else {
+  messages.no = window.statistikkDictionaryNb;
+}
+// const messages = {
+//   no: window.statistikkDictionaryNb,
+// };
 
 const i18n = new VueI18n({
   locale: "no",

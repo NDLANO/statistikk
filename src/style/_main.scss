@@ -1,0 +1,165 @@
+html {
+  overflow-y: auto;
+}
+#app {
+  font-family: sans-serif;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  touch-action: pan-y;
+  height: 100vh;
+  overflow-y: auto;
+
+  .v-application--wrap {
+    padding-top: 25px;
+  }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+/**----all buttons----**/
+.v-btn.ndla-btn {
+  text-transform: none !important;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+/**----Heading----**/
+#heading-row {
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    margin-top: -2rem;
+  }
+}
+/**----Filters----**/
+#sub-head-row {
+  margin-top: -1rem;
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    margin-top: 0rem;
+  }
+}
+
+#filters-top-col {
+  align-items: center;
+  justify-content: center;
+}
+#filters-row {
+  align-items: center;
+  font-size: 0.8rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -1rem;
+  }
+}
+/*------Dataset dropdowm-----*/
+#dataset-lbl {
+  display: flex;
+  font-size: 0.8rem;
+}
+
+/*-----diagramtype radio button------*/
+#diagramtype-label-col {
+  display: flex;
+  justify-content: flex-end;
+  @media only screen and (max-width: 600px) {
+    margin-top: -1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+#diagramtype-lbl {
+  font-size: 0.8rem;
+  @media only screen and (max-width: 600px) {
+    margin-left: 3.5rem;
+  }
+}
+#diagramtype-col {
+  display: flex;
+  justify-content: flex-start;
+
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    margin-top: -1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/*------Resetchart button------*/
+#resetchart-col {
+  display: flex;
+  justify-content: flex-end;
+
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    margin-top: -1rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/*---- download diagram button----*/
+#download-btn {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  //margin-left: -1rem;
+
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    margin-top: 0;
+  }
+}
+/*-----Importer Data button--------*/
+#import-btn {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-end;
+
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    margin-top: -2rem;
+    margin-bottom: 3rem;
+    justify-content: center;
+  }
+}
+
+/*-----Datatable row---------*/
+#datatable-row {
+  margin-top: 2rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -2rem;
+  }
+}
+
+// * Input text fields
+.v-input {
+  font-size: 12.8px;
+}
+
+// * Center vertical Y slider text field
+.col.y-slider-text {
+  flex-grow: 0;
+  margin: 0 auto;
+}
+
+// * Chart credits
+.v-text-field__details {
+  display: none;
+}
+.credits {
+  text-align: left;
+  margin-left: 5px;
+}
+
+// * Utilitie classes
+.mt20 {
+  margin-top: 20px;
+}
+.dblock {
+  display: block;
+}

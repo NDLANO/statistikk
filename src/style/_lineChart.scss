@@ -1,0 +1,124 @@
+#linegraph-div {
+  width: 100%;
+}
+
+// * Vertical Y axis slider height
+.row.y-slider-wrapper {
+  height: calc(100% - 144px);
+}
+
+.v-input.y-slider {
+  height: 100%;
+}
+
+.row.y-slider-wrapper ::v-deep {
+  .v-input__slot {
+    height: 100%;
+  }
+  .v-input__control {
+    height: 100%;
+  }
+  .v-slider.v-slider--vertical {
+    height: 100%;
+  }
+}
+
+.y-left-slider {
+  visibility: visible;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+/*----- X-Axis------*/
+
+#x-slider-head-row {
+  justify-content: flex-end;
+  margin-top: -1.5rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: 0.5rem;
+  }
+}
+
+#x-slider-row {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    margin-top: -3rem;
+  }
+}
+#x-header-label-col {
+  visibility: hidden;
+  display: none;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+  }
+}
+#x-label-row {
+  margin-top: -3rem;
+  @media only screen and (max-width: 600px) {
+    margin-top: -5rem;
+  }
+}
+#x-label-right {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 12.8px;
+}
+#x-label-left {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12.8px;
+}
+
+/*---- Y-axis Mobile alignment-----*/
+#y-slider-head-row {
+  visibility: hidden;
+  display: none;
+  /* mobile */
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    // margin-top: -2rem;
+  }
+}
+#y-slider-row {
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    display: flex;
+    margin-top: -1rem;
+  }
+}
+#y-label-row {
+  visibility: hidden;
+  display: none;
+  @media only screen and (max-width: 600px) {
+    visibility: visible;
+    position: relative;
+    z-index: 100;
+    display: flex;
+    margin-top: -2.5rem;
+  }
+}
+#y-label-right {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+#y-label-left {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+.y-input-left {
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    justify-content: flex-end;
+    width: 60px;
+  }
+}

@@ -1,3 +1,4 @@
+import { parse, stringify } from "flatted";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 
@@ -24,39 +25,80 @@ function generateActiveData(activeRows, key, data) {
   return newData;
 }
 
-function generateNewXAxisData(dataCollection) {
+function generateNewXAxisData(dataCollection, selectedChartIndex) {
   // debugger;
+  console.log(
+    "store.generateNewXAxisData: dataCollection = ",
+    parse(stringify(dataCollection))
+  );
   var oldXRangeMin =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[0]];
-
-  console.log("store.generateNewXAxisData: oldXRangeMin = ", oldXRangeMin);
-  var newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
-  if (newXRangeMinIndex === -1) {
-    newXRangeMinIndex = 0;
-  }
-  console.log(
-    "store.generateNewXAxisData: newXRangeMin = ",
-    dataCollection.labels[newXRangeMinIndex]
-  );
-
   var oldXRangeMax =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
-  // debugger;
-  console.log("store.generateNewXAxisData: oldXRangeMax = ", oldXRangeMax);
-  var newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
-  if (newXRangeMaxIndex === -1) {
-    newXRangeMaxIndex = dataCollection.labels.length - 1;
+
+  console.log("store.generateNewXAxisData: odXRangeMax = ", oldXRangeMax);
+
+  if (selectedChartIndex == 2) {
+    oldXRangeMin =
+      dataCollection.oldLabels[dataCollection.barChartRange.xAxisRange[0]];
+    oldXRangeMax =
+      dataCollection.oldLabels[dataCollection.barChartRange.xAxisRange[1]];
   }
+  var newXRangeMinIndex;
+  var newXRangeMaxIndex;
+
+  // * If there are only two labels/rows,
+  // * min must be the first, max the last
+  if (dataCollection.labels.length == 2 || oldXRangeMin == oldXRangeMax) {
+    newXRangeMinIndex = 0;
+    newXRangeMaxIndex = dataCollection.labels.length - 1;
+  } else {
+    newXRangeMinIndex = dataCollection.labels.indexOf(oldXRangeMin);
+    if (newXRangeMinIndex === -1) {
+      newXRangeMinIndex = 0;
+    }
+
+    // debugger;
+    newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
+    if (newXRangeMaxIndex === -1) {
+      newXRangeMaxIndex = dataCollection.labels.length - 1;
+    }
+  }
+
+  if (selectedChartIndex == 1) {
+    console.log(
+      "store.generateNewXAxisData: setting lineChart max = ",
+      newXRangeMaxIndex
+    );
+    dataCollection.lineChartRange.xAxisMax = dataCollection.labels.length - 1;
+    dataCollection.lineChartRange.xAxisRange = [
+      newXRangeMinIndex,
+      newXRangeMaxIndex,
+    ];
+  } else {
+    console.log(
+      "store.generateNewXAxisData: setting barChart max = ",
+      newXRangeMaxIndex
+    );
+    dataCollection.barChartRange.xAxisMax = dataCollection.labels.length - 1;
+    dataCollection.barChartRange.xAxisRange = [
+      newXRangeMinIndex,
+      newXRangeMaxIndex,
+    ];
+  }
+
   console.log(
-    "store.generateNewXAxisData: newXRangeMax = ",
-    dataCollection.labels[newXRangeMaxIndex]
+    "store.generateNewXAxisData: new min = ",
+    newXRangeMinIndex,
+    ", max = ",
+    newXRangeMaxIndex
+  );
+  console.log(
+    "store.generateNewXAxisData: modified dataCollection = ",
+    parse(stringify(dataCollection))
   );
 
-  dataCollection.lineChartRange.xAxisMax = dataCollection.labels.length - 1;
-  dataCollection.lineChartRange.xAxisRange = [
-    newXRangeMinIndex,
-    newXRangeMaxIndex,
-  ];
+  dataCollection.oldLabels = [...dataCollection.labels];
 }
 
 export default new Vuex.Store({
@@ -139,6 +181,9 @@ export default new Vuex.Store({
       state.selectedDatasetIndex = newSelectedIndex;
     },
     mInitYAxisValues(state, { rangeType, newMin, newMax }) {
+      // *  Floors min value to make sure it is .5
+      newMin = Math.floor(newMin);
+
       console.log("store.mInitYMinMax: min = ", newMin, ", max = ", newMax);
       state.datasets[state.selectedDatasetIndex].chartDataCollection[
         rangeType
@@ -159,7 +204,7 @@ export default new Vuex.Store({
       ].yAxisRange = [newMin, newMax];
     },
     mSetActiveRows(state, newActiveRows) {
-      console.log("store.mSetActiveRows: newActiveRows = ", newActiveRows);
+      console.log("---store.mSetActiveRows: newActiveRows = ", newActiveRows);
       state.datasets[state.selectedDatasetIndex].activeRows = newActiveRows;
       state.datasets[
         state.selectedDatasetIndex
@@ -173,6 +218,10 @@ export default new Vuex.Store({
         state.datasets[state.selectedDatasetIndex]
       );
     },
+    mSetActiveCols(state, newActiveCols) {
+      console.log("store.mSetActiveCols: newActiveCols = ", newActiveCols);
+      state.datasets[state.selectedDatasetIndex].activeCols = newActiveCols;
+    },
     mResetXSlider(state) {
       console.log(
         "store.mResetXSlider: state.selectedDataset = ",
@@ -182,6 +231,7 @@ export default new Vuex.Store({
       let collection =
         state.datasets[state.selectedDatasetIndex].chartDataCollection;
       collection.lineChartRange.xAxisRange = [0, collection.labels.length - 1];
+      collection.barChartRange.xAxisRange = [0, collection.labels.length - 1];
     },
   },
   actions: {
@@ -197,11 +247,15 @@ export default new Vuex.Store({
       console.log("store.initYMinMax: min = ", newMin, ", max = ", newMax);
       this.commit("mInitYAxisValues", { rangeType, newMin, newMax });
     },
-    setActiveRows({ commit, dispatch }, newActiveRows) {
+    setActiveRows({ commit, dispatch }, { newActiveRows, selectedChartIndex }) {
       this.commit("mSetActiveRows", newActiveRows);
-      this.dispatch("recalculateDataCollection");
+      this.dispatch("recalculateDataCollection", selectedChartIndex);
     },
-    recalculateDataCollection({ commit, state, getters }) {
+    setActiveCols({ commit, dispatch }, { newActiveCols, selectedChartIndex }) {
+      this.commit("mSetActiveCols", newActiveCols);
+      this.dispatch("recalculateDataCollection", selectedChartIndex);
+    },
+    recalculateDataCollection({ commit, state, getters }, selectedChartIndex) {
       if (state.datasets) {
         console.log("store.recalculateDataCollection init");
         // * Set labes based on activeRows
@@ -230,7 +284,14 @@ export default new Vuex.Store({
           );
         }
 
-        generateNewXAxisData(getters.selectedDataset.chartDataCollection);
+        console.log(
+          "store.generate: selectedChartIndex = ",
+          selectedChartIndex
+        );
+        generateNewXAxisData(
+          getters.selectedDataset.chartDataCollection,
+          selectedChartIndex
+        );
 
         console.log(
           "store.recalculateDataCollection: selectedDataset = ",
