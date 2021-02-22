@@ -23,3 +23,11 @@ ESLint, Prettier, Sass, Pug satt opp vha [Vue CLI](https://cli.vuejs.org/)
 
 - [Material Design Icons](https://materialdesignicons.com/) - Ikoner
 - [node-sftp-deploy-i](https://www.npmjs.com/package/node-sftp-deploy-i) - For opplasting til [https://developer2.doublethink.no/ndla_statistikk/](https://developer2.doublethink.no/ndla_statistikk/)
+
+## Linkformat
+
+For å velge mellom bokmål og nynorsk brukes et URL-parameter.
+
+For å velge nynorsk må URLen i linken slutte på `/?lang=nn`.
+
+Bokmål er standardspråk og trenger ikke noe parameter. Man kan evt. også legge parameter `/?lang=nb`.

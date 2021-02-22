@@ -1,6 +1,6 @@
-window.statistikkDictionaryNb = {
+window.statistikkDictionaryNn = {
   general: {
-    dataset: "Datasett",
+    dataset: "Dataset",
     chartType: "Diagramtype",
     startButton: "Start",
     nextButton: "Neste",
