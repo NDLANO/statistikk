@@ -14,11 +14,10 @@ v-app#app
               item-text="name",
               outlined
             )
-            a.credits(
+            a.credits.dblock(
               v-if="selectedDataset.creditsLink",
               :href="selectedDataset.creditsLink",
               target="_blank"
-              class="dblock"
             ) Kilde: {{ selectedDataset.creditsText }}
             .credits(v-else) Kilde: {{ selectedDataset.creditsText }}
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
