@@ -435,5 +435,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "src/style/_LineChart.scss";
+@import "src/style/_lineChart.scss";
 </style>
