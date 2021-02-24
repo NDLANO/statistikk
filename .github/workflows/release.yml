@@ -23,7 +23,7 @@ jobs:
             **/node_modules
             .eslintcache
             ~/.npm
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - name: 'Install'
         run: npm install
       - name: 'Build'
