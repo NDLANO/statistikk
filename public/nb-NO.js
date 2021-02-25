@@ -15,11 +15,11 @@ window.statistikkDictionaryNb = {
   },
   import: {
     title: "Last inn data",
-    fileTemplate: "Eksempelfil for data import (Excel)",
+    fileTemplate: "Eksempelfil for data-import (Excel)",
     description:
       "For å laste inn egne data må de lagres i en CSV-fil med en spesiell struktur. Klikk under for å finne ut hvordan du lager en fil med korrekt format.",
     descriptionFile: "Instruksjoner (PDF)",
-    instruction: "Last inn datafil (.CSV)",
+    instruction: "Last inn datafil (CSV)",
     chooseFileButton: "Velg fil",
     noFileChosen: "Ingen fil er valgt",
     importButton: "Last inn",

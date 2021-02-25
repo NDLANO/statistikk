@@ -1,6 +1,6 @@
 window.statistikkDictionaryNn = {
   general: {
-    dataset: "Dataset",
+    dataset: "Datasett",
     chartType: "Diagramtype",
     startButton: "Start",
     nextButton: "Neste",
@@ -15,12 +15,12 @@ window.statistikkDictionaryNn = {
   },
   import: {
     title: "Last inn data",
-    fileTemplate: "Eksempelfil for data import (Excel)",
+    fileTemplate: "Eksempelfil for data-import (Excel)",
     description:
       "For å laste inn egne data må de lagres i en CSV-fil med en spesiell struktur. Klikk under for å finne ut hvordan du lager en fil med korrekt format.",
     descriptionFile: "Instruksjoner (PDF)",
-    instruction: "Last inn datafil (.CSV)",
-    chooseFileButton: "Velg fil",
+    instruction: "Last inn datafil (CSV)",
+    chooseFileButton: "Vel fil",
     noFileChosen: "Ingen fil er valgt",
     importButton: "Last inn",
     closeWindowButton: "Avbryt",
