@@ -15,7 +15,6 @@ Vue.use(VueHtml2Canvas);
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const langCode = urlParams.get("lang");
-console.log("main: lang = ", langCode);
 
 let messages = {};
 if (langCode == "nn") {
@@ -23,9 +22,6 @@ if (langCode == "nn") {
 } else {
   messages.no = window.statistikkDictionaryNb;
 }
-// const messages = {
-//   no: window.statistikkDictionaryNb,
-// };
 
 const i18n = new VueI18n({
   locale: "no",

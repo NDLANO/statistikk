@@ -74,12 +74,6 @@ v-app#app
               div {{ $t('general.saveGraph') }}
           v-col#import-btn(cols="12", sm="6", md="6")
             ModalImportFile(ref="importModal", @fileSelected="onFileSelected")
-            //v-btn.ndla-btn.font-weight-bold(
-              @click="$refs.csvFile.click()",
-              color="#20588F",
-              rounded,
-              dark
-              )
             v-btn.ndla-btn.font-weight-bold(
               @click="$refs.importModal.openDialog()",
               color="#20588F",
@@ -169,7 +163,6 @@ export default {
     this.configData = Object.freeze(window.mfNdlaConfig);
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
-      // console.log("csvData = ", csvData);
       this.addCsvData(csvData, this.configData.datasets[dataset]);
     }
 
@@ -234,7 +227,6 @@ export default {
         Object.keys(jsonData[0])
       );
 
-      // console.table(jsonData);
       var activeRows = Array(jsonData.length).fill(true);
       var activeCols = Array(Object.keys(jsonData[0]).length - 1).fill(true);
       console.log("App.addCsvData: activeCols = ", activeCols);
@@ -424,7 +416,6 @@ export default {
         yAxisMax: 10000,
         yAxisRange: [0, 200],
       };
-      // debugger;
       console.log("App.generateChartRange initiated");
 
       // * Modify values if lineCharRange values already exist

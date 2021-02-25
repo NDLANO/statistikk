@@ -109,13 +109,10 @@ $darkBlue: #20588f;
   }
 
   .title {
-    // .v-card__title {
-    // position: relative;
     padding: 16px 0 5px 0;
     margin: 0 $sideMargin 16px $sideMargin;
     border-bottom: 1px solid #a5bcd3;
     flex-direction: column;
-    // }
   }
 
   .title-text {

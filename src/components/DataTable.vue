@@ -148,8 +148,6 @@ export default {
       this.$emit("dataChanged");
     },
     onCheckboxChanged() {
-      // let checked = [].concat(this.value);
-      // this.$emit("input", checked);
       console.log("DataTable.onCheckboxChanged");
       this.$emit("input", [...this.localValue]);
       this.$emit("dataChanged");

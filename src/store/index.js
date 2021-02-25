@@ -7,7 +7,6 @@ Vue.use(Vuex);
 function getActiveLabels(datasetIn) {
   let labelArray = [];
   for (var i = 0; i < datasetIn.data.length; i++) {
-    // console.log("item = ", Object.values(this.loadedData[item])[index]);
     if (datasetIn.activeRows[i])
       labelArray.push(Object.values(datasetIn.data[i])[0]);
   }
@@ -26,7 +25,6 @@ function generateActiveData(activeRows, key, data) {
 }
 
 function generateNewXAxisData(dataCollection, selectedChartIndex) {
-  // debugger;
   console.log(
     "store.generateNewXAxisData: dataCollection = ",
     parse(stringify(dataCollection))
@@ -58,7 +56,6 @@ function generateNewXAxisData(dataCollection, selectedChartIndex) {
       newXRangeMinIndex = 0;
     }
 
-    // debugger;
     newXRangeMaxIndex = dataCollection.labels.indexOf(oldXRangeMax);
     if (newXRangeMaxIndex === -1) {
       newXRangeMaxIndex = dataCollection.labels.length - 1;
@@ -154,16 +151,12 @@ export default new Vuex.Store({
         );
         return getters.selectedDataset.chartDataCollection;
       }
-      console.log("store.activeDataCollection: arh!");
       return undefined;
     },
   },
   mutations: {
     mRecalculateDataCollection: (state, getters) => {
-      // getters.updated();
       state.updated = new Date().getTime();
-      console.log("store.activeDataCollection: arh!");
-      // return undefined;
     },
 
     mAddDataset(state, dataset) {
@@ -181,7 +174,8 @@ export default new Vuex.Store({
       state.selectedDatasetIndex = newSelectedIndex;
     },
     mInitYAxisValues(state, { rangeType, newMin, newMax }) {
-      // *  Floors min value to make sure it is .5
+      // * Floors min value to make sure it is not .5
+      // * (Vuetify ranged sliders have a problem with .5 min values)
       newMin = Math.floor(newMin);
 
       console.log("store.mInitYMinMax: min = ", newMin, ", max = ", newMax);
@@ -237,7 +231,6 @@ export default new Vuex.Store({
   actions: {
     addDataset({ commit }, dataset) {
       console.log("************* store.addDataset");
-      // debugger;
       this.commit("mAddDataset", dataset);
     },
     selectDataset({ commit }, newDatasetName) {
@@ -297,7 +290,6 @@ export default new Vuex.Store({
           "store.recalculateDataCollection: selectedDataset = ",
           getters.selectedDataset
         );
-        // return getters.selectedDataset.chartDataCollection;
       }
 
       this.commit("mRecalculateDataCollection");
