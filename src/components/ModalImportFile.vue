@@ -13,7 +13,7 @@ div
       .description
         div {{ $t('import.description') }}
         br
-        a(href="instruksjoner.pdf", target="_blank")
+        a(:href="instructionFilename", target="_blank")
           v-icon.icon mdi-cloud-download
           span {{ $t('import.descriptionFile') }}
         br
@@ -63,6 +63,18 @@ export default {
       fileName: "",
       file: null,
     };
+  },
+  computed: {
+    instructionFilename() {
+      let fileName = "instruksjonerNB";
+
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const langCode = urlParams.get("lang");
+      if (langCode === "nn") fileName = "instruksjonarNN";
+
+      return fileName + ".pdf";
+    },
   },
   methods: {
     openDialog() {
