@@ -18,8 +18,8 @@ v-app#app
               v-if="selectedDataset.creditsLink",
               :href="selectedDataset.creditsLink",
               target="_blank"
-            ) Kilde: {{ selectedDataset.creditsText }}
-            .credits(v-else) Kilde: {{ selectedDataset.creditsText }}
+            ) {{ $t('general.source')}}: {{ selectedDataset.creditsText }}
+            .credits(v-else) {{ $t('general.source')}}: {{ selectedDataset.creditsText }}
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
             #diagramtype-lbl.font-weight-bold
               label {{ $t('general.chartType') }}:
