@@ -160,7 +160,11 @@ export default {
     };
   },
   mounted() {
-    this.configData = Object.freeze(window.mfNdlaConfig);
+    if (this.langCode == "nn") {
+      this.configData = Object.freeze(window.mfNdlaConfigNN);
+    } else {
+      this.configData = Object.freeze(window.mfNdlaConfig);
+    }
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
       this.addCsvData(csvData, this.configData.datasets[dataset]);
@@ -181,6 +185,11 @@ export default {
       }
 
       return [];
+    },
+    langCode() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      return urlParams.get("lang");
     },
   },
   watch: {
