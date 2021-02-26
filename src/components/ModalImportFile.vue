@@ -36,7 +36,7 @@ div
             color="#20588F",
             rounded,
             dark
-          ) Velg fil
+          )  {{ $t('import.chooseFileButton') }}
           label(v-if="fileName == ''") {{ $t('import.noFileChosen') }}
           label.file-selected(v-else) {{ fileName }}
 

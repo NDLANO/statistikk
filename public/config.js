@@ -15,7 +15,7 @@ window.mfNdlaConfig = {
     //   filename: "data/co2.csv",
     // },
     {
-      name: "BNP 1911 - 2011",
+      name: "BNP per innbygger",
       filename: "data/bruttonasjonalprodukt.csv",
       creditsLink:
         "https://www.gapminder.org/tools/?from=world#$chart-type=bubbles",

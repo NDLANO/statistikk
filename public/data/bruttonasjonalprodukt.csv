@@ -1,6 +1,6 @@
 ﻿Aksetittel, x-akse;Årstall;;;;;;;;;
-Aksetittel, y-akse;Bruttonasjonalprodukt;;;;;;;;;
-Kilde;Statistisk sentralbyrå;;;;;;;;;
+Aksetittel, y-akse;BNP per innbygger;;;;;;;;;
+Kilde;gapminder.org;;;;;;;;;
 ;;;;;;;;;;
 Årstall;Danmark;Finland;Frankrike;Italia;Nederland;Norge;Russland;Storbritannia;Sverige;Tyskland
 1911;6930;3140;5350;4480;6950;7460;3220;7720;4400;6890
