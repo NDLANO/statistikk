@@ -7,7 +7,7 @@ export function processCsvString(csvString) {
   let yAxisLabelString = fileLines.splice(0, 1);
   let creditsTextString = fileLines.splice(0, 1);
 
-  // Remove empty line
+  // * Remove empty line
   fileLines.splice(0, 1);
 
   fileLines = removeEmptyLastLine(fileLines);

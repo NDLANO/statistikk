@@ -18,7 +18,7 @@ export function findMinYValue(dataset) {
     if (tmpMin < minYValue) minYValue = tmpMin;
   }
 
-  // * Floor to make sure the value isn't .5
+  // * Floor to make sure the value isn't .5 (Vuetify bug)
   minYValue = Math.floor(minYValue);
 
   return minYValue;

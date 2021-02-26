@@ -176,9 +176,7 @@ export default {
   },
   watch: {
     updated(newValue, oldValue) {
-      //   console.log("LineChartView.activeDataCollection watcher");
       console.log("LineChartView: updated watcher");
-      // this.onXAxisSliderChange();
       this.initDataset();
     },
     dataset(newValue, oldValue) {
@@ -238,7 +236,6 @@ export default {
     ...mapActions(["initYAxisValues", "resetXSlider"]),
     resizeChart(newWidth) {
       console.log("LineChartview.resizeChart: newWidth = ", newWidth);
-      // this.$nextTick(() => this.resizeChart());
       if (newWidth < 600) this.chartStyle.height = "350px";
       else if (newWidth < 960) this.chartStyle.height = "500px";
       else this.chartStyle.height = "750px";
@@ -326,7 +323,6 @@ export default {
 
       // * set chart min/max
       this.lineChartOptions.scales.yAxes[0].ticks.min = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin;
-      // this.lineChartOptions.scales.yAxes[0].ticks.min = 0;
       this.dataset.chartDataCollection.lineChartRange.yAxisMin = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin;
       this.lineChartOptions.scales.yAxes[0].ticks.max = this.dataset.chartDataCollection.lineChartRange.yAxisOrgMax;
 
@@ -345,7 +341,6 @@ export default {
       console.log("LineChartView.resetChart");
       if (!resetToOrgAxisLimits)
         this.dataset.chartDataCollection.lineChartRange.yAxisOrgMin = undefined;
-      // this.deleteChartScales();
       this.resetYSlider(resetToOrgAxisLimits);
       this.resetXSlider();
       this.redraw();
@@ -423,10 +418,6 @@ export default {
     },
   },
   mounted() {
-    console.log(
-      "LineChartView.mounted: ref linechart = ",
-      this.$refs.lineChart.$el.clientWidth
-    );
     console.log("LineChart.mounted: dataset = ", this.dataset);
     this.initDataset();
   },

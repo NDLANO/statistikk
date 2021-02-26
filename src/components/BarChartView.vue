@@ -184,7 +184,6 @@ export default {
         "BarChartView.updated watcher: selectedDataset = ",
         this.dataset
       );
-      // this.onXAxisSliderChange();
       this.initDataset();
     },
     dataset(newValue, oldValue) {
@@ -342,7 +341,6 @@ export default {
 
       if (!resetToOrgAxisLimits)
         this.dataset.chartDataCollection.barChartRange.yAxisOrgMin = undefined;
-      // this.deleteChartScales();
       this.resetYSlider(resetToOrgAxisLimits);
       this.resetXSlider();
       this.redraw();

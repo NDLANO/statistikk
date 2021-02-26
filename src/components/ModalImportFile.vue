@@ -13,7 +13,7 @@ div
       .description
         div {{ $t('import.description') }}
         br
-        a(href="instruksjoner.pdf", target="_blank")
+        a(:href="instructionFilename", target="_blank")
           v-icon.icon mdi-cloud-download
           span {{ $t('import.descriptionFile') }}
         br
@@ -36,7 +36,7 @@ div
             color="#20588F",
             rounded,
             dark
-          ) Velg fil
+          )  {{ $t('import.chooseFileButton') }}
           label(v-if="fileName == ''") {{ $t('import.noFileChosen') }}
           label.file-selected(v-else) {{ fileName }}
 
@@ -63,6 +63,18 @@ export default {
       fileName: "",
       file: null,
     };
+  },
+  computed: {
+    instructionFilename() {
+      let fileName = "instruksjonerNB";
+
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const langCode = urlParams.get("lang");
+      if (langCode === "nn") fileName = "instruksjonarNN";
+
+      return fileName + ".pdf";
+    },
   },
   methods: {
     openDialog() {
@@ -97,13 +109,10 @@ $darkBlue: #20588f;
   }
 
   .title {
-    // .v-card__title {
-    // position: relative;
     padding: 16px 0 5px 0;
     margin: 0 $sideMargin 16px $sideMargin;
     border-bottom: 1px solid #a5bcd3;
     flex-direction: column;
-    // }
   }
 
   .title-text {
