@@ -18,7 +18,7 @@ div
           span {{ $t('import.descriptionFile') }}
         br
         br
-        a(href="mal.xlsx")
+        a(:href="templateFilename")
           v-icon.icon mdi-cloud-download
           span {{ $t('import.fileTemplate') }}
       .file-selector
@@ -74,6 +74,16 @@ export default {
       if (langCode === "nn") fileName = "instruksjonarNN";
 
       return fileName + ".pdf";
+    },
+    templateFilename() {
+      let fileName = "mal";
+
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const langCode = urlParams.get("lang");
+      if (langCode === "nn") fileName = "./malNN/mal";
+
+      return fileName + ".xlsx";
     },
   },
   methods: {

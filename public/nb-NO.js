@@ -12,6 +12,7 @@ window.statistikkDictionaryNb = {
     lineGraph: "Linje",
     barGraph: "Stolpe",
     importData: "Importer data",
+    source: "Kilde",
   },
   import: {
     title: "Importer data",

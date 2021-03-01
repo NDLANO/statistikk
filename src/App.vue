@@ -18,8 +18,8 @@ v-app#app
               v-if="selectedDataset.creditsLink",
               :href="selectedDataset.creditsLink",
               target="_blank"
-            ) Kilde: {{ selectedDataset.creditsText }}
-            .credits(v-else) Kilde: {{ selectedDataset.creditsText }}
+            ) {{ $t('general.source')}}: {{ selectedDataset.creditsText }}
+            .credits(v-else) {{ $t('general.source')}}: {{ selectedDataset.creditsText }}
           v-col#diagramtype-label-col(cols="4", sm="2", md="2")
             #diagramtype-lbl.font-weight-bold
               label {{ $t('general.chartType') }}:
@@ -160,7 +160,11 @@ export default {
     };
   },
   mounted() {
-    this.configData = Object.freeze(window.mfNdlaConfig);
+    if (this.langCode == "nn") {
+      this.configData = Object.freeze(window.mfNdlaConfigNN);
+    } else {
+      this.configData = Object.freeze(window.mfNdlaConfig);
+    }
     for (var dataset in this.configData.datasets) {
       var csvData = readFile(this.configData.datasets[dataset].filename);
       this.addCsvData(csvData, this.configData.datasets[dataset]);
@@ -182,15 +186,20 @@ export default {
 
       return [];
     },
+    langCode() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      return urlParams.get("lang");
+    },
   },
   watch: {
     selectedChart(newValue, oldValue) {
       if (newValue === 1) {
-        this.$nextTick(function () {
+        this.$nextTick(function() {
           this.$refs.lineChart.redraw();
         });
       } else if (newValue === 2) {
-        this.$nextTick(function () {
+        this.$nextTick(function() {
           this.$refs.barChart.redraw();
         });
       }
@@ -215,7 +224,7 @@ export default {
       var jsonData = this.$papa.parse(csvData, {
         header: true,
         dynamicTyping: false,
-        transformHeader: function (h) {
+        transformHeader: function(h) {
           return h.toString();
         },
       }).data;
