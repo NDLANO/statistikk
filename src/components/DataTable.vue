@@ -20,10 +20,12 @@
                       v-icon mdi-chevron-down
 
           th.text-center(v-for="(item, index) in rowHeadings", :key="item")
-            .rowHeadings-row 
+            .rowHeadings-row.header-xaxis(v-if="index == 0")
+              div
+                span.rowheadings-span {{ item }}
+            .rowHeadings-row(v-else)
               .checkbox-col
                 v-checkbox.rowheadings-checkbox(
-                  v-if="index > 0",
                   v-model="localActiveCols[index - 1]",
                   @change="onColCheckboxChanged"
                 )
