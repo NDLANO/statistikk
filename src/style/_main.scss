@@ -162,3 +162,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .dblock {
   display: block;
 }
+
+.v-input--selection-controls__input {
+  margin-right: 2px !important;
+}
