@@ -4,7 +4,7 @@
     template(v-slot:default)
       thead
         tr
-          th.text-center.checkbox-container 
+          th.text-center
             v-row
               v-col.menu-wrapper
                 v-menu#menu-card
@@ -34,7 +34,7 @@
 
       tbody
         tr(v-for="(item, index) in data", :key="index")
-          td.checkbox-container
+          td
             v-checkbox(
               v-model="localValue[index]",
               @change="onCheckboxChanged",
