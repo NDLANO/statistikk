@@ -46,8 +46,7 @@ function generateNewXAxisData(dataCollection, selectedChartIndex) {
   var newXRangeMaxIndex;
 
   // * If there are only two labels/rows,
-  // * min must be the first, max the last
-  if (dataCollection.labels.length == 2 || oldXRangeMin == oldXRangeMax) {
+  if (dataCollection.labels.length == 2) {
     newXRangeMinIndex = 0;
     newXRangeMaxIndex = dataCollection.labels.length - 1;
   } else {
