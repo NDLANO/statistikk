@@ -35,11 +35,12 @@
       tbody
         tr(v-for="(item, index) in data", :key="index")
           td
-            v-checkbox(
-              v-model="localValue[index]",
-              @change="onCheckboxChanged",
-              color="#20588F"
-            )
+            .checkbox-wrapper
+              v-checkbox(
+                v-model="localValue[index]",
+                @change="onCheckboxChanged",
+                color="#20588F"
+              )
           td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
 </template>
 <script>

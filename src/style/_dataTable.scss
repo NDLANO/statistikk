@@ -90,6 +90,10 @@ table thead tr th:nth-child(2) {
   align-content: flex-start;
   align-items: flex-start;
 }
+.checkbox-wrapper {
+  display: inline-block;
+  text-align: center;
+}
 
 .menu-wrapper {
   display: flex;
