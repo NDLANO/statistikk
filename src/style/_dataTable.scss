@@ -71,12 +71,12 @@ table thead tr th:nth-child(2) {
 }
 
 table thead tr th:nth-child(2) {
-  #checkbox-span-col {
+  .checkbox-span-col {
     margin-right: 2rem;
   }
 }
 
-#rowHeadings-row {
+.rowHeadings-row {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,7 +84,7 @@ table thead tr th:nth-child(2) {
   max-height: -webkit-fill-available;
 }
 
-#checkbox-span-col {
+.checkbox-span-col {
   display: flex;
   justify-content: flex-start;
   align-content: flex-start;
