@@ -33,6 +33,9 @@ th,
 td {
   border: thin solid rgba(0, 0, 0, 0.12);
 }
+th.text-center {
+  padding: 0 5px !important;
+}
 
 table thead tr:last-child th:nth-child(2) {
   border-right: 0.2rem solid #a5bcd3;
