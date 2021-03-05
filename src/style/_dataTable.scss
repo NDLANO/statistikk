@@ -1,7 +1,3 @@
-.checkbox-container {
-  padding-left: 25px !important;
-}
-
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
   color: black;
   font-weight: bolder;
@@ -37,6 +33,9 @@ th,
 td {
   border: thin solid rgba(0, 0, 0, 0.12);
 }
+th.text-center {
+  padding: 0 5px !important;
+}
 
 table thead tr:last-child th:nth-child(2) {
   border-right: 0.2rem solid #a5bcd3;
@@ -65,18 +64,19 @@ table thead tr th:nth-child(2) {
   background: white;
   padding: 0;
   left: 79px;
+  left: 59px;
 }
 table thead tr th:nth-child(2) {
   z-index: 199;
 }
 
 table thead tr th:nth-child(2) {
-  #checkbox-span-col {
+  .checkbox-span-col {
     margin-right: 2rem;
   }
 }
 
-#rowHeadings-row {
+.rowHeadings-row {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,11 +84,15 @@ table thead tr th:nth-child(2) {
   max-height: -webkit-fill-available;
 }
 
-#checkbox-span-col {
+.checkbox-span-col {
   display: flex;
   justify-content: flex-start;
   align-content: flex-start;
   align-items: flex-start;
+}
+.checkbox-wrapper {
+  display: inline-block;
+  text-align: center;
 }
 
 .menu-wrapper {

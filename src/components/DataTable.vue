@@ -4,7 +4,7 @@
     template(v-slot:default)
       thead
         tr
-          th.text-center.checkbox-container 
+          th.text-center
             v-row
               v-col.menu-wrapper
                 v-menu#menu-card
@@ -20,24 +20,27 @@
                       v-icon mdi-chevron-down
 
           th.text-center(v-for="(item, index) in rowHeadings", :key="item")
-            v-row#rowHeadings-row 
-              v-col#checkbox-col(:cols="index === 0 ? 0 : 2")
-                v-checkbox#rowheadings-checkbox(
-                  v-if="index > 0",
+            .rowHeadings-row.header-xaxis(v-if="index == 0")
+              div
+                span.rowheadings-span {{ item }}
+            .rowHeadings-row(v-else)
+              .checkbox-col
+                v-checkbox.rowheadings-checkbox(
                   v-model="localActiveCols[index - 1]",
                   @change="onColCheckboxChanged"
                 )
-              v-col#checkbox-span-col(:cols="index === 0 ? 0 : 7")
-                span#rowheadings-span {{ item }}
+              .checkbox-span-col
+                span.rowheadings-span {{ item }}
 
       tbody
         tr(v-for="(item, index) in data", :key="index")
-          td.checkbox-container
-            v-checkbox(
-              v-model="localValue[index]",
-              @change="onCheckboxChanged",
-              color="#20588F"
-            )
+          td
+            .checkbox-wrapper
+              v-checkbox(
+                v-model="localValue[index]",
+                @change="onCheckboxChanged",
+                color="#20588F"
+              )
           td(v-for="(itemValue, index) in Object.values(item)") {{ itemValue }}
 </template>
 <script>
