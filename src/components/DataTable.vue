@@ -27,7 +27,7 @@
                   v-model="localActiveCols[index - 1]",
                   @change="onColCheckboxChanged"
                 )
-              .checkbox-span-col(:cols="index === 0 ? 0 : 7")
+              .checkbox-span-col
                 span.rowheadings-span {{ item }}
 
       tbody
