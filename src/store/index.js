@@ -34,7 +34,7 @@ function generateNewXAxisData(dataCollection, selectedChartIndex) {
   var oldXRangeMax =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
 
-  console.log("store.generateNewXAxisData: odXRangeMax = ", oldXRangeMax);
+  console.log("store.generateNewXAxisData: oldXRangeMax = ", oldXRangeMax);
 
   if (selectedChartIndex == 2) {
     oldXRangeMin =
