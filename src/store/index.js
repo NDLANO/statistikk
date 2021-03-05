@@ -34,7 +34,7 @@ function generateNewXAxisData(dataCollection, selectedChartIndex) {
   var oldXRangeMax =
     dataCollection.oldLabels[dataCollection.lineChartRange.xAxisRange[1]];
 
-  console.log("store.generateNewXAxisData: odXRangeMax = ", oldXRangeMax);
+  console.log("store.generateNewXAxisData: oldXRangeMax = ", oldXRangeMax);
 
   if (selectedChartIndex == 2) {
     oldXRangeMin =
@@ -46,8 +46,7 @@ function generateNewXAxisData(dataCollection, selectedChartIndex) {
   var newXRangeMaxIndex;
 
   // * If there are only two labels/rows,
-  // * min must be the first, max the last
-  if (dataCollection.labels.length == 2 || oldXRangeMin == oldXRangeMax) {
+  if (dataCollection.labels.length == 2) {
     newXRangeMinIndex = 0;
     newXRangeMaxIndex = dataCollection.labels.length - 1;
   } else {
