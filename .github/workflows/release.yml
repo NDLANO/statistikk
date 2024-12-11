@@ -5,28 +5,28 @@ on:
       - main
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.STATISK_TEST_S3_CLIENT_ID }}
-  AWS_DEFAULT_REGION: 'eu-west-1'
+  AWS_DEFAULT_REGION: "eu-west-1"
   AWS_SECRET_ACCESS_KEY: ${{ secrets.STATISK_TEST_S3_CLIENT_SECRET }}
   COMPONENT: ${{ github.event.repository.name }}
 jobs:
   release:
-    name: 'Build and push to bucket'
+    name: "Build and push to bucket"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '10'
-      - uses: actions/cache@v2
+          node-version: "10"
+      - uses: actions/cache@v4
         with:
           path: |
             **/node_modules
             .eslintcache
             ~/.npm
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: 'Install'
+      - name: "Install"
         run: npm install
-      - name: 'Build'
+      - name: "Build"
         run: npm run build
-      - name: 'Release'
+      - name: "Release"
         run: aws s3 cp dist s3://statisk.test.ndla.no/$COMPONENT/ --recursive
